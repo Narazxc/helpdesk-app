@@ -20,6 +20,20 @@ export default function RangeDatePicker({
   label,
   placeholder = "Select date",
 }: PropsType) {
+  // useEffect(() => {
+  //   const instance = flatpickr(`#${id}`, {
+  //     mode,
+  //     static: true,
+  //     monthSelectorType: "static",
+  //     dateFormat: "Y-m-d",
+  //     defaultDate,
+  //     onChange,
+  //   });
+
+  //   return () => {
+  //     instance.destroy();
+  //   };
+  // }, [id, mode, onChange, defaultDate]);
   useEffect(() => {
     const instance = flatpickr(`#${id}`, {
       mode,
@@ -31,7 +45,11 @@ export default function RangeDatePicker({
     });
 
     return () => {
-      instance.destroy();
+      if (Array.isArray(instance)) {
+        instance.forEach((inst) => inst.destroy());
+      } else {
+        instance.destroy();
+      }
     };
   }, [id, mode, onChange, defaultDate]);
 

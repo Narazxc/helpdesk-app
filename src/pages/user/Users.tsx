@@ -1,7 +1,8 @@
 import { Link } from "react-router";
-import DataTableThree from "../../components/tables/datatables/datatablethree/DataTableThree";
+// import DataTableThree from "../../components/tables/datatables/datatablethree/DataTableThree";
 import DataTableTwo from "../../components/tables/datatables/datatabletwo/DataTableTwo";
-import DatePicker from "../../components/form/DatePicker";
+import { UserPlus } from "lucide-react";
+// import DatePicker from "../../components/form/DatePicker";
 
 export default function Users() {
   return (
@@ -43,24 +44,54 @@ export default function Users() {
         </ol>
       </nav> */}
       <div className="w-full flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold">Users</h1>
-        <Link
-          className="bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300  rounded-lg text-sm"
-          to="/create-user"
-        >
-          <div className="flex px-5 py-2.5 rounded-xl">
-            <span>Create user</span>
-            <ion-icon
+        <h1 className="text-2xl font-bold page-title-text">Users</h1>
+        <div className="flex gap-2">
+          {/* <Link
+            className="bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 rounded-lg text-sm"
+            to="/create-user"
+          >
+            <div className="flex px-5 py-2.5 rounded-xl">
+              <span>Create user</span>
+              <ion-icon
+                className="text-white-500 text-lg ml-1"
+                style={{
+                  // color: "white",
+                  strokeWidth: "2px",
+                }}
+                name="person-add-outline"
+              ></ion-icon>
+            </div>
+          </Link> */}
+          {/* <div className="flex px-5 py-2.5 rounded-xl bg-brand-500">
+            <button></button>
+          </div> */}
+
+          <Link
+            className="bg-brand-500 px-5 rounded-xl py-2.5 flex justify-center items-center text-center text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 text-sm"
+            to="/create-user"
+          >
+            <span>Create User</span>
+            {/* <ion-icon
               className="text-white-500 text-lg ml-1"
               style={{
                 // color: "white",
                 strokeWidth: "2px",
               }}
               name="person-add-outline"
-            ></ion-icon>
+            ></ion-icon> */}
+            <UserPlus />
+          </Link>
+
+          <div className="flex px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-sm text-white">
+            <button>import</button>
           </div>
-        </Link>
+
+          <div className="flex px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-sm text-white">
+            <button>export</button>
+          </div>
+        </div>
       </div>
+
       <div className="mb-4"></div>
       <DataTableTwo />
     </div>

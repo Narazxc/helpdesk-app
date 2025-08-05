@@ -2,7 +2,7 @@ import ExampleFormTwo from "../form/ExampleFormTwo";
 
 export default function CreateUserForm() {
   return (
-    <div>
+    <div className="p-4">
       <ExampleFormTwo />
     </div>
   );

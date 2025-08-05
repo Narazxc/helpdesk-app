@@ -1,26 +1,26 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
+import type { MouseEvent } from "react";
 // import Label from "../form/Label";
 // import Input from "../form/input/InputField";
 // import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
-import Checkbox from "../form/input/Checkbox";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
 
-  function handleRedirectToHomepage(e) {
+  function handleRedirectToHomepage(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     navigate("/");
   }
 
   return (
-    <div className="flex flex-col flex-1">
+    <div className="flex flex-col flex-2">
       <div className="w-full max-w-2xl pt-10 mx-auto hidden">
         <Link
           to="/"
@@ -40,7 +40,7 @@ export default function SignInForm() {
         </div>
 
         {/* <div className="p-8 rounded-2xl shadow-lg border border-gray-200"> */}
-        <div className="lg:relative">
+        <div className="lg:relative lg:mt-20">
           <div className="hidden lg:block absolute top-[-12rem]">
             <img
               className="w-24 mb-6"
@@ -139,19 +139,19 @@ export default function SignInForm() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex mb-7 items-center justify-between">
                   <Link
                     to="/reset-password"
                     className="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400"
                   >
                     Forgot password?
                   </Link>
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     <Checkbox checked={isChecked} onChange={setIsChecked} />
                     <span className="block font-normal text-gray-700 text-theme-sm dark:text-gray-400">
                       Keep me logged in
                     </span>
-                  </div>
+                  </div> */}
                 </div>
                 <div>
                   <Button

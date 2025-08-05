@@ -3,6 +3,7 @@ import CreateUserForm from "../../components/user/CreateUserForm";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { Link } from "react-router";
 import AssingUserRoleForm from "../../components/user/AssingUserRoleForm";
+import UserAuditPage from "./UserAuditPage";
 
 const categories = [
   {
@@ -15,7 +16,7 @@ const categories = [
   },
   {
     name: "Audit",
-    component: [],
+    component: <UserAuditPage />,
   },
 ];
 
@@ -52,12 +53,14 @@ export default function CreateUserPage() {
               </svg>
             </span>
 
-            <span> Create User </span>
+            <span className="page-title-text">Create User</span>
           </li>
         </ol>
       </nav>
 
-      <h1 className="text-2xl font-bold mb-3">Create User</h1>
+      <h1 className="text-2xl font-bold mb-3 text-gray-700 dark:text-gray-100">
+        Create User
+      </h1>
 
       <div className="w-full">
         <div
@@ -66,7 +69,7 @@ export default function CreateUserPage() {
           <div className="px-5 py-5">
             <div className=" border-gray-100 dark:border-gray-800">
               <TabGroup>
-                <TabList className="flex gap-4">
+                <TabList className="flex gap-2">
                   {categories.map(({ name }) => (
                     // <Tab
                     //   key={name}
@@ -92,6 +95,7 @@ export default function CreateUserPage() {
                     </Tab>
                   ))}
                 </TabList>
+                <div className="border-b border-gray-200 mt-5 mb-8" />
                 <TabPanels className="mt-3">
                   {categories.map(({ name, component }) => (
                     <TabPanel key={name} className="rounded-xl bg-white/5">

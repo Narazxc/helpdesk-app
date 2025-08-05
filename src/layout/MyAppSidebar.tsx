@@ -3,27 +3,27 @@ import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
 import {
-  BoxCubeIcon,
-  ChatIcon,
+  // BoxCubeIcon,
+  // ChatIcon,
   ChevronDownIcon,
-  CalenderIcon,
-  DocsIcon,
+  // CalenderIcon,
+  // DocsIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
-  MailIcon,
-  PageIcon,
-  PieChartIcon,
-  PlugInIcon,
-  TableIcon,
-  TaskIcon,
-  UserCircleIcon,
+  // MailIcon,
+  // PageIcon,
+  // PieChartIcon,
+  // PlugInIcon,
+  // TableIcon,
+  // TaskIcon,
+  // UserCircleIcon,
 } from "../icons";
 // import GearIcon from "../../icons/GearIcon";
 // import { useSidebar } from "../../context/SidebarContext";
 // import SidebarWidget from ".././SidebarWidget";
 import { useSidebar } from "../context/SidebarContext";
-import { GearIcon } from "../icons/GearIcon";
+// import { GearIcon } from "../icons/GearIcon";
 
 type NavItem = {
   name: string;
@@ -139,7 +139,7 @@ const navItems: NavItem[] = [
   //   ],
   // },
   {
-    icon: <GearIcon />,
+    icon: <ListIcon />,
     name: "Settings",
     subItems: [
       // { name: "User", path: "/users" },
@@ -153,9 +153,9 @@ const navItems: NavItem[] = [
       { name: "User Role", path: "/user-role" },
       { name: "Agent Group", path: "/agent-group" },
       { name: "Request Type", path: "/request-type" },
+      { name: "Category Type", path: "/category-type" },
       { name: "Enity", path: "/entity" },
-      { name: "Category Type", path: "/category" },
-      { name: "Asset Type", path: "/asset type" },
+      { name: "Asset Type", path: "/asset-type" },
     ],
   },
 ];
@@ -444,7 +444,7 @@ const AppSidebar: React.FC = () => {
       // bg-[#1f2e44]
 
       // bg-[#3e5b87]
-      className={`fixed mt-12 flex flex-col lg:mt-0 top-0 px-5 left-0
+      className={`fixed mt-12 flex flex-col lg:mt-0 top-0 px-4.5 left-0
        bg-[#4f73aa]
           dark:bg-gray-900 dark:border-gray-800 text-gray-900 dark:text-gray-100 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
   ${

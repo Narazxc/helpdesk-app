@@ -1,15 +1,12 @@
-import { useState } from "react";
 import Label from "./Label";
 import CustomizedInput from "./input/CustomizedInput";
-import Radio from "./input/Radio";
 import Form from "./Form";
 import Button from "./../ui/button/Button";
-import DatePicker from "./DatePicker";
 import Select from "./Select";
-import ComponentCard from "../common/ComponentCard";
 
 export default function ExampleFormTwo() {
-  const [selectedOption, setSelectedOption] = useState<string>("Free");
+  // not use
+  // const [selectedOption, setSelectedOption] = useState<string>("Free");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,26 +19,29 @@ export default function ExampleFormTwo() {
     { value: "other", label: "Others" },
   ];
 
-  const categoryOptions = [
-    { value: "cate1", label: "Category 1" },
-    { value: "cate2", label: "Category 2" },
-    { value: "cate3", label: "Category 3" },
-  ];
+  // not use
+  // const categoryOptions = [
+  //   { value: "cate1", label: "Category 1" },
+  //   { value: "cate2", label: "Category 2" },
+  //   { value: "cate3", label: "Category 3" },
+  // ];
 
-  const country = [
-    { value: "bd", label: "Bangladesh" },
-    { value: "usa", label: "United States" },
-    { value: "canada", label: "Canada" },
-  ];
+  // not use
+  // const country = [
+  //   { value: "bd", label: "Bangladesh" },
+  //   { value: "usa", label: "United States" },
+  //   { value: "canada", label: "Canada" },
+  // ];
 
   const handleSelectGender = (value: string) => {
     console.log("Selected value:", value);
   };
 
-  const handleRadioChange = (value: string) => {
-    setSelectedOption(value);
-    console.log("Selected:", value);
-  };
+  // not use
+  // const handleRadioChange = (value: string) => {
+  //   setSelectedOption(value);
+  //   console.log("Selected:", value);
+  // };
 
   return (
     // <ComponentCard title="Example Form">
@@ -49,15 +49,18 @@ export default function ExampleFormTwo() {
       <div className="grid gap-6 sm:grid-cols-2"></div>
 
       <div>
-        <div className="border-b border-gray-200 mb-8">
-          {/* <h4 className="pb-4 text-base font-medium text-gray-800  dark:border-gray-800 dark:text-white/90">
+        {/* <div className="border-b border-gray-200 mb-8"> */}
+        {/* <h4 className="pb-4 text-base font-medium text-gray-800  dark:border-gray-800 dark:text-white/90">
             Personal Info
           </h4> */}
-        </div>
+        {/* </div> */}
 
         <div className="flex flex-col gap-7 lg:gap-3.5 max-w-[40rem]">
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="firstName" className="mb-0.5">
+            <Label
+              htmlFor="firstName"
+              className="mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Username
             </Label>
             <CustomizedInput
@@ -69,7 +72,10 @@ export default function ExampleFormTwo() {
 
           {/* Row 1 */}
           <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="userId" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="userId"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               User ID
             </Label>
             <CustomizedInput
@@ -81,7 +87,10 @@ export default function ExampleFormTwo() {
 
           {/* Row 2 */}
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="password" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="password"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Password
             </Label>
             <CustomizedInput
@@ -93,7 +102,10 @@ export default function ExampleFormTwo() {
 
           {/* Row 3 */}
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="phone" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="phone"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Phone Number
             </Label>
             <CustomizedInput
@@ -105,7 +117,10 @@ export default function ExampleFormTwo() {
 
           {/* Row 4 */}
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="email" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="email"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Email
             </Label>
             <CustomizedInput
@@ -117,11 +132,14 @@ export default function ExampleFormTwo() {
 
           {/* Row 5 */}
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="entity" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="entity"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Entity
             </Label>
             <Select
-              id="entity"
+              // id="entity"
               options={optionsGender}
               placeholder="Select an option"
               onChange={handleSelectGender}
@@ -132,11 +150,14 @@ export default function ExampleFormTwo() {
 
           {/* Row 6 */}
           <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-            <Label htmlFor="status" className="text-sm font-medium mb-0.5">
+            <Label
+              htmlFor="status"
+              className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+            >
               Status
             </Label>
             <Select
-              id="status"
+              // id="status"
               options={optionsGender}
               placeholder="Select an option"
               onChange={handleSelectGender}

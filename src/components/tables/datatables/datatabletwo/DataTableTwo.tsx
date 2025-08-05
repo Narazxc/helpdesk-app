@@ -10,8 +10,6 @@ import {
 } from "../../../ui/table";
 import { PencilIcon, TrashBinIcon } from "../../../../icons";
 import PaginationWithButton from "./PaginationWithButton";
-import { Link } from "react-router";
-import Button from "../../../ui/button/Button";
 
 const tableRowData = [
   {
@@ -116,6 +114,13 @@ const tableRowData = [
   },
 ];
 type SortKey = "name" | "position" | "location" | "age" | "date" | "salary";
+// type SortKey =
+//   | "name"
+//   | "userId"
+//   | "position"
+//   | "entity"
+//   | "status"
+//   | "lastSignOn";
 type SortOrder = "asc" | "desc";
 
 export default function DataTableTwo() {
@@ -169,7 +174,7 @@ export default function DataTableTwo() {
   return (
     <>
       <div className="overflow-hidden rounded-lg bg-white dark:bg-white/[0.03] shadow-md">
-        <div className="flex flex-col gap-2 px-4 py-4 border border-b-0 border-gray-100 dark:border-white/[0.05] rounded-t-xl sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 px-4 py-4 border border-b-0 border-gray-200 dark:border-white/[0.05] rounded-t-xl sm:flex-row sm:items-center sm:justify-between">
           <div className="relative">
             <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
               <svg
@@ -245,16 +250,23 @@ export default function DataTableTwo() {
                 <TableRow className="">
                   {[
                     { key: "name", label: "Username" },
-                    { key: "position", label: "User role" },
+                    { key: "position", label: "User Role" },
                     { key: "location", label: "Office" },
                     { key: "age", label: "Age" },
                     { key: "date", label: "Start Date" },
                     { key: "salary", label: "Salary" },
+
+                    // { key: "name", label: "Username" },
+                    // { key: "userId", label: "User ID" },
+                    // { key: "position", label: "User Role" },
+                    // { key: "entity", label: "Entity" },
+                    // { key: "status", label: "Status" },
+                    // { key: "lastSignOn", label: "Last Sign" },
                   ].map(({ key, label }) => (
                     <TableCell
                       key={key}
                       isHeader
-                      className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+                      className="px-4 py-3 border text-nowrap border-gray-100 dark:border-white/[0.05]"
                     >
                       <div
                         className="flex items-center justify-between cursor-pointer"
@@ -315,8 +327,8 @@ export default function DataTableTwo() {
               <TableBody className="&>tr]:odd:bg-white [&>tr]:even:bg-gray-100">
                 {currentData.map((item, i) => (
                   <TableRow className="" key={i + 1}>
-                    <TableCell className="pl-6 py-2 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
-                      <div className="flex items-center gap-3">
+                    {/* <TableCell className="pl-6 pr-4 py-2 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                      <div className="flex items-center gap-3 min-w-[14rem]">
                         <img
                           className="rounded-full w-9"
                           // width={30}
@@ -328,26 +340,59 @@ export default function DataTableTwo() {
                       </div>
                     </TableCell>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                      {item.position}
+                      {item.age}
                     </TableCell>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                      {item.location}
+                      {item.position}
                     </TableCell>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                      {item.age}
+                      {item.location}
+                    </TableCell>
+                    <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.salary}
                     </TableCell>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
                       {item.date}
+                    </TableCell> */}
+                    {/* Username */}
+                    <TableCell className="w-60 pl-6 pr-4 py-2 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                      <div className="flex items-center gap-3 min-w-[12rem]">
+                        <img
+                          className="rounded-full w-9"
+                          src={item.image}
+                          alt={item.name}
+                        />
+                        <p>{item.name}</p>
+                      </div>
                     </TableCell>
+                    {/* User Role */}
+                    <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.position}
+                    </TableCell>
+                    {/* Office */}
+                    <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.location}
+                    </TableCell>
+                    {/* Age */}
+                    <TableCell className="px-4 py-2 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.age}
+                    </TableCell>
+                    {/* Start Date */}
+                    <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.date}
+                    </TableCell>
+                    {/* Salary */}
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
                       {item.salary}
                     </TableCell>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
                       <div className="flex items-center w-full gap-2">
-                        <button className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500">
+                        {/* <button className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"> */}
+                        <button className="text-error-500 hover:text-error-900 dark:text-gray-400 dark:hover:text-error-500">
                           <TrashBinIcon className="size-5" />
                         </button>
-                        <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                        {/* <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"> */}
+                        <button className="text-yellow-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
                           <PencilIcon className="size-5" />
                         </button>
                       </div>
