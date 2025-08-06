@@ -211,7 +211,7 @@ export default function RequestTypes() {
               to={`/request-type/${requestType.reqTypeName}`}
             >
               <li className="bg-white h-[100px] lg:min-w-[9rem] flex-1 rounded-md shadow-md border-1 border-gray-200 px-3 py-1.5 cursor-pointer hover:shadow-lg text-nowrap">
-                <p className="text-wrap text-base font-medium">
+                <p className="text-wrap text-sm font-medium">
                   {requestType.reqTypeName}
                 </p>
                 <p className="text-xs text-gray-500">
