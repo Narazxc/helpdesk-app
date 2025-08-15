@@ -1,4 +1,6 @@
 import { useRef, useEffect } from "react";
+
+// Framer motion
 import { motion, AnimatePresence } from "framer-motion";
 import type { Variants } from "framer-motion";
 

@@ -145,13 +145,19 @@
 //   );
 // }
 
+// Component
 import CustomizedInput from "../../components/form/input/CustomizedInput";
 import Label from "../../components/form/Label";
 import Button from "../../components/ui/button/Button";
+import TextArea from "@/components/form/input/TextArea";
 
 // react-hook-form
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
+
+// Hook
+import { useCreateRequestType } from "./useCreateRequestType";
+import type { CreateRequestType } from "@/types/request-type";
 
 // Import the interface from the parent component
 interface IRequestType {
@@ -161,32 +167,43 @@ interface IRequestType {
 }
 
 interface RequestTypeFormProps {
-  setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
+  // setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
   closeModal: () => void;
 }
 
-export default function RequestTypeForm({
-  setRequestTypes,
+export default function CreateRequestTypeForm({
   closeModal,
 }: RequestTypeFormProps) {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<IRequestType>();
+  const { createRequestType } = useCreateRequestType();
 
   const onSubmit: SubmitHandler<IRequestType> = (data) => {
     console.log("Form data:", data);
     console.log("Errors:", errors);
 
-    // Add the missing categoryTypeCount property with a default value
-    const formDataWithDefaults: IRequestType = {
-      ...data,
-      categoryTypeCount: 0, // Default value since it's not in the form
+    // // Add the missing categoryTypeCount property with a default value
+    // const formDataWithDefaults: IRequestType = {
+    //   ...data,
+    //   categoryTypeCount: 0, // Default value since it's not in the form
+    // };
+
+    // setRequestTypes((prev) => [...prev, formDataWithDefaults]);
+
+    // Transform form data to API format if needed
+
+    const requestTypeData: CreateRequestType = {
+      name: data.reqTypeName, // or data.reqTypeName
+      description: data.reqTypeDescription,
     };
 
-    setRequestTypes((prev) => [...prev, formDataWithDefaults]);
+    createRequestType(requestTypeData);
+
     reset(); // Reset the form
     closeModal();
   };
@@ -244,7 +261,7 @@ export default function RequestTypeForm({
           >
             Description
           </Label>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <CustomizedInput
               type="text"
               placeholder="Enter Request Type Description"
@@ -262,7 +279,29 @@ export default function RequestTypeForm({
                 {errors.reqTypeDescription.message}
               </span>
             )}
-          </div>
+          </div> */}
+          {/* <TextArea
+            placeholder="Enter Request Type Description..."
+            rows={6}
+            // value={message}
+            // onChange={handleTextareaChange}
+            {...register("reqTypeDescription")}
+            className=" bg-gray-50 dark:bg-gray-800"
+          /> */}
+
+          <Controller
+            name="reqTypeDescription"
+            control={control}
+            render={({ field }) => (
+              <TextArea
+                placeholder="Enter Request Type Description..."
+                rows={6}
+                value={field.value || ""}
+                onChange={field.onChange}
+                className="bg-gray-50 dark:bg-gray-800 h-20"
+              />
+            )}
+          />
         </div>
       </div>
 
@@ -271,7 +310,7 @@ export default function RequestTypeForm({
           Close
         </Button>
         <Button size="sm" type="submit">
-          Save Changes
+          Save
         </Button>
       </div>
     </form>

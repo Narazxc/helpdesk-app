@@ -5,7 +5,7 @@ import axios from "axios";
 //jsonplaceholder.typicode.com/posts
 
 export const api = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com/",
+  // baseURL: "https://jsonplaceholder.typicode.com/",
   headers: {
     Authorization: "Bearer your-token",
   },

@@ -52,14 +52,7 @@ export default function Users() {
           >
             <div className="flex px-5 py-2.5 rounded-xl">
               <span>Create user</span>
-              <ion-icon
-                className="text-white-500 text-lg ml-1"
-                style={{
-                  // color: "white",
-                  strokeWidth: "2px",
-                }}
-                name="person-add-outline"
-              ></ion-icon>
+           
             </div>
           </Link> */}
           {/* <div className="flex px-5 py-2.5 rounded-xl bg-brand-500">
@@ -71,14 +64,7 @@ export default function Users() {
             to="/create-user"
           >
             <span>Create User</span>
-            {/* <ion-icon
-              className="text-white-500 text-lg ml-1"
-              style={{
-                // color: "white",
-                strokeWidth: "2px",
-              }}
-              name="person-add-outline"
-            ></ion-icon> */}
+
             <UserPlus />
           </Link>
 

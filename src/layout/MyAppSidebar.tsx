@@ -438,14 +438,41 @@ const AppSidebar: React.FC = () => {
     </ul>
   );
 
+  // <div className="px-4 pt-4">
+  //         <img
+  //           className="dark:hidden w-32"
+  //           src="/images/brand/logo-fmis-3d-for-web-1.png"
+  //           alt="Logo"
+  //         />
+
+  //         {/* <img
+  //           className="hidden dark:block"
+  //           src="/images/logo/logo-dark.svg"
+  //           alt="Logo"
+  //           width={150}
+  //           height={40}
+  //         /> */}
+
+  //         <img
+  //           className="hidden dark:block w-32"
+  //           src="/images/brand/logo-fmis-3d-for-web-1.png"
+  //           alt="Logo"
+  //           // width={150}
+  //           // height={40}
+  //         />
+  //       </div>
+
   return (
     <aside
       // bg-[#192436]
       // bg-[#1f2e44]
 
       // bg-[#3e5b87]
+
+      //20250811
+      //
       className={`fixed mt-12 flex flex-col lg:mt-0 top-0 px-4.5 left-0
-       bg-[#4f73aa]
+      bg-[#4f73aa]
           dark:bg-gray-900 dark:border-gray-800 text-gray-900 dark:text-gray-100 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
   ${
     isExpanded || isMobileOpen
@@ -469,8 +496,9 @@ const AppSidebar: React.FC = () => {
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* pb-6 */}
       <div
-        className={`hidden pb-6 md:flex ${
+        className={`hidden md:flex ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
         }`}
       >
@@ -484,10 +512,13 @@ const AppSidebar: React.FC = () => {
                 width={150}
                 height={40}
               /> */}
+
+              {/*  */}
+
               <div className="px-4 pt-4">
                 <img
                   className="dark:hidden w-32"
-                  src="/images/brand/logo-fmis-3d-for-web-1.png"
+                  src="/images/logo/FMIS-Helpdesk_2.svg"
                   alt="Logo"
                 />
 
@@ -501,7 +532,7 @@ const AppSidebar: React.FC = () => {
 
                 <img
                   className="hidden dark:block w-32"
-                  src="/images/brand/logo-fmis-3d-for-web-1.png"
+                  src="/images/logo/FMIS-Helpdesk_2.svg"
                   alt="Logo"
                   // width={150}
                   // height={40}
@@ -523,7 +554,8 @@ const AppSidebar: React.FC = () => {
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 mt-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                // mt-4
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"

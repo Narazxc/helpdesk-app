@@ -1,6 +1,9 @@
-// services/apiTasks.ts
+import type { CreateRequestType, RequestType } from "@/types/request-type";
 import { api } from "./axios";
+import type { ApiResponse } from "@/types/api";
+import { API_URL } from "@/config";
 
+// Examples
 export interface Post {
   userId: number;
   id: number;
@@ -8,12 +11,7 @@ export interface Post {
   body: string;
 }
 
-// for getting request type
-export interface RequestType {
-  reqTypeName: number;
-  reqTypeDescription: string;
-}
-
+// Examples
 export async function getPosts(): Promise<Post[]> {
   try {
     const res = await api.get<Post[]>("/posts?_limit=10");
@@ -32,12 +30,51 @@ export async function getPosts(): Promise<Post[]> {
 //   return response.data;
 // };
 
-// get request type
+// Get all request types
 export async function getRequestTypes(): Promise<RequestType[]> {
   try {
-    const res = await api.get<RequestType[]>(
-      "/api/v1/{request type}?_limit=10"
+    const res = await api.get<ApiResponse<RequestType[]>>(
+      `${API_URL}/request-types/active`
     );
+
+    // /api/v1/request-types
+
+    console.log(res.data);
+
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to fetch request types:", err);
+    throw err;
+  }
+}
+
+// Get request type by id
+export async function getRequestType(id: string): Promise<RequestType> {
+  try {
+    const res = await api.get<ApiResponse<RequestType>>(
+      `${API_URL}/request-types/get-by-id/${id}`
+    );
+
+    console.log(res.data);
+
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to fetch request types:", err);
+    throw err;
+  }
+}
+
+// Create request type
+export async function createRequestType(
+  newRequestType: CreateRequestType
+): Promise<RequestType> {
+  try {
+    const res = await api.post<RequestType>(
+      `${API_URL}/request-types/create`,
+      newRequestType
+    );
+
+    console.log(res.data);
 
     return res.data;
   } catch (err) {
@@ -46,10 +83,32 @@ export async function getRequestTypes(): Promise<RequestType[]> {
   }
 }
 
-// post request type
-export async function createRequestType(): Promise<RequestType> {
+// Update request type
+export async function updateRequestType(
+  newRequestTypeData: CreateRequestType,
+  id: string
+): Promise<RequestType> {
   try {
-    const res = await api.post<RequestType>("/api/v1/{request type}");
+    // console.log(updateData, id);
+    const res = await api.put<RequestType>(
+      `${API_URL}/request-types/update-name/${id}`,
+      newRequestTypeData
+    );
+
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error("Failed to fetch posts:", err);
+    throw err; // Let React Query or caller handle the error
+  }
+}
+
+// Delete request type
+export async function deleteRequestType(id: string) {
+  try {
+    const res = await api.delete<RequestType>(
+      `${API_URL}/request-types/delete/${id}`
+    );
 
     console.log(res.data);
 

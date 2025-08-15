@@ -1,5 +1,7 @@
-"use client";
+// Icon
+import { Search } from "lucide-react";
 
+// Component
 import { useState, useMemo } from "react";
 import {
   Table,
@@ -8,12 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import { TrashBinIcon } from "../../icons";
-import { PencilIcon, Search } from "lucide-react";
 import PaginationWithButton from "../../components/tables/datatables/datatabletwo/PaginationWithButton";
-// import { Table, TableBody, TableCell, TableHeader, TableRow } from "";
-// import { PencilIcon, TrashBinIcon } from "";
-// import PaginationWithButton from "./";
 
 const tableRowData = [
   {
@@ -129,7 +126,7 @@ type SortOrder = "asc" | "desc";
 
 export default function CategoryTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [searchTerm, setSearchTerm] = useState("");
@@ -250,7 +247,7 @@ export default function CategoryTable() {
 
         <div className="max-w-full overflow-x-auto custom-scrollbar">
           <div>
-            <Table>
+            <Table className="p-10">
               <TableHeader className="border-t border-gray-100 dark:border-white/[0.05]">
                 <TableRow className="">
                   {[{ key: "name", label: "Category" }].map(
@@ -307,34 +304,13 @@ export default function CategoryTable() {
                       </TableCell>
                     )
                   )}
-                  <TableCell
-                    isHeader
-                    className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
-                  >
-                    <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                      Action
-                    </p>
-                  </TableCell>
                 </TableRow>
               </TableHeader>
               <TableBody className="&>tr]:odd:bg-white [&>tr]:even:bg-gray-100">
                 {currentData.map((item, i) => (
                   <TableRow className="" key={i + 1}>
-                    {/* Salary */}
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
                       {item.name}
-                    </TableCell>
-                    <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
-                      <div className="flex items-center w-full gap-2">
-                        {/* <button className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"> */}
-                        <button className="text-error-500 hover:text-error-900 dark:text-gray-400 dark:hover:text-error-500">
-                          <TrashBinIcon className="size-5" />
-                        </button>
-                        {/* <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"> */}
-                        <button className="text-yellow-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                          <PencilIcon className="size-5" />
-                        </button>
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -363,3 +339,27 @@ export default function CategoryTable() {
     </>
   );
 }
+
+// Action Column Header
+//  <TableCell
+//     isHeader
+//     className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
+//   >
+//     <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
+//       Action
+//     </p>
+//   </TableCell>
+
+// Action Column Body
+//  <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
+//                       <div className="flex items-center w-full gap-2">
+//                         {/* <button className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"> */}
+//                         <button className="text-error-500 hover:text-error-900 dark:text-gray-400 dark:hover:text-error-500">
+//                           <TrashBinIcon className="size-5" />
+//                         </button>
+//                         {/* <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"> */}
+//                         <button className="text-yellow-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+//                           <PencilIcon className="size-5" />
+//                         </button>
+//                       </div>
+//                     </TableCell>
