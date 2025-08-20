@@ -2,8 +2,10 @@
 import { Link } from "react-router";
 
 // Component
-import { ModalWithAnimation } from "@/features/request-type/ModalWithAnimation";
 import { useModal } from "@/hook/useModal";
+import CreateAssetTypeForm from "@/features/asset-type/CreateAssetTypeForm";
+import AssetTypeList from "@/features/asset-type/AssetTypeList";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 export default function AssetTypes() {
   const { isOpen, closeModal, openModal } = useModal();
@@ -11,7 +13,7 @@ export default function AssetTypes() {
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-        <h1 className="text-2xl text-color font-bold">Request Type</h1>
+        <h1 className="text-2xl text-color font-bold">Asset Type</h1>
 
         <nav>
           <ol className="flex flex-wrap items-center gap-1.5">
@@ -24,7 +26,7 @@ export default function AssetTypes() {
               </Link>
             </li>
             <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
-              /<span className="page-title-text">Request Type</span>
+              /<span className="page-title-text">Asset Type</span>
             </li>
           </ol>
         </nav>
@@ -36,14 +38,16 @@ export default function AssetTypes() {
         Add new
       </button>
 
-      <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md"></div>
+      <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md">
+        <AssetTypeList />
+      </div>
 
       <ModalWithAnimation
         isOpen={isOpen}
         onClose={closeModal}
         className="max-w-[584px] p-5 lg:p-7"
       >
-        abc
+        <CreateAssetTypeForm closeModal={closeModal} />
         {/* <CreateRequestTypeForm closeModal={closeModal} /> */}
       </ModalWithAnimation>
     </div>

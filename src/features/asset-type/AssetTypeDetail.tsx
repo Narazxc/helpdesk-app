@@ -5,27 +5,21 @@ import { Trash2 } from "lucide-react";
 import { Link, useParams } from "react-router";
 
 // Hook
-import { useRequestTypeById } from "./useRequestType";
-import { useDeleteRequestType } from "./useDeleteRequestType";
 import { useModal } from "../../hook/useModal";
-import { useCategoryByRequestTypeCode } from "../category-type/useCategoryByRequestTypeCode";
+import { useAssetType } from "./useAssetType";
+import { useDeleteAssetType } from "./useDeleteAssetType";
 
 // Component
-import UpdateRequestTypeForm from "./UpdateRequestTypeForm";
 import { Skeleton } from "@/components/ui/skeleton";
-import TypeDataTable from "./TypeDataTable";
-
-// Type
-import type { CategoryType } from "@/types/category-type";
-import type { ColumnConfig } from "./TypeDataTable";
+import UpdateAssetTypeForm from "./UpdateAssetTypeForm";
 import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
-export default function RequestTypeDetail() {
+// Shadcn
+
+export default function AssetTypeDetail() {
   const { id } = useParams();
-  const { requestType, isLoading, error } = useRequestTypeById(
-    id?.toString() || ""
-  );
-  const { deleteRequestType } = useDeleteRequestType();
+  const { assetType, isLoading, error } = useAssetType(id?.toString() || "");
+  const { deleteAssetType } = useDeleteAssetType();
 
   // Separate modal states
   const {
@@ -40,33 +34,25 @@ export default function RequestTypeDetail() {
     closeModal: closeDeleteModal,
   } = useModal();
 
-  // categoryTypes data under this requestType, to pass into TypeDataTable
-  const { categoryTypes } = useCategoryByRequestTypeCode(
-    requestType?.requestTypeCode || "" // Can pass empty string now
-  );
-  //  For table
-  // const categoryColumns: ColumnConfig<CategoryType>[] = [
-  //   { key: "name", label: "Category Name" },
-  // ];
-  const categoryColumns: ColumnConfig<CategoryType>[] = [
-    {
-      key: "name",
-      label: "Category Name",
-      render: (name: string, category: CategoryType) => (
-        <Link
-          to={`/category-type/${category.id}`} // or wherever you want to link
-          className="text-blue-600 hover:text-blue-800 hover:underline"
-        >
-          {name}
-        </Link>
-      ),
-    },
-  ];
+  // if (!requestType) {
+  //   return <div>Invalid request type ID</div>;
+  // }
 
-  // Check for errors
-  if (error) {
-    return <div>Error loading request type: {error.message}</div>;
-  }
+  // console.log("Inside detail page", requestType);
+
+  // if (!requestType || requestType.status === false) {
+  //   return <div>Request type not found</div>;
+  // }
+
+  // Check for invalid ID first
+  // if (!id) {
+  //   return <div>Invalid request type ID</div>;
+  // }
+
+  //   function handleDeleteRequestType() {
+  //     deleteRequestType(requestType.id.toString());
+  //     openDeleteModal();
+  //   }
 
   // Show skeleton while loading
   if (isLoading) {
@@ -137,9 +123,18 @@ export default function RequestTypeDetail() {
     );
   }
 
-  // Now check if requestType exists or has invalid status
-  if (!requestType || requestType.status === false) {
-    return <div>Request type not found</div>;
+  // Check for errors
+  if (error) {
+    return <div>Error loading asset type: {error.message}</div>;
+  }
+
+  // Now check if assetType exists or has invalid status
+  if (!assetType || assetType.status === false) {
+    return <div>Asset type not found</div>;
+  }
+
+  function handleDeleteAssetType() {
+    openDeleteModal();
   }
 
   return (
@@ -147,7 +142,7 @@ export default function RequestTypeDetail() {
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h1 className="text-2xl text-color font-semibold">
-            Request Type Detail
+            Asset Type Detail
           </h1>
           <nav>
             <ol className="flex flex-wrap items-center gap-1.5">
@@ -161,15 +156,19 @@ export default function RequestTypeDetail() {
               </li>
               <span className="text-gray-500">/</span>
               <li className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400">
-                <Link to="/request-type">Request Type</Link>
+                <Link to="/asset-type">Asset Type</Link>
               </li>
               <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
                 <span className="text-gray-500 dark:text-gray-400">/</span>
 
-                <span className="page-title-text">{requestType?.name}</span>
+                <span className="page-title-text">{assetType?.name}</span>
               </li>
             </ol>
           </nav>
+        </div>
+
+        <div className="text-base mb-4">
+          {/* Detail for request type with ID: {id} */}
         </div>
 
         <div className="rounded-lg min-h-[10rem] m-[1px] p-4 bg-white shadow-sm border-1 border-gray-200 relative dark:bg-[#171e2e] dark:border-white/[0.05]">
@@ -177,15 +176,35 @@ export default function RequestTypeDetail() {
             <div>
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-[150px_1fr] lg:gap-7 2xl:gap-x-8">
                 <div>
+                  <p className="text-sm text-color font-semibold">
+                    Request Type
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-color font-normal">
+                    {assetType.requestName}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-color font-semibold">
+                    Category Type
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-color font-normal">
+                    {assetType.categoryName}
+                  </p>
+                </div>
+                <div>
                   {/* text-gray-800 dark:text-white/90 */}
                   <p className="text-sm text-color font-semibold ">
-                    Request Type
+                    Asset Type
                   </p>
                 </div>
                 <div>
                   {/* text-gray-800 dark:text-white/90 */}
                   <p className="text-sm text-color font-normal">
-                    {requestType.name}
+                    {assetType.name}
                   </p>
                 </div>
                 <div>
@@ -197,7 +216,7 @@ export default function RequestTypeDetail() {
                 <div>
                   {/* text-gray-800 dark:text-white/90 */}
                   <p className="text-sm text-color font-normal">
-                    {requestType.description}
+                    {assetType.description}
                   </p>
                 </div>
               </div>
@@ -226,20 +245,29 @@ export default function RequestTypeDetail() {
                 Edit
               </button>
 
+              {/* bg-white
+                    text-gray-700
+                    hover:text-gray-800
+                    hover:bg-gray-50
+                  */}
+              {/* <button onClick={() => deleteRequestType(requestType.id.toString())} className="flex w-full items-center justify-center bg-white text-gray-700 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
+                  <Trash2 size={18} />
+                  Delete
+                </button> */}
               <button
-                onClick={openDeleteModal}
+                onClick={handleDeleteAssetType}
                 className="flex w-full items-center justify-center bg-white text-gray-700 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
               >
                 <Trash2 size={18} />
                 Delete
               </button>
 
-              {/* Delete request type confirmation modal */}
               <ModalWithAnimation
                 isOpen={isDeleteModalOpen}
                 onClose={closeDeleteModal}
                 className="max-w-[584px] p-5 lg:p-7"
               >
+                {/* Delete request type */}
                 <h2 className="font-semibold text-lg mb-4">Are you sure?</h2>
                 <p className="text-sm text-gray-500">
                   Deleting parent will effect it's children Category type
@@ -247,6 +275,7 @@ export default function RequestTypeDetail() {
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={() => {
+                      console.log("close modal worked!");
                       closeDeleteModal();
                     }}
                     className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
@@ -255,8 +284,8 @@ export default function RequestTypeDetail() {
                   </button>
                   <button
                     onClick={() => {
-                      // deleteRequestType(requestType.id.toString());
-                      deleteRequestType(requestType.requestTypeCode.toString());
+                      deleteAssetType(assetType.id.toString());
+                      closeEditModal();
                     }}
                     className="flex w-full items-center justify-center bg-red-500 text-gray-200 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
                   >
@@ -270,8 +299,8 @@ export default function RequestTypeDetail() {
                 onClose={closeEditModal}
                 className="max-w-[584px] p-5 lg:p-7"
               >
-                <UpdateRequestTypeForm
-                  requestType={requestType}
+                <UpdateAssetTypeForm
+                  assetType={assetType}
                   closeModal={closeEditModal}
                 />
               </ModalWithAnimation>
@@ -279,86 +308,6 @@ export default function RequestTypeDetail() {
           </div>
         </div>
       </div>
-
-      <div>
-        <p className="text-xl mb-4">Category Type</p>
-        {/* <CategoryTable requestTypeCode={requestType.requestTypeCode} /> */}
-        <TypeDataTable
-          data={categoryTypes}
-          columns={categoryColumns}
-          showActions={false}
-        />
-      </div>
     </div>
   );
-}
-
-{
-  // Testing Shadcn dialog box
-  /* <Dialog>
-  <DialogTrigger>     
-      <button onClick={handleDeleteRequestType} className="flex w-full items-center justify-center gap-2 bg-[#cf444b] hover:bg-[#e7000b] rounded-full border border-gray-300 px-3 py-2 text-sm font-medium text-white shadow-theme-xs  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
-        <Trash2 size={18} />
-        Delete
-      </button>
-  </DialogTrigger>
-  <DialogContent className="z-[9999]">
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-
-  <DialogFooter className="sm:justify-end">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit">Save changes</Button>
-      </DialogFooter>
-  </DialogContent>
-</Dialog> */
-}
-
-//==================================================================
-// Old, prevent any random id pass in url.
-// Now using Skeleton
-// if (!requestType) {
-//   return <div>Invalid request type ID</div>;
-// }
-
-// // console.log("Inside detail page", requestType);
-
-// if (!requestType || requestType.status === false) {
-//   return <div>Request type not found</div>;
-// }
-
-// function handleDeleteRequestType() {
-//   // deleteRequestType(requestType.id.toString());
-//   openDeleteModal();
-// }
-
-// // Check for invalid ID first
-// if (!id) {
-//   return <div>Invalid request type ID</div>;
-// }
-
-////////////// Old buttons
-// Open delete modal handler
-// function handleDeleteRequestType() {
-//   openDeleteModal();
-// }
-{
-  /* bg-white
-                    text-gray-700
-                    hover:text-gray-800
-                    hover:bg-gray-50
-                  */
-}
-{
-  /* <button onClick={() => deleteRequestType(requestType.id.toString())} className="flex w-full items-center justify-center bg-white text-gray-700 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
-                  <Trash2 size={18} />
-                  Delete
-                </button> */
 }

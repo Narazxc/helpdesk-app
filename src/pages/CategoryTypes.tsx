@@ -1,7 +1,7 @@
 // Component
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 import CategoryTypeList from "@/features/category-type/CategoryTypeList";
 import CreateCategoryTypeForm from "@/features/category-type/CreateCategoryTypeForm";
-import { ModalWithAnimation } from "@/features/request-type/ModalWithAnimation";
 
 // Hook
 import { useModal } from "@/hook/useModal";
@@ -37,7 +37,7 @@ export default function CategoryTypes() {
         onClick={openModal}
         className="bg-[#4263eb] mb-4 text-sm dark:text-white text-white px-4 py-2 rounded-md"
       >
-        Add new
+        Add New
       </button>
 
       <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md">

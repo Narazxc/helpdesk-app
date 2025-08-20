@@ -25,8 +25,8 @@ interface IRequestType {
   //   categoryTypeCount: number;
 }
 
-interface RequestTypeFormProps {
-  // setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
+// setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
+interface UpdateRequestTypeFormProps {
   requestType: RequestType;
   closeModal: () => void;
 }
@@ -34,7 +34,7 @@ interface RequestTypeFormProps {
 export default function UpdateRequestTypeForm({
   requestType,
   closeModal,
-}: RequestTypeFormProps) {
+}: UpdateRequestTypeFormProps) {
   const {
     control,
     register,
@@ -50,8 +50,9 @@ export default function UpdateRequestTypeForm({
   const { updateRequestType } = useUpdateRequestType();
 
   const onSubmit: SubmitHandler<IRequestType> = (data) => {
-    console.log("Form data:", data);
-    console.log("Errors:", errors);
+    // For testing
+    // console.log("data:", data);
+    // console.log("Errors:", errors);
 
     const updateData: CreateRequestType = {
       name: data.reqTypeName,
@@ -122,31 +123,13 @@ export default function UpdateRequestTypeForm({
           >
             Description
           </Label>
-          {/* <div className="flex flex-col">
-            <CustomizedInput
-              type="text"
-              placeholder="Enter Request Type Description"
-              id="reqTypeDescription"
-              error={!!errors.reqTypeDescription}
-              className={`px-3 py-2 border rounded-md focus:outline-none ${
-                errors.reqTypeDescription
-                  ? "border-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-              {...register("reqTypeDescription")}
-            />
-            {errors.reqTypeDescription && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.reqTypeDescription.message}
-              </span>
-            )}
-          </div> */}
 
           <Controller
             name="reqTypeDescription"
             control={control}
             render={({ field }) => (
               <TextArea
+                id="reqTypeDescription"
                 placeholder="Enter Request Type Description..."
                 rows={6}
                 value={field.value || ""}
@@ -168,4 +151,27 @@ export default function UpdateRequestTypeForm({
       </div>
     </form>
   );
+}
+
+// Old, normal text input for description
+{
+  /* <div className="flex flex-col">
+            <CustomizedInput
+              type="text"
+              placeholder="Enter Request Type Description"
+              id="reqTypeDescription"
+              error={!!errors.reqTypeDescription}
+              className={`px-3 py-2 border rounded-md focus:outline-none ${
+                errors.reqTypeDescription
+                  ? "border-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+              {...register("reqTypeDescription")}
+            />
+            {errors.reqTypeDescription && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.reqTypeDescription.message}
+              </span>
+            )}
+          </div> */
 }

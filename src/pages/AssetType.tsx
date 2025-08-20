@@ -1,7 +1,9 @@
-import { useParams } from "react-router";
+import AssetTypeDetail from "@/features/asset-type/AssetTypeDetail";
 
 export default function AssetType() {
-  const { id } = useParams();
-
-  return <div>AssetType {id}</div>;
+  return (
+    <div>
+      <AssetTypeDetail />
+    </div>
+  );
 }

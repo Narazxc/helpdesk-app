@@ -157,10 +157,10 @@ const navItems: NavItem[] = [
       { name: "User", path: "/users" },
       { name: "User Role", path: "/user-role" },
       { name: "Agent Group", path: "/agent-group" },
+      { name: "Enity", path: "/entity" },
       { name: "Request Type", path: "/request-type" },
       { name: "Category Type", path: "/category-type" },
       { name: "Asset Type", path: "/asset-type" },
-      { name: "Enity", path: "/entity" },
     ],
   },
 ];

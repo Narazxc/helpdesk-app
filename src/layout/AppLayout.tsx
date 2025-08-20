@@ -55,7 +55,7 @@ const LayoutContent: React.FC = () => {
   const isDashboard = location.pathname === "/";
 
   return (
-    <div className="min-h-screen xl:flex">
+    <div className="min-h-screen xl:flex dark:bg-gray-900 bg-[#f8fafc]">
       <div>
         <MyAppSidebar2 />
         <Backdrop />

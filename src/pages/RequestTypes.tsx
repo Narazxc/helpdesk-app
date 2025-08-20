@@ -2,62 +2,31 @@
 import { Link } from "react-router";
 
 // Component
-import { ModalWithAnimation } from "../features/request-type/ModalWithAnimation";
 import CreateRequestTypeForm from "../features/request-type/CreateRequestTypeForm";
 import RequestTypeList from "@/features/request-type/RequestTypeList";
 import RequestTypeListSkeleton from "@/features/request-type/RequestTypeListSkeleton";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 // Hook
 import { useModal } from "../hook/useModal";
 import { useRequestTypes } from "../features/request-type/useRequestTypes";
 
-// // Example hardcoded data
-// export interface IRequestType {
-//   reqTypeName: string;
-//   reqTypeDescription: string;
-//   categoryTypeCount: number;
-// }
-
-// const requestTypesArr: IRequestType[] = [
-//   {
-//     reqTypeName: "Issue Request",
-//     reqTypeDescription: "abc",
-//     categoryTypeCount: 3,
-//   },
-//   {
-//     reqTypeName: "Network problem",
-//     reqTypeDescription: "abc",
-//     categoryTypeCount: 3,
-//   },
-//   {
-//     reqTypeName: "Letter request",
-//     reqTypeDescription: "abc",
-//     categoryTypeCount: 3,
-//   },
-//   {
-//     reqTypeName: "Development",
-//     reqTypeDescription: "abc",
-//     categoryTypeCount: 3,
-//   },
-// ];
-
 export default function RequestTypes() {
-  // const [ requestTypes, setRequestTypes ] = useState(requestTypesArr);
-  const { requestTypes, isLoading } = useRequestTypes();
+  const { requestTypes, isLoading: isLoadingRequestTypes } = useRequestTypes();
   const { isOpen, openModal, closeModal } = useModal();
-
-  console.log("Request types ", requestTypes);
 
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
         <h1 className="text-2xl text-color font-bold">Request Type</h1>
 
+        {/* Breadcrumb */}
         <nav>
           <ol className="flex flex-wrap items-center gap-1.5">
-            <li>
+            <li className="page-title-text">
               <Link
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+                // text-gray-500
+                className={`page-title-text flex items-center gap-1.5 text-sm hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400`}
                 to="/"
               >
                 Home
@@ -69,21 +38,25 @@ export default function RequestTypes() {
           </ol>
         </nav>
       </div>
+
+      {/* Create Button */}
       <button
         onClick={openModal}
         className="bg-[#4263eb] mb-4 text-sm dark:text-white text-white px-4 py-2 rounded-md"
       >
-        Add new
+        Add New
       </button>
 
+      {/* List */}
       <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md">
-        {isLoading ? (
+        {isLoadingRequestTypes ? (
           <RequestTypeListSkeleton />
         ) : (
           <RequestTypeList requestTypes={requestTypes || []} />
         )}
       </div>
 
+      {/* Create RequestType Modal */}
       <ModalWithAnimation
         isOpen={isOpen}
         onClose={closeModal}
@@ -127,3 +100,35 @@ export default function RequestTypes() {
 //     </Link>
 //   ))} */}
 // </ul>;
+
+// Old, Test data
+// // Example hardcoded data
+// const [ requestTypes, setRequestTypes ] = useState(requestTypesArr);
+// export interface IRequestType {
+//   reqTypeName: string;
+//   reqTypeDescription: string;
+//   categoryTypeCount: number;
+// }
+
+// const requestTypesArr: IRequestType[] = [
+//   {
+//     reqTypeName: "Issue Request",
+//     reqTypeDescription: "abc",
+//     categoryTypeCount: 3,
+//   },
+//   {
+//     reqTypeName: "Network problem",
+//     reqTypeDescription: "abc",
+//     categoryTypeCount: 3,
+//   },
+//   {
+//     reqTypeName: "Letter request",
+//     reqTypeDescription: "abc",
+//     categoryTypeCount: 3,
+//   },
+//   {
+//     reqTypeName: "Development",
+//     reqTypeDescription: "abc",
+//     categoryTypeCount: 3,
+//   },
+// ];

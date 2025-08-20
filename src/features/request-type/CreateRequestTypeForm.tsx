@@ -163,17 +163,18 @@ import type { CreateRequestType } from "@/types/request-type";
 interface IRequestType {
   reqTypeName: string;
   reqTypeDescription: string;
-  categoryTypeCount: number;
+  // categoryTypeCount: number;
 }
 
-interface RequestTypeFormProps {
-  // setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
+// setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
+
+interface CreateRequestTypeFormProps {
   closeModal: () => void;
 }
 
 export default function CreateRequestTypeForm({
   closeModal,
-}: RequestTypeFormProps) {
+}: CreateRequestTypeFormProps) {
   const {
     control,
     register,
@@ -184,21 +185,12 @@ export default function CreateRequestTypeForm({
   const { createRequestType } = useCreateRequestType();
 
   const onSubmit: SubmitHandler<IRequestType> = (data) => {
-    console.log("Form data:", data);
-    console.log("Errors:", errors);
-
-    // // Add the missing categoryTypeCount property with a default value
-    // const formDataWithDefaults: IRequestType = {
-    //   ...data,
-    //   categoryTypeCount: 0, // Default value since it's not in the form
-    // };
-
-    // setRequestTypes((prev) => [...prev, formDataWithDefaults]);
-
-    // Transform form data to API format if needed
+    // For testing
+    // console.log("data:", data);
+    // console.log("Errors:", errors);
 
     const requestTypeData: CreateRequestType = {
-      name: data.reqTypeName, // or data.reqTypeName
+      name: data.reqTypeName,
       description: data.reqTypeDescription,
     };
 
@@ -261,39 +253,13 @@ export default function CreateRequestTypeForm({
           >
             Description
           </Label>
-          {/* <div className="flex flex-col">
-            <CustomizedInput
-              type="text"
-              placeholder="Enter Request Type Description"
-              id="reqTypeDescription"
-              error={!!errors.reqTypeDescription}
-              className={`px-3 py-2 border rounded-md focus:outline-none ${
-                errors.reqTypeDescription
-                  ? "border-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-              {...register("reqTypeDescription")}
-            />
-            {errors.reqTypeDescription && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.reqTypeDescription.message}
-              </span>
-            )}
-          </div> */}
-          {/* <TextArea
-            placeholder="Enter Request Type Description..."
-            rows={6}
-            // value={message}
-            // onChange={handleTextareaChange}
-            {...register("reqTypeDescription")}
-            className=" bg-gray-50 dark:bg-gray-800"
-          /> */}
 
           <Controller
             name="reqTypeDescription"
             control={control}
             render={({ field }) => (
               <TextArea
+                id="reqTypeDescription"
                 placeholder="Enter Request Type Description..."
                 rows={6}
                 value={field.value || ""}
@@ -315,4 +281,48 @@ export default function CreateRequestTypeForm({
       </div>
     </form>
   );
+}
+
+////// Old, local state testing, add data to list
+// // Add the missing categoryTypeCount property with a default value
+// const formDataWithDefaults: IRequestType = {
+//   ...data,
+//   categoryTypeCount: 0, // Default value since it's not in the form
+// };
+
+// setRequestTypes((prev) => [...prev, formDataWithDefaults]);
+
+// Transform form data to API format if needed
+
+////// Old, normal text input field for description
+{
+  /* <div className="flex flex-col">
+            <CustomizedInput
+              type="text"
+              placeholder="Enter Request Type Description"
+              id="reqTypeDescription"
+              error={!!errors.reqTypeDescription}
+              className={`px-3 py-2 border rounded-md focus:outline-none ${
+                errors.reqTypeDescription
+                  ? "border-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
+              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+              {...register("reqTypeDescription")}
+            />
+            {errors.reqTypeDescription && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.reqTypeDescription.message}
+              </span>
+            )}
+          </div> */
+}
+{
+  /* <TextArea
+            placeholder="Enter Request Type Description..."
+            rows={6}
+            // value={message}
+            // onChange={handleTextareaChange}
+            {...register("reqTypeDescription")}
+            className=" bg-gray-50 dark:bg-gray-800"
+          /> */
 }

@@ -6,7 +6,6 @@ import CustomizedInput from "@/components/form/input/CustomizedInput";
 import TextArea from "@/components/form/input/TextArea";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
-import { Combobox } from "@/components/Combobox";
 
 // Hook
 import { useRequestTypes } from "../request-type/useRequestTypes";
@@ -18,6 +17,7 @@ import type {
   CreateCategoryType,
   UpdateCategoryType,
 } from "@/types/category-type";
+import { RequestTypeCombobox } from "./RequestTypeCombobox";
 
 // Import the interface from the parent component
 interface ICategoryType {
@@ -131,7 +131,8 @@ export default function UpdateCategoryTypeForm({
               control={control}
               rules={{ required: "Request type is required" }}
               render={({ field }) => (
-                <Combobox
+                <RequestTypeCombobox
+                  id="requestTypeCode"
                   requestTypes={requestTypes}
                   value={field.value}
                   onChange={field.onChange}
@@ -216,11 +217,12 @@ export default function UpdateCategoryTypeForm({
             control={control}
             render={({ field }) => (
               <TextArea
+                id="categoryDescription"
                 placeholder="Enter Request Type Description..."
                 rows={6}
                 value={field.value || ""}
                 onChange={field.onChange}
-                className="bg-gray-50 dark:bg-gray-800 h-20"
+                className="bg-gray-50 dark:bg-gray-800 h-32"
               />
             )}
           />

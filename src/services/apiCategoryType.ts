@@ -10,7 +10,7 @@ export async function getCategoryTypes(): Promise<CategoryType[]> {
       `${API_URL}/category-types/active`
     );
 
-    console.log(res.data);
+    // console.log(res.data);
 
     return res.data.data;
   } catch (err) {
@@ -19,16 +19,34 @@ export async function getCategoryTypes(): Promise<CategoryType[]> {
   }
 }
 
-// Get category type by id
+// // Get category type by id (old)
+// export async function getCategoryType(id: string): Promise<CategoryType> {
+//   try {
+//     const res = await api.get<ApiResponse<CategoryType>>(
+//       `${API_URL}/category-types/get-by-id/${id}`
+//     );
+
+//     // console.log(res.data);
+
+//     return res.data.data;
+//   } catch (err) {
+//     console.error("Failed to fetch category types:", err);
+//     throw err;
+//   }
+// }
+
+// /category-types/get-category-by-id/
+// Get category type by id (new)
 export async function getCategoryType(id: string): Promise<CategoryType> {
   try {
-    const res = await api.get<ApiResponse<CategoryType>>(
-      `${API_URL}/category-types/get-by-id/${id}`
+    const res = await api.get<ApiResponse<CategoryType[]>>(
+      `${API_URL}/category-types/get-category-by-id/${id}`
     );
 
-    // console.log(res.data);
+    console.log("In category detail", res.data.data[0]);
 
-    return res.data.data;
+    // Get object from array
+    return res.data.data[0];
   } catch (err) {
     console.error("Failed to fetch category types:", err);
     throw err;
@@ -74,16 +92,54 @@ export async function updateCategoryType(
   }
 }
 
-// Delete category type
-export async function deleteCategoryType(id: string) {
+// // OLD: Delete category type
+// export async function deleteCategoryType(id: string) {
+//   try {
+//     const res = await api.delete<CategoryType>(
+//       `${API_URL}/category-types/delete/${id}`
+//     );
+
+//     console.log(res.data);
+
+//     return res.data;
+//   } catch (err) {
+//     console.error("Failed to delete: ", err);
+//     throw err; // Let React Query or caller handle the error
+//   }
+// }
+
+// NEW: Delete category type
+export async function deleteCategoryType(categoryTypeCode: string) {
   try {
     const res = await api.delete<CategoryType>(
-      `${API_URL}/category-types/delete/${id}`
+      `${API_URL}/category-types/delete-by-code/${categoryTypeCode}`
     );
 
-    console.log(res.data);
-
     return res.data;
+  } catch (err) {
+    console.error("Failed to delete: ", err);
+    throw err; // Let React Query or caller handle the error
+  }
+}
+
+// Get category by request type code
+export async function getCategoryByRequestTypeCode(requestTypeCode: string) {
+  try {
+    if (requestTypeCode) {
+      const res = await api.get<ApiResponse<CategoryType[]>>(
+        `${API_URL}/category-types/active?requestTypeCode=${requestTypeCode}`
+      );
+
+      console.log(
+        "IN API Request to",
+        `${API_URL}/category-types/active?requestTypeCode=${requestTypeCode}`
+      );
+
+      console.log("IN API", res.data);
+      return res.data.data;
+    } else {
+      return null;
+    }
   } catch (err) {
     console.error("Failed to delete: ", err);
     throw err; // Let React Query or caller handle the error

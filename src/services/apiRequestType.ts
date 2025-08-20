@@ -37,9 +37,7 @@ export async function getRequestTypes(): Promise<RequestType[]> {
       `${API_URL}/request-types/active`
     );
 
-    // /api/v1/request-types
-
-    console.log(res.data);
+    // console.log(res.data);
 
     return res.data.data;
   } catch (err) {
@@ -103,12 +101,30 @@ export async function updateRequestType(
   }
 }
 
-// Delete request type
-export async function deleteRequestType(id: string) {
+// OLD: Delete request type
+// export async function deleteRequestType(id: string) {
+//   try {
+//     const res = await api.delete<RequestType>(
+//       `${API_URL}/request-types/delete/${id}`
+//     );
+
+//     console.log(res.data);
+
+//     return res.data;
+//   } catch (err) {
+//     console.error("Failed to fetch posts:", err);
+//     throw err; // Let React Query or caller handle the error
+//   }
+// }
+
+// NEW: Delete request type
+export async function deleteRequestType(requestTypeCode: string) {
   try {
     const res = await api.delete<RequestType>(
-      `${API_URL}/request-types/delete/${id}`
+      `${API_URL}/request-types/delete-by-code/${requestTypeCode}`
     );
+
+    console.log(`${API_URL}/request-types/delete-by-code/${requestTypeCode}`);
 
     console.log(res.data);
 

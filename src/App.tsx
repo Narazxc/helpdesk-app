@@ -26,6 +26,7 @@ import RequestType from "./pages/RequestType";
 import CategoryTypes from "./pages/CategoryTypes";
 import CategoryType from "./pages/CategoryType";
 import AssetTypes from "./pages/AssetTypes";
+import AssetType from "./pages/AssetType";
 import Entities from "./pages/Entities";
 
 function App() {
@@ -55,7 +56,7 @@ function App() {
               <Route path="category-type" element={<CategoryTypes />} />
               <Route path="category-type/:id" element={<CategoryType />} />
               <Route path="asset-type" element={<AssetTypes />} />
-              <Route path="asset-type/:id" element={<AssetTypes />} />
+              <Route path="asset-type/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
             </Route>
 

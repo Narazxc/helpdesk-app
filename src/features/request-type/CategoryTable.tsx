@@ -2,7 +2,6 @@
 import { Search } from "lucide-react";
 
 // Component
-import { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -10,110 +9,118 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import PaginationWithButton from "../../components/tables/datatables/datatabletwo/PaginationWithButton";
 
-const tableRowData = [
-  {
-    id: 1,
-    image: "/images/user/user-17.jpg",
-    name: "Abram Schleifer",
-    position: "Sales Assistant",
-    location: "Edinburgh",
-    age: 57,
-    date: "25 Apr, 2027",
-    salary: "$89,500",
-  },
-  {
-    id: 2,
-    name: "Charlotte Anderson",
-    image: "/images/user/user-17.jpg",
-    position: "Marketing Manager",
-    location: "London",
-    age: 42,
-    date: "12 Mar, 2025",
-    salary: "$105,000",
-  },
-  {
-    id: 3,
-    name: "Ethan Brown",
-    image: "/images/user/user-17.jpg",
-    position: "Software Engineer",
-    location: "San Francisco",
-    age: 30,
-    date: "01 Jan, 2024",
-    salary: "$120,000",
-  },
-  {
-    id: 4,
-    name: "Sophia Martinez",
-    image: "/images/user/user-17.jpg",
-    position: "Product Manager",
-    location: "New York",
-    age: 35,
-    date: "15 Jun, 2026",
-    salary: "$95,000",
-  },
-  {
-    id: 5,
-    name: "James Wilson",
-    image: "/images/user/user-17.jpg",
-    position: "Data Analyst",
-    location: "Chicago",
-    age: 28,
-    date: "20 Sep, 2025",
-    salary: "$80,000",
-  },
-  {
-    id: 6,
-    name: "Olivia Johnson",
-    image: "/images/user/user-17.jpg",
-    position: "HR Specialist",
-    location: "Los Angeles",
-    age: 40,
-    date: "08 Nov, 2026",
-    salary: "$75,000",
-  },
-  {
-    id: 7,
-    name: "William Smith",
-    image: "/images/user/user-17.jpg",
-    position: "Financial Analyst",
-    location: "Seattle",
-    age: 38,
-    date: "03 Feb, 2026",
-    salary: "$88,000",
-  },
-  {
-    id: 8,
-    name: "Isabella Davis",
-    image: "/images/user/user-17.jpg",
-    position: "UI/UX Designer",
-    location: "Austin",
-    age: 29,
-    date: "18 Jul, 2025",
-    salary: "$92,000",
-  },
-  {
-    id: 9,
-    name: "Liam Moore",
-    image: "/images/user/user-17.jpg",
-    position: "DevOps Engineer",
-    location: "Boston",
-    age: 33,
-    date: "30 Oct, 2024",
-    salary: "$115,000",
-  },
-  {
-    id: 10,
-    name: "Mia Garcia",
-    image: "/images/user/user-17.jpg",
-    position: "Content Strategist",
-    location: "Denver",
-    age: 27,
-    date: "12 Dec, 2027",
-    salary: "$70,000",
-  },
-];
+// Hook
+import PaginationWithButton from "../../components/tables/datatables/datatabletwo/PaginationWithButton";
+import { useCategoryByRequestTypeCode } from "../category-type/useCategoryByRequestTypeCode";
+import { useState, useMemo } from "react";
+
+// React router
+import { Link } from "react-router";
+
+// const tableRowData = [
+//   {
+//     id: 1,
+//     image: "/images/user/user-17.jpg",
+//     name: "Abram Schleifer",
+//     position: "Sales Assistant",
+//     location: "Edinburgh",
+//     age: 57,
+//     date: "25 Apr, 2027",
+//     salary: "$89,500",
+//   },
+//   {
+//     id: 2,
+//     name: "Charlotte Anderson",
+//     image: "/images/user/user-17.jpg",
+//     position: "Marketing Manager",
+//     location: "London",
+//     age: 42,
+//     date: "12 Mar, 2025",
+//     salary: "$105,000",
+//   },
+//   {
+//     id: 3,
+//     name: "Ethan Brown",
+//     image: "/images/user/user-17.jpg",
+//     position: "Software Engineer",
+//     location: "San Francisco",
+//     age: 30,
+//     date: "01 Jan, 2024",
+//     salary: "$120,000",
+//   },
+//   {
+//     id: 4,
+//     name: "Sophia Martinez",
+//     image: "/images/user/user-17.jpg",
+//     position: "Product Manager",
+//     location: "New York",
+//     age: 35,
+//     date: "15 Jun, 2026",
+//     salary: "$95,000",
+//   },
+//   {
+//     id: 5,
+//     name: "James Wilson",
+//     image: "/images/user/user-17.jpg",
+//     position: "Data Analyst",
+//     location: "Chicago",
+//     age: 28,
+//     date: "20 Sep, 2025",
+//     salary: "$80,000",
+//   },
+//   {
+//     id: 6,
+//     name: "Olivia Johnson",
+//     image: "/images/user/user-17.jpg",
+//     position: "HR Specialist",
+//     location: "Los Angeles",
+//     age: 40,
+//     date: "08 Nov, 2026",
+//     salary: "$75,000",
+//   },
+//   {
+//     id: 7,
+//     name: "William Smith",
+//     image: "/images/user/user-17.jpg",
+//     position: "Financial Analyst",
+//     location: "Seattle",
+//     age: 38,
+//     date: "03 Feb, 2026",
+//     salary: "$88,000",
+//   },
+//   {
+//     id: 8,
+//     name: "Isabella Davis",
+//     image: "/images/user/user-17.jpg",
+//     position: "UI/UX Designer",
+//     location: "Austin",
+//     age: 29,
+//     date: "18 Jul, 2025",
+//     salary: "$92,000",
+//   },
+//   {
+//     id: 9,
+//     name: "Liam Moore",
+//     image: "/images/user/user-17.jpg",
+//     position: "DevOps Engineer",
+//     location: "Boston",
+//     age: 33,
+//     date: "30 Oct, 2024",
+//     salary: "$115,000",
+//   },
+//   {
+//     id: 10,
+//     name: "Mia Garcia",
+//     image: "/images/user/user-17.jpg",
+//     position: "Content Strategist",
+//     location: "Denver",
+//     age: 27,
+//     date: "12 Dec, 2027",
+//     salary: "$70,000",
+//   },
+// ];
+
 type SortKey = "name" | "position" | "location" | "age" | "date" | "salary";
 // type SortKey =
 //   | "name"
@@ -124,33 +131,53 @@ type SortKey = "name" | "position" | "location" | "age" | "date" | "salary";
 //   | "lastSignOn";
 type SortOrder = "asc" | "desc";
 
-export default function CategoryTable() {
+interface CategoryTableProps {
+  requestTypeCode?: string;
+}
+
+export default function CategoryTable({ requestTypeCode }: CategoryTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [searchTerm, setSearchTerm] = useState("");
+  const { categoryTypes } = useCategoryByRequestTypeCode(
+    requestTypeCode?.toString() || ""
+  );
 
   const filteredAndSortedData = useMemo(() => {
-    return tableRowData
-      .filter((item) =>
-        Object.values(item).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+    // return tableRowData
+    //   .filter((item) =>
+    //     Object.values(item).some(
+    //       (value) =>
+    //         typeof value === "string" &&
+    //         value.toLowerCase().includes(searchTerm.toLowerCase())
+    //     )
+    //   )
+    //   .sort((a, b) => {
+    //     if (sortKey === "salary") {
+    //       const salaryA = Number.parseInt(a[sortKey].replace(/\$|,/g, ""));
+    //       const salaryB = Number.parseInt(b[sortKey].replace(/\$|,/g, ""));
+    //       return sortOrder === "asc" ? salaryA - salaryB : salaryB - salaryA;
+    //     }
+    //     return sortOrder === "asc"
+    //       ? String(a[sortKey]).localeCompare(String(b[sortKey]))
+    //       : String(b[sortKey]).localeCompare(String(a[sortKey]));
+    //   });
+
+    return categoryTypes.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
       )
-      .sort((a, b) => {
-        if (sortKey === "salary") {
-          const salaryA = Number.parseInt(a[sortKey].replace(/\$|,/g, ""));
-          const salaryB = Number.parseInt(b[sortKey].replace(/\$|,/g, ""));
-          return sortOrder === "asc" ? salaryA - salaryB : salaryB - salaryA;
-        }
-        return sortOrder === "asc"
-          ? String(a[sortKey]).localeCompare(String(b[sortKey]))
-          : String(b[sortKey]).localeCompare(String(a[sortKey]));
-      });
-  }, [sortKey, sortOrder, searchTerm]);
+    );
+    // .sort((a, b) => {
+    //   return sortOrder === "asc"
+    //     ? String(a[sortKey]).localeCompare(String(b[sortKey]))
+    //     : String(b[sortKey]).localeCompare(String(a[sortKey]));
+    // });
+  }, [sortOrder, searchTerm, categoryTypes]);
 
   const totalItems = filteredAndSortedData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -171,6 +198,7 @@ export default function CategoryTable() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentData = filteredAndSortedData.slice(startIndex, endIndex);
+  // const currentData = categoryTypes;
 
   return (
     <>
@@ -179,23 +207,25 @@ export default function CategoryTable() {
           <div className="relative">
             <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-3 top-1/2 dark:text-gray-400">
               {/* <svg
-                className="fill-current"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M3.04199 9.37363C3.04199 5.87693 5.87735 3.04199 9.37533 3.04199C12.8733 3.04199 15.7087 5.87693 15.7087 9.37363C15.7087 12.8703 12.8733 15.7053 9.37533 15.7053C5.87735 15.7053 3.04199 12.8703 3.04199 9.37363ZM9.37533 1.54199C5.04926 1.54199 1.54199 5.04817 1.54199 9.37363C1.54199 13.6991 5.04926 17.2053 9.37533 17.2053C11.2676 17.2053 13.0032 16.5344 14.3572 15.4176L17.1773 18.238C17.4702 18.5309 17.945 18.5309 18.2379 18.238C18.5308 17.9451 18.5309 17.4703 18.238 17.1773L15.4182 14.3573C16.5367 13.0033 17.2087 11.2669 17.2087 9.37363C17.2087 5.04817 13.7014 1.54199 9.37533 1.54199Z"
-                  fill=""
-                />
-              </svg> */}
+                  className="fill-current"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M3.04199 9.37363C3.04199 5.87693 5.87735 3.04199 9.37533 3.04199C12.8733 3.04199 15.7087 5.87693 15.7087 9.37363C15.7087 12.8703 12.8733 15.7053 9.37533 15.7053C5.87735 15.7053 3.04199 12.8703 3.04199 9.37363ZM9.37533 1.54199C5.04926 1.54199 1.54199 5.04817 1.54199 9.37363C1.54199 13.6991 5.04926 17.2053 9.37533 17.2053C11.2676 17.2053 13.0032 16.5344 14.3572 15.4176L17.1773 18.238C17.4702 18.5309 17.945 18.5309 18.2379 18.238C18.5308 17.9451 18.5309 17.4703 18.238 17.1773L15.4182 14.3573C16.5367 13.0033 17.2087 11.2669 17.2087 9.37363C17.2087 5.04817 13.7014 1.54199 9.37533 1.54199Z"
+                    fill=""
+                  />
+                </svg> */}
               <Search size={18} />
             </span>
             <input
+              id="searchInput"
+              name="searchInput"
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -208,6 +238,7 @@ export default function CategoryTable() {
             <span className="text-gray-500 dark:text-gray-400"> Show </span>
             <div className="relative z-20 bg-transparent">
               <select
+                id="option"
                 className="w-full py-2 pl-3 pr-8 text-sm text-gray-800 bg-transparent border border-gray-300 rounded-lg appearance-none dark:bg-dark-900 h-9 bg-none shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                 value={itemsPerPage}
                 onChange={(e) => setItemsPerPage(Number(e.target.value))}
@@ -307,13 +338,26 @@ export default function CategoryTable() {
                 </TableRow>
               </TableHeader>
               <TableBody className="&>tr]:odd:bg-white [&>tr]:even:bg-gray-100">
-                {currentData.map((item, i) => (
-                  <TableRow className="" key={i + 1}>
+                {categoryTypes.length === 0 ? (
+                  <TableRow>
                     <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                      {item.name}
+                      No Category
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : (
+                  currentData.map((item, i) => (
+                    <TableRow className="" key={i + 1}>
+                      <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                        <Link
+                          className="hover:underline"
+                          to={`/category-type/${item.id} `}
+                        >
+                          {item.name}
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
@@ -324,7 +368,7 @@ export default function CategoryTable() {
             {/* Left side: Showing entries */}
             <div className="pt-3 xl:pt-0">
               <p className="pt-3 text-sm font-medium text-center text-gray-500 border-t border-gray-100 dark:border-gray-800 dark:text-gray-400 xl:border-t-0 xl:pt-0 xl:text-left">
-                Showing {startIndex + 1} to {endIndex} of {totalItems} entries
+                {/* Showing {startIndex + 1} to {endIndex} of {totalItems} entries */}
               </p>
             </div>
 
@@ -363,3 +407,5 @@ export default function CategoryTable() {
 //                         </button>
 //                       </div>
 //                     </TableCell>
+
+//===================================================================

@@ -1,12 +1,13 @@
 //=================
 // For Shadcn
-import path from "path"
-import tailwindcss from "@tailwindcss/vite"
+import path from "path";
+import tailwindcss from "@tailwindcss/vite";
 //=================
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -24,10 +25,16 @@ export default defineConfig({
         namedExport: "ReactComponent",
       },
     }),
+
+    // your other plugins...
+    visualizer({
+      filename: "dist/stats.html",
+      open: true,
+    }),
   ],
 
   // For Shadcn
-   resolve: {
+  resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },

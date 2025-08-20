@@ -1,10 +1,10 @@
-export interface CategoryType {
+export interface AssetType {
   id: number;
-  categoryTypeCode: string;
   name: string;
-  requestName: string;
-  requestTypeCode: string;
   description: string;
+  categoryTypeCode: string;
+  requestName: string;
+  categoryName: string;
   createdAt: string;
   updatedAt: string;
   status: boolean;
@@ -12,12 +12,12 @@ export interface CategoryType {
   updatedBy: string | null;
 }
 
-export interface UpdateCategoryType {
+export interface UpdateAssetType {
   id: string;
-  newCategoryTypeData: CreateCategoryType;
+  newAssetTypeData: CreateAssetType;
 }
 
-export interface CreateCategoryType {
+export interface CreateAssetType {
   name: string;
   description: string;
   code: string;

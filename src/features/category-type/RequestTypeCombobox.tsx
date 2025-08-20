@@ -17,14 +17,18 @@ import {
 } from "@/components/ui/popover";
 import type { RequestType } from "@/types/request-type";
 
-interface ComboboxProps {
+interface RequestTypeComboboxProps {
   requestTypes: RequestType[];
   value: string;
   onChange: (value: string) => void;
   id?: string; // Add id prop for accessibility
 }
 
-export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
+export function RequestTypeCombobox({
+  requestTypes,
+  value,
+  onChange,
+}: RequestTypeComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   const isParentDeleted = requestTypes.find(

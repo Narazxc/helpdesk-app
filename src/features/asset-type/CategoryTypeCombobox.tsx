@@ -15,20 +15,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { RequestType } from "@/types/request-type";
+import type { CategoryType } from "@/types/category-type";
 
-interface ComboboxProps {
-  requestTypes: RequestType[];
+interface CategoryTypeComboboxProps {
+  categoryTypes: CategoryType[];
   value: string;
   onChange: (value: string) => void;
   id?: string; // Add id prop for accessibility
 }
 
-export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
+export function CategoryTypeCombobox({
+  categoryTypes,
+  value,
+  onChange,
+}: CategoryTypeComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
-  const isParentDeleted = requestTypes.find(
-    (item) => item.requestTypeCode === value
+  const isParentDeleted = categoryTypes.find(
+    (item) => item.categoryTypeCode === value
   )?.name;
 
   // && isParentDeleted
@@ -44,7 +48,8 @@ export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
           className="h-11 px-[14px] w-full justify-between"
         >
           {value && isParentDeleted
-            ? requestTypes.find((item) => item.requestTypeCode === value)?.name
+            ? categoryTypes.find((item) => item.categoryTypeCode === value)
+                ?.name
             : // Select Request Type...
               "Select Type..."}
           <ChevronsUpDown className="opacity-50" />
@@ -58,12 +63,12 @@ export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
           <CommandList className="max-h-[200px] overflow-y-auto">
             <CommandEmpty>No request type found.</CommandEmpty>
             <CommandGroup>
-              {requestTypes.map((item) => (
+              {categoryTypes.map((item) => (
                 <CommandItem
                   key={item.id}
                   value={item.name}
                   onSelect={() => {
-                    onChange(item.requestTypeCode);
+                    onChange(item.categoryTypeCode);
                     setOpen(false);
                   }}
                 >
@@ -71,7 +76,7 @@ export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === item.requestTypeCode
+                      value === item.categoryTypeCode
                         ? "opacity-100"
                         : "opacity-0"
                     )}

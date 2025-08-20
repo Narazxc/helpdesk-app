@@ -7,20 +7,44 @@ import { Trash2 } from "lucide-react";
 // Component
 import { useModal } from "../../hook/useModal";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ModalWithAnimation } from "../request-type/ModalWithAnimation";
 import UpdateCategoryTypeForm from "./UpdateCategoryTypeForm";
-import CategoryTable from "../request-type/CategoryTable"; // change to AssetTable later
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 // Hook
 import { useDeleteCategoryType } from "./useDeleteCategoryType";
 import { useCategoryTypeById } from "./useCategoryType";
+import TypeDataTable, {
+  type ColumnConfig,
+} from "../request-type/TypeDataTable";
+import useAssetsByCategoryTypeCode from "../asset-type/useAssetsByCategoryTypeCode";
+import type { AssetType } from "@/types/asset-type";
 
 export default function CategoryTypeDetail() {
   const { id } = useParams();
   const { categoryType, isLoading, error } = useCategoryTypeById(
     id?.toString() || ""
   );
+
   const { deleteCategoryType } = useDeleteCategoryType();
+
+  const { assetTypes } = useAssetsByCategoryTypeCode(
+    categoryType?.categoryTypeCode || ""
+  );
+
+  const assetTypeColumns: ColumnConfig<AssetType>[] = [
+    {
+      key: "name",
+      label: "Asset Name",
+      render: (name: string, asset: AssetType) => (
+        <Link
+          to={`/asset-type/${asset.id}`} // or wherever you want to link
+          className="text-blue-600 hover:text-blue-800 hover:underline"
+        >
+          {name}
+        </Link>
+      ),
+    },
+  ];
 
   // Separate modal states
   const {
@@ -156,9 +180,8 @@ export default function CategoryTypeDetail() {
                     Home
                   </Link>
                 </li>
-
+                <span className="text-gray-500">/</span>
                 <li className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400">
-                  <span>/</span>
                   <Link to="/category-type">Category Type</Link>
                 </li>
                 <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
@@ -180,7 +203,9 @@ export default function CategoryTypeDetail() {
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-color font-normal">""</p>
+                    <p className="text-sm text-color font-normal">
+                      {categoryType.requestName}
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm text-color font-semibold ">
@@ -247,7 +272,6 @@ export default function CategoryTypeDetail() {
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => {
-                        console.log("close modal worked!");
                         closeDeleteModal();
                       }}
                       className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
@@ -256,7 +280,9 @@ export default function CategoryTypeDetail() {
                     </button>
                     <button
                       onClick={() => {
-                        deleteCategoryType(categoryType.id.toString());
+                        deleteCategoryType(
+                          categoryType.categoryTypeCode.toString()
+                        );
                       }}
                       className="flex w-full items-center justify-center bg-red-500 text-gray-200 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
                     >
@@ -282,7 +308,12 @@ export default function CategoryTypeDetail() {
 
         <div>
           <p className="text-xl mb-4">Asset Type</p>
-          <CategoryTable />
+          {/* <CategoryTable /> */}
+          <TypeDataTable
+            data={assetTypes}
+            columns={assetTypeColumns}
+            showActions={false}
+          />
         </div>
       </div>
     </>
