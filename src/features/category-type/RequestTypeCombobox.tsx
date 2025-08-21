@@ -27,6 +27,7 @@ interface RequestTypeComboboxProps {
 export function RequestTypeCombobox({
   requestTypes,
   value,
+  id,
   onChange,
 }: RequestTypeComboboxProps) {
   const [open, setOpen] = React.useState(false);
@@ -41,7 +42,7 @@ export function RequestTypeCombobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          // id={id} // Add the id to the trigger button
+          id={id} // Add the id to the trigger button
           variant="outline"
           role="combobox"
           aria-expanded={open}

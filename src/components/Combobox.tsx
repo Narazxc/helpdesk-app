@@ -24,7 +24,7 @@ interface ComboboxProps {
   id?: string; // Add id prop for accessibility
 }
 
-export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
+export function Combobox({ requestTypes, value, id, onChange }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   const isParentDeleted = requestTypes.find(
@@ -37,7 +37,7 @@ export function Combobox({ requestTypes, value, onChange }: ComboboxProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          // id={id} // Add the id to the trigger button
+          id={id} // Add the id to the trigger button
           variant="outline"
           role="combobox"
           aria-expanded={open}

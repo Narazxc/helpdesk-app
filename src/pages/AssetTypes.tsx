@@ -6,10 +6,33 @@ import { useModal } from "@/hook/useModal";
 import CreateAssetTypeForm from "@/features/asset-type/CreateAssetTypeForm";
 import AssetTypeList from "@/features/asset-type/AssetTypeList";
 import { ModalWithAnimation } from "@/components/ModalWithAnimation";
+import TypeDataTable, {
+  type ColumnConfig,
+} from "@/features/request-type/TypeDataTable";
+import { useAssetTypes } from "@/features/asset-type/useAssetTypes";
+import type { AssetType } from "@/types/asset-type";
 
 export default function AssetTypes() {
   const { isOpen, closeModal, openModal } = useModal();
-  // return <div>abc</div>;
+  const { assetTypes } = useAssetTypes();
+
+  console.log("assetTypes", assetTypes);
+
+  const assetTypeColumns: ColumnConfig<AssetType>[] = [
+    {
+      key: "name",
+      label: "Asset Name",
+      render: (name: string, asset: AssetType) => (
+        <Link
+          to={`/asset-type/${asset.id}`} // or wherever you want to link
+          className="text-blue-600 hover:text-blue-800 hover:underline"
+        >
+          {name}
+        </Link>
+      ),
+    },
+  ];
+
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
@@ -38,9 +61,15 @@ export default function AssetTypes() {
         Add new
       </button>
 
-      <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md">
+      {/* <div className="border-1 dark:bg-gray-900 dark:border-gray-800 border-blue-400 p-8 rounded-md bg-white shadow-md">
         <AssetTypeList />
-      </div>
+        <AssetTypeTable />
+      </div> */}
+      <TypeDataTable
+        data={assetTypes}
+        columns={assetTypeColumns}
+        showActions={true}
+      />
 
       <ModalWithAnimation
         isOpen={isOpen}
@@ -48,10 +77,7 @@ export default function AssetTypes() {
         className="max-w-[584px] p-5 lg:p-7"
       >
         <CreateAssetTypeForm closeModal={closeModal} />
-        {/* <CreateRequestTypeForm closeModal={closeModal} /> */}
       </ModalWithAnimation>
     </div>
   );
-
-  // return <div>AssetTypes</div>;
 }

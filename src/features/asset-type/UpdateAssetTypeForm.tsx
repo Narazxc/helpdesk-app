@@ -106,6 +106,7 @@ export default function UpdateAssetTypeForm({
               rules={{ required: "Category type is required" }}
               render={({ field }) => (
                 <CategoryTypeCombobox
+                  id="categoryTypeCode"
                   categoryTypes={categoryTypes}
                   value={field.value}
                   onChange={field.onChange}
