@@ -39,19 +39,35 @@ export async function getCategoryTypes(): Promise<CategoryType[]> {
 // Get category type by id (new)
 export async function getCategoryType(id: string): Promise<CategoryType> {
   try {
-    const res = await api.get<ApiResponse<CategoryType[]>>(
+    const res = await api.get<ApiResponse<CategoryType>>(
       `${API_URL}/category-types/get-category-by-id/${id}`
     );
 
-    console.log("In category detail", res.data.data[0]);
-
     // Get object from array
-    return res.data.data[0];
+    return res.data.data;
   } catch (err) {
     console.error("Failed to fetch category types:", err);
     throw err;
   }
 }
+
+// // /category-types/get-category-by-id/
+// // Get category type by id (new)
+// export async function getCategoryType(id: string): Promise<CategoryType> {
+//   try {
+//     const res = await api.get<ApiResponse<CategoryType>>(
+//       `${API_URL}/category-types/get-category-by-id/${id}`
+//     );
+
+//     console.log("In category detail", res.data.data);
+
+//     // Get object from array
+//     return res.data.data;
+//   } catch (err) {
+//     console.error("Failed to fetch category types:", err);
+//     throw err;
+//   }
+// }
 
 // Create category type
 export async function createCategoryType(
@@ -63,7 +79,7 @@ export async function createCategoryType(
       newCategoryType
     );
 
-    console.log(res.data);
+    // console.log(res.data);
 
     return res.data;
   } catch (err) {
@@ -130,12 +146,6 @@ export async function getCategoryByRequestTypeCode(requestTypeCode: string) {
         `${API_URL}/category-types/active?requestTypeCode=${requestTypeCode}`
       );
 
-      console.log(
-        "IN API Request to",
-        `${API_URL}/category-types/active?requestTypeCode=${requestTypeCode}`
-      );
-
-      console.log("IN API", res.data);
       return res.data.data;
     } else {
       return null;

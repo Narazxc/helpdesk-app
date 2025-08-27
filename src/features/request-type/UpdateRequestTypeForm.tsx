@@ -25,7 +25,6 @@ interface IRequestType {
   //   categoryTypeCount: number;
 }
 
-// setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
 interface UpdateRequestTypeFormProps {
   requestType: RequestType;
   closeModal: () => void;
@@ -124,20 +123,38 @@ export default function UpdateRequestTypeForm({
             Description
           </Label>
 
-          <Controller
-            name="reqTypeDescription"
-            control={control}
-            render={({ field }) => (
-              <TextArea
-                id="reqTypeDescription"
-                placeholder="Enter Request Type Description..."
-                rows={6}
-                value={field.value || ""}
-                onChange={field.onChange}
-                className="bg-gray-50 dark:bg-gray-800 h-32"
-              />
+          <div className="flex flex-col">
+            <Controller
+              name="reqTypeDescription"
+              control={control}
+              rules={{
+                maxLength: {
+                  value: 250,
+                  message: "Description must be 250 characters or less",
+                },
+              }}
+              render={({ field }) => (
+                <TextArea
+                  id="reqTypeDescription"
+                  placeholder="Enter Request Type Description... (max 250)"
+                  rows={6}
+                  value={field.value || ""}
+                  error={!!errors.reqTypeDescription}
+                  onChange={field.onChange}
+                  className={`bg-gray-50 dark:bg-gray-800 h-32 ${
+                    errors.reqTypeDescription
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+              )}
+            />
+            {errors.reqTypeDescription && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.reqTypeDescription.message}
+              </span>
             )}
-          />
+          </div>
         </div>
       </div>
 
@@ -151,27 +168,4 @@ export default function UpdateRequestTypeForm({
       </div>
     </form>
   );
-}
-
-// Old, normal text input for description
-{
-  /* <div className="flex flex-col">
-            <CustomizedInput
-              type="text"
-              placeholder="Enter Request Type Description"
-              id="reqTypeDescription"
-              error={!!errors.reqTypeDescription}
-              className={`px-3 py-2 border rounded-md focus:outline-none ${
-                errors.reqTypeDescription
-                  ? "border-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-              {...register("reqTypeDescription")}
-            />
-            {errors.reqTypeDescription && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.reqTypeDescription.message}
-              </span>
-            )}
-          </div> */
 }

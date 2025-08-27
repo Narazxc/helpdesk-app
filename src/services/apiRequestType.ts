@@ -53,7 +53,7 @@ export async function getRequestType(id: string): Promise<RequestType> {
       `${API_URL}/request-types/get-by-id/${id}`
     );
 
-    console.log(res.data);
+    // console.log(res.data);
 
     return res.data.data;
   } catch (err) {

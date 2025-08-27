@@ -44,10 +44,7 @@ export default function RequestTypeDetail() {
   const { categoryTypes } = useCategoryByRequestTypeCode(
     requestType?.requestTypeCode || "" // Can pass empty string now
   );
-  //  For table
-  // const categoryColumns: ColumnConfig<CategoryType>[] = [
-  //   { key: "name", label: "Category Name" },
-  // ];
+
   const categoryColumns: ColumnConfig<CategoryType>[] = [
     {
       key: "name",
@@ -146,9 +143,7 @@ export default function RequestTypeDetail() {
     <div className="flex flex-col gap-12">
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <h1 className="text-2xl text-color font-semibold">
-            Request Type Detail
-          </h1>
+          <h1 className="text-2xl text-color font-bold">Request Type Detail</h1>
           <nav>
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
@@ -282,7 +277,6 @@ export default function RequestTypeDetail() {
 
       <div>
         <p className="text-xl mb-4">Category Type</p>
-        {/* <CategoryTable requestTypeCode={requestType.requestTypeCode} /> */}
         <TypeDataTable
           data={categoryTypes}
           columns={categoryColumns}
@@ -291,74 +285,4 @@ export default function RequestTypeDetail() {
       </div>
     </div>
   );
-}
-
-{
-  // Testing Shadcn dialog box
-  /* <Dialog>
-  <DialogTrigger>     
-      <button onClick={handleDeleteRequestType} className="flex w-full items-center justify-center gap-2 bg-[#cf444b] hover:bg-[#e7000b] rounded-full border border-gray-300 px-3 py-2 text-sm font-medium text-white shadow-theme-xs  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
-        <Trash2 size={18} />
-        Delete
-      </button>
-  </DialogTrigger>
-  <DialogContent className="z-[9999]">
-    <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-
-  <DialogFooter className="sm:justify-end">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button type="submit">Save changes</Button>
-      </DialogFooter>
-  </DialogContent>
-</Dialog> */
-}
-
-//==================================================================
-// Old, prevent any random id pass in url.
-// Now using Skeleton
-// if (!requestType) {
-//   return <div>Invalid request type ID</div>;
-// }
-
-// // console.log("Inside detail page", requestType);
-
-// if (!requestType || requestType.status === false) {
-//   return <div>Request type not found</div>;
-// }
-
-// function handleDeleteRequestType() {
-//   // deleteRequestType(requestType.id.toString());
-//   openDeleteModal();
-// }
-
-// // Check for invalid ID first
-// if (!id) {
-//   return <div>Invalid request type ID</div>;
-// }
-
-////////////// Old buttons
-// Open delete modal handler
-// function handleDeleteRequestType() {
-//   openDeleteModal();
-// }
-{
-  /* bg-white
-                    text-gray-700
-                    hover:text-gray-800
-                    hover:bg-gray-50
-                  */
-}
-{
-  /* <button onClick={() => deleteRequestType(requestType.id.toString())} className="flex w-full items-center justify-center bg-white text-gray-700 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto">
-                  <Trash2 size={18} />
-                  Delete
-                </button> */
 }

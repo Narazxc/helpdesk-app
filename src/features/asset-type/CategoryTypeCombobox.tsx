@@ -62,7 +62,7 @@ export function CategoryTypeCombobox({
           {/* Search request type... */}
           <CommandInput placeholder="Search type..." className="h-9" />
           <CommandList className="max-h-[200px] overflow-y-auto">
-            <CommandEmpty>No request type found.</CommandEmpty>
+            <CommandEmpty>No category type found.</CommandEmpty>
             <CommandGroup>
               {categoryTypes.map((item) => (
                 <CommandItem

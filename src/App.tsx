@@ -17,7 +17,7 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 
 // Page component
-import SignIn from "./pages/AuthPages/SignIn";
+// import SignIn from "./pages/AuthPages/SignIn";
 import MyDashboardPage from "./components/dashboard/MyDashboardPage";
 import Users from "./pages/user/Users";
 import CreateUserPage from "./pages/user/CreateUserPage";
@@ -28,6 +28,7 @@ import CategoryType from "./pages/CategoryType";
 import AssetTypes from "./pages/AssetTypes";
 import AssetType from "./pages/AssetType";
 import Entities from "./pages/Entities";
+import Login from "./pages/Login";
 
 function App() {
   const queryClient = new QueryClient({
@@ -61,7 +62,8 @@ function App() {
             </Route>
 
             {/* Auth Layout */}
-            <Route path="/signin" element={<SignIn />} />
+            {/* <Route path="/signin" element={<Signin />} /> */}
+            <Route path="/signin" element={<Login />} />
           </Routes>
 
           <Toaster

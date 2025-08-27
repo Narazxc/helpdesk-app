@@ -9,15 +9,16 @@ import { useModal } from "../../hook/useModal";
 import { Skeleton } from "@/components/ui/skeleton";
 import UpdateCategoryTypeForm from "./UpdateCategoryTypeForm";
 import { ModalWithAnimation } from "@/components/ModalWithAnimation";
+import TypeDataTable from "../request-type/TypeDataTable";
 
 // Hook
 import { useDeleteCategoryType } from "./useDeleteCategoryType";
 import { useCategoryTypeById } from "./useCategoryType";
-import TypeDataTable, {
-  type ColumnConfig,
-} from "../request-type/TypeDataTable";
 import useAssetsByCategoryTypeCode from "../asset-type/useAssetsByCategoryTypeCode";
+
+// Type
 import type { AssetType } from "@/types/asset-type";
+import type { ColumnConfig } from "../request-type/TypeDataTable";
 
 export default function CategoryTypeDetail() {
   const { id } = useParams();
@@ -58,26 +59,6 @@ export default function CategoryTypeDetail() {
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
-
-  // if (!requestType) {
-  //   return <div>Invalid request type ID</div>;
-  // }
-
-  // console.log("Inside detail page", requestType);
-
-  // if (!requestType || requestType.status === false) {
-  //   return <div>Request type not found</div>;
-  // }
-
-  // Check for invalid ID first
-  // if (!id) {
-  //   return <div>Invalid request type ID</div>;
-  // }
-
-  // function handleDeleteCategoryType() {
-  //   // deleteRequestType(requestType.id.toString());
-  //   openDeleteModal();
-  // }
 
   // Show skeleton while loading
   if (isLoading) {
@@ -167,7 +148,7 @@ export default function CategoryTypeDetail() {
       <div className="flex flex-col gap-12">
         <div>
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <h1 className="text-2xl text-color font-semibold">
+            <h1 className="text-2xl text-color font-bold">
               Category Type Detail
             </h1>
             <nav>

@@ -517,6 +517,9 @@ const MyAppSidebar2: React.FC = () => {
 
       //20250811
       //
+
+      // bg-white
+      //
       className={`fixed mt-12 flex flex-col lg:mt-0 top-0 px-4.5 left-0
       bg-[#4f73aa]
           dark:bg-gray-900 dark:border-gray-800 text-gray-900 dark:text-gray-100 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
@@ -559,11 +562,9 @@ const MyAppSidebar2: React.FC = () => {
                 height={40}
               /> */}
 
-              {/*  */}
-
-              <div className="px-4 pt-4">
+              <div className="px-4 pt-1">
                 <img
-                  className="dark:hidden w-32"
+                  className="dark:hidden w-28"
                   src="/images/logo/FMIS-Helpdesk_2.svg"
                   alt="Logo"
                 />
@@ -577,7 +578,7 @@ const MyAppSidebar2: React.FC = () => {
                 /> */}
 
                 <img
-                  className="hidden dark:block w-32"
+                  className="hidden dark:block w-28"
                   src="/images/logo/FMIS-Helpdesk_2.svg"
                   alt="Logo"
                   // width={150}

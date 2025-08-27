@@ -59,7 +59,7 @@ export default function CreateAssetTypeForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h4 className="mb-7 text-md font-medium text-gray-800 dark:text-white/90">
-        New Category Type
+        New Asset Type
       </h4>
 
       <div className="flex flex-col gap-4">
@@ -138,20 +138,38 @@ export default function CreateAssetTypeForm({
             Description
           </Label>
 
-          <Controller
-            name="assetDescription"
-            control={control}
-            render={({ field }) => (
-              <TextArea
-                id="assetDescription"
-                placeholder="Enter Asset Type Description..."
-                rows={6}
-                value={field.value || ""}
-                onChange={field.onChange}
-                className="bg-gray-50 dark:bg-gray-800 h-20"
-              />
+          <div className="flex flex-col">
+            <Controller
+              name="assetDescription"
+              control={control}
+              rules={{
+                maxLength: {
+                  value: 250,
+                  message: "Description must be 250 characters or less",
+                },
+              }}
+              render={({ field }) => (
+                <TextArea
+                  id="assetDescription"
+                  placeholder="Enter Request Type Description... (max 250)"
+                  rows={6}
+                  value={field.value || ""}
+                  error={!!errors.assetDescription}
+                  onChange={field.onChange}
+                  className={`bg-gray-50 dark:bg-gray-800 h-20  ${
+                    errors.assetDescription
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+              )}
+            />
+            {errors.assetDescription && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.assetDescription.message}
+              </span>
             )}
-          />
+          </div>
         </div>
       </div>
 

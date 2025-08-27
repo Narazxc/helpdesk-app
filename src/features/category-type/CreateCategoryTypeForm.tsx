@@ -37,8 +37,8 @@ export default function CreateCategoryTypeForm({
   const { createCategoryType } = useCreateCategoryType();
 
   const onSubmit: SubmitHandler<ICategoryType> = (data) => {
-    console.log("Form data:", data);
-    console.log("Errors:", errors);
+    // console.log("Form data:", data);
+    // console.log("Errors:", errors);
 
     const categoryTypeData: CreateCategoryType = {
       name: data.categoryName, // or data.reqTypeName
@@ -137,20 +137,38 @@ export default function CreateCategoryTypeForm({
             Description
           </Label>
 
-          <Controller
-            name="categoryDescription"
-            control={control}
-            render={({ field }) => (
-              <TextArea
-                id="categoryDescription"
-                placeholder="Enter Request Type Description..."
-                rows={6}
-                value={field.value || ""}
-                onChange={field.onChange}
-                className="bg-gray-50 dark:bg-gray-800 h-20"
-              />
+          <div className="flex flex-col">
+            <Controller
+              name="categoryDescription"
+              control={control}
+              rules={{
+                maxLength: {
+                  value: 250,
+                  message: "Description must be 250 characters or less",
+                },
+              }}
+              render={({ field }) => (
+                <TextArea
+                  id="categoryDescription"
+                  placeholder="Enter Request Type Description... (max 250)"
+                  rows={6}
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                  error={!!errors.categoryDescription}
+                  className={`bg-gray-50 dark:bg-gray-800 h-20  ${
+                    errors.categoryDescription
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+              )}
+            />
+            {errors.categoryDescription && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.categoryDescription.message}
+              </span>
             )}
-          />
+          </div>
         </div>
       </div>
 

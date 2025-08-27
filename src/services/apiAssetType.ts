@@ -39,14 +39,14 @@ export async function getAssetTypes(): Promise<AssetType[]> {
 // Get category type by id (new)
 export async function getAssetType(id: string): Promise<AssetType> {
   try {
-    const res = await api.get<ApiResponse<AssetType[]>>(
+    const res = await api.get<ApiResponse<AssetType>>(
       `${API_URL}/asset-types/get-asset-type-by-id/${id}`
     );
 
-    console.log("In get detail asset type", res.data.data[0]);
+    console.log("In get detail asset type", res.data.data);
 
     // Extract object from array
-    return res.data.data[0];
+    return res.data.data;
   } catch (err) {
     console.error("Failed to fetch category types:", err);
     throw err;
@@ -115,18 +115,11 @@ export async function getAssetTypesByCategoryTypeCode(
   try {
     // if (categoryTypeCode) {
     //helpdesk-dev.fmis.gov.kh:448/api/v1/asset-types/active?categoryTypeCode=CAT_20250818_d0237d56
-    //helpdesk-dev.fmis.gov.kh:448/api/v1/asset-types/active?categoryTypeCode=CAT_20250818_0307e8ed
 
     const res = await api.get<ApiResponse<AssetType[]>>(
       `${API_URL}/asset-types/active?categoryTypeCode=${categoryTypeCode}`
     );
 
-    console.log(
-      "IN API Request to",
-      `${API_URL}/category-types/active?requestTypeCode=${categoryTypeCode}`
-    );
-
-    console.log("IN API", res.data.data);
     return res.data.data;
     // } else {
     //   return null;

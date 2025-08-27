@@ -141,9 +141,7 @@ export default function AssetTypeDetail() {
     <div className="flex flex-col gap-12">
       <div>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <h1 className="text-2xl text-color font-semibold">
-            Asset Type Detail
-          </h1>
+          <h1 className="text-2xl text-color font-bold">Asset Type Detail</h1>
           <nav>
             <ol className="flex flex-wrap items-center gap-1.5">
               <li>
