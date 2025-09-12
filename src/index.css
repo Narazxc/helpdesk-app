@@ -264,42 +264,28 @@ button:focus-visible {
   }
 }
 
-/* @utility menu-item {
-  @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
-} */
-
 @utility menu-item {
-  @apply relative flex items-center w-full gap-3 px-3 py-2 font-normal rounded-lg text-theme-sm;
+  @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
 }
 
-/* bg-[#1E2530] */
-/* bg-[#192436]  */
 @utility menu-item-active {
-  @apply bg-[#2f4566] text-gray-200 dark:bg-brand-500/[0.12] dark:text-brand-400 font-semibold;
-}
-
-/* Original */
-/* @utility menu-item-active {
   @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
-} */
-
-/* Original */
-/* @utility menu-item-inactive {
-  @apply text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
-} */
-
-/* hover:bg-[#192436] */
-/* hover:bg-[#657C9F] */
-@utility menu-item-inactive {
-  @apply text-gray-100  hover:bg-[#728FBB]  group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
 }
+
+@utility menu-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+}
+
+/* @utility menu-item-inactive {
+  @apply text-gray-100 hover:bg-[#192436] group-hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+} */
 
 @utility menu-item-icon {
   @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400;
 }
 
 @utility menu-item-icon-active {
-  @apply text-brand-500  dark:text-brand-400;
+  @apply text-brand-500 dark:text-brand-400;
 }
 
 @utility menu-item-icon-size {
@@ -308,12 +294,8 @@ button:focus-visible {
   }
 }
 
-/* @utility menu-item-icon-inactive {
-  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
-} */
-
 @utility menu-item-icon-inactive {
-  @apply text-gray-100 group-hover:text-gray-100 dark:text-gray-400 dark:group-hover:text-gray-300;
+  @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
 }
 
 @utility menu-item-arrow {
@@ -328,35 +310,17 @@ button:focus-visible {
   @apply text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300;
 }
 
-/* @utility menu-dropdown-item {
-  @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-medium;
-} */
-
 @utility menu-dropdown-item {
-  @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-normal;
+  @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-theme-sm font-medium;
 }
 
-/* bg-[#1E2530] */
-/* bg-[#192436] */
 @utility menu-dropdown-item-active {
-  @apply bg-[#2F4566] text-gray-200 dark:bg-brand-500/[0.12] dark:text-brand-400 font-semibold;
-}
-
-/* Original */
-/* @utility menu-dropdown-item-active {
   @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
-} */
-
-/* hover:bg-gray-100 */
-/* hover:bg-[#657C9F] */
-@utility menu-dropdown-item-inactive {
-  @apply text-gray-200 hover:bg-[#728fbb] dark:text-gray-300 dark:hover:bg-white/5;
 }
 
-/* Original */
-/* @utility menu-dropdown-item-inactive {
+@utility menu-dropdown-item-inactive {
   @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
-} */
+}
 
 @utility menu-dropdown-badge {
   @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500 dark:text-brand-400;

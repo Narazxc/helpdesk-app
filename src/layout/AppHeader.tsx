@@ -6,7 +6,11 @@ import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
 import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../components/header/UserDropdown";
 
-const AppHeader: React.FC = () => {
+interface AppHeaderProps {
+  onToggleSidebarLogo: () => void;
+}
+
+const AppHeader: React.FC<AppHeaderProps> = ({ onToggleSidebarLogo }) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
@@ -82,6 +86,10 @@ const AppHeader: React.FC = () => {
               </svg>
             )}
             {/* Cross Icon */}
+          </button>
+
+          <button onClick={onToggleSidebarLogo} className="bg-red-200">
+            Toggle logo
           </button>
 
           <Link to="/" className="lg:hidden">

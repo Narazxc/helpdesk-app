@@ -38,7 +38,7 @@ export default function CategoryTypeDetail() {
       label: "Asset Name",
       render: (name: string, asset: AssetType) => (
         <Link
-          to={`/asset-type/${asset.id}`} // or wherever you want to link
+          to={`/asset-types/${asset.id}`} // or wherever you want to link
           className="text-blue-600 hover:text-blue-800 hover:underline"
         >
           {name}
@@ -163,7 +163,7 @@ export default function CategoryTypeDetail() {
                 </li>
                 <span className="text-gray-500">/</span>
                 <li className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400">
-                  <Link to="/category-type">Category Type</Link>
+                  <Link to="/category-types">Category Type</Link>
                 </li>
                 <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
                   <span className="text-gray-500 dark:text-gray-400">/</span>
@@ -247,8 +247,9 @@ export default function CategoryTypeDetail() {
                 >
                   {/* Delete request type confirmation modal */}
                   <h2 className="font-semibold text-lg mb-4">Are you sure?</h2>
-                  <p className="text-sm text-gray-500">
-                    Deleting parent will effect it's children Category type
+                  <p className="text-sm text-gray-500 mb-6">
+                    When a Category type is deleted, all linked Asset types will
+                    also be impacted.
                   </p>
                   <div className="flex justify-end gap-2">
                     <button

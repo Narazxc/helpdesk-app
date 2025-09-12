@@ -154,7 +154,7 @@ export default function AssetTypeDetail() {
               </li>
               <span className="text-gray-500">/</span>
               <li className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400">
-                <Link to="/asset-type">Asset Type</Link>
+                <Link to="/asset-types">Asset Type</Link>
               </li>
               <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
                 <span className="text-gray-500 dark:text-gray-400">/</span>
@@ -165,13 +165,11 @@ export default function AssetTypeDetail() {
           </nav>
         </div>
 
-        <div className="text-base mb-4">
-          {/* Detail for request type with ID: {id} */}
-        </div>
+        {/* Detail for request type with ID: {id} */}
 
         <div className="rounded-lg min-h-[10rem] m-[1px] p-4 bg-white shadow-sm border-1 border-gray-200 relative dark:bg-[#171e2e] dark:border-white/[0.05]">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-            <div>
+            <div className="w-[80%]">
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-[150px_1fr] lg:gap-7 2xl:gap-x-8">
                 <div>
                   <p className="text-sm text-color font-semibold">
@@ -211,7 +209,7 @@ export default function AssetTypeDetail() {
                     Description
                   </p>
                 </div>
-                <div>
+                <div className="w-full text-wrap">
                   {/* text-gray-800 dark:text-white/90 */}
                   <p className="text-sm text-color font-normal">
                     {assetType.description}
@@ -267,8 +265,8 @@ export default function AssetTypeDetail() {
               >
                 {/* Delete request type */}
                 <h2 className="font-semibold text-lg mb-4">Are you sure?</h2>
-                <p className="text-sm text-gray-500">
-                  Deleting parent will effect it's children Category type
+                <p className="text-sm text-gray-500 mb-6">
+                  Are you sure you want to delete asset type?
                 </p>
                 <div className="flex justify-end gap-2">
                   <button

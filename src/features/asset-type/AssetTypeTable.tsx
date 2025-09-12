@@ -441,7 +441,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { TrashBinIcon } from "@/icons";
-import { PencilIcon } from "lucide-react";
+import {
+  // PencilIcon,
+  SquarePen,
+} from "lucide-react";
 import { useState, useMemo } from "react";
 import { useAssetTypes } from "./useAssetTypes";
 import { Link } from "react-router";
@@ -571,7 +574,6 @@ export default function AssetTypeTable() {
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
-
 
   const filteredAndSortedData = useMemo(() => {
     return assetTypes
@@ -710,7 +712,7 @@ export default function AssetTypeTable() {
                 ].map(({ key, label }) => (
                   <TableCell
                     key={key}
-                    isHeader
+                    // isHeader
                     className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                   >
                     <div
@@ -760,10 +762,10 @@ export default function AssetTypeTable() {
                   </TableCell>
                 ))}
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
-                  <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
+                  <p className="font-medium text-center text-gray-700 text-theme-xs dark:text-gray-400">
                     Action
                   </p>
                 </TableCell>
@@ -771,12 +773,12 @@ export default function AssetTypeTable() {
             </TableHeader>
             <TableBody>
               {currentData.map((item, i) => (
-                <TableRow key={i + 1} className="h-0.5">
+                <TableRow key={i + 1} className="h-0.5 group">
                   <TableCell className="px-4 py-1 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
                     {/* <p>{item.name}</p> */}
                     <Link
-                      to={`/asset-type/${item.id}`} // or wherever you want to link
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                      to={`/asset-types/${item.id}`} // or wherever you want to link
+                      className="text-blue-600 hover:text-blue-800 group-hover:underline"
                     >
                       {item.name}
                     </Link>
@@ -812,7 +814,7 @@ export default function AssetTypeTable() {
                             onClick={() => handleUpdate(item)}
                             className="text-gray-500 h-[25px] hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"
                           >
-                            <PencilIcon className="size-5" />
+                            <SquarePen className="size-5" />
                           </div>
                         </TooltipTrigger>
                         <TooltipContent side="left">
@@ -847,16 +849,16 @@ export default function AssetTypeTable() {
         <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between">
           {/* Left side: Showing entries */}
 
-          <PaginationWithButton
-            totalPages={totalPages}
-            initialPage={currentPage}
-            onPageChange={handlePageChange}
-          />
           <div className="pt-3 xl:pt-0">
             <p className="pt-3 text-sm font-medium text-center text-gray-500 border-t border-gray-100 dark:border-gray-800 dark:text-gray-400 xl:border-t-0 xl:pt-0 xl:text-left">
               Showing {startIndex + 1} to {endIndex} of {totalItems} entries
             </p>
           </div>
+          <PaginationWithButton
+            totalPages={totalPages}
+            initialPage={currentPage}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
 
@@ -867,13 +869,12 @@ export default function AssetTypeTable() {
           className="max-w-[584px] p-5 lg:p-7"
         >
           <h2 className="font-semibold text-lg mb-4">Are you sure?</h2>
-          <p className="text-sm text-gray-500">
-            Deleting parent will effect it's children Category type
+          <p className="text-sm text-gray-500 mb-6">
+            Are you sure you want to delete asset type?
           </p>
           <div className="flex justify-end gap-2">
             <button
               onClick={() => {
-                console.log("close modal worked!");
                 closeDeleteModal();
               }}
               className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
@@ -883,6 +884,7 @@ export default function AssetTypeTable() {
             <button
               onClick={() => {
                 deleteAssetType(selectedItem?.id.toString());
+                closeDeleteModal();
               }}
               className="flex w-full items-center justify-center bg-red-500 text-gray-200 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
             >

@@ -259,7 +259,7 @@ export default function TypeDataTable<T extends Record<string, any>>({
                 ({ key, label, sortable = true, className = "" }) => (
                   <TableCell
                     key={String(key)}
-                    isHeader
+                    // isHeader
                     className={`px-4 py-3 border text-nowrap border-gray-100 dark:border-white/[0.05] ${className}`}
                   >
                     <div
@@ -315,7 +315,7 @@ export default function TypeDataTable<T extends Record<string, any>>({
               )}
               {showActions && (
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 max-w-[2rem] border border-gray-100 dark:border-white/[0.05]"
                 >
                   <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
@@ -325,12 +325,15 @@ export default function TypeDataTable<T extends Record<string, any>>({
               )}
             </TableRow>
           </TableHeader>
-          <TableBody className="&>tr]:odd:bg-white [&>tr]:even:bg-gray-100">
+          {/* <TableBody className="&>tr]:odd:bg-white  [&>tr]:even:bg-gray-100"> */}
+          <TableBody className="[&>tr]:odd:bg-white [&>tr]:odd:dark:bg-gray-900 [&>tr]:even:bg-gray-100 [&>tr]:even:dark:bg-gray-800">
+            {/* <TableBody className="[&>tr]:odd:bg-white [&>tr]:odd:dark:bg-gray-950 [&>tr]:even:bg-gray-50 [&>tr]:even:dark:bg-gray-900"> */}
+            {/* <TableBody className="[&>tr]:odd:bg-white [&>tr]:odd:dark:bg-gray-900 [&>tr]:even:bg-gray-100 [&>tr]:even:dark:bg-gray-800"> */}
             {currentData.length === 0 ? (
               <TableRow>
                 <TableCell
-                  // text-gray-800
-                  className={`px-4 text-center text-gray-500 py-2 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap`}
+                  colSpan={columns.length + (showActions ? 1 : 0)}
+                  className={`px-4 text-center col-span-full text-gray-500 py-2 font-normal border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap`}
                 >
                   No data
                 </TableCell>

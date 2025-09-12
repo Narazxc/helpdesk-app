@@ -27,8 +27,12 @@ import CategoryTypes from "./pages/CategoryTypes";
 import CategoryType from "./pages/CategoryType";
 import AssetTypes from "./pages/AssetTypes";
 import AssetType from "./pages/AssetType";
-import Entities from "./pages/Entities";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+import Entities from "./pages/Entities";
+import OfficeGroups from "./pages/OfficeGroups";
+import OfficeGroup from "./pages/OfficeGroup";
+import AgentGroups from "./pages/AgentGroups";
 
 function App() {
   const queryClient = new QueryClient({
@@ -51,19 +55,23 @@ function App() {
             <Route element={<AppLayout />}>
               <Route index path="/" element={<MyDashboardPage />} />
               <Route path="users" element={<Users />} />
-              <Route path="create-user" element={<CreateUserPage />} />
-              <Route path="request-type" element={<RequestTypes />} />
-              <Route path="request-type/:id" element={<RequestType />} />
-              <Route path="category-type" element={<CategoryTypes />} />
-              <Route path="category-type/:id" element={<CategoryType />} />
-              <Route path="asset-type" element={<AssetTypes />} />
-              <Route path="asset-type/:id" element={<AssetType />} />
+              <Route path="create-users" element={<CreateUserPage />} />
+              <Route path="office-groups" element={<OfficeGroups />} />
+              <Route path="office-groups/:id" element={<OfficeGroup />} />
+              <Route path="agent-groups" element={<AgentGroups />} />
+              <Route path="request-types" element={<RequestTypes />} />
+              <Route path="request-types/:id" element={<RequestType />} />
+              <Route path="category-types" element={<CategoryTypes />} />
+              <Route path="category-types/:id" element={<CategoryType />} />
+              <Route path="asset-types" element={<AssetTypes />} />
+              <Route path="asset-types/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
             </Route>
 
             {/* Auth Layout */}
             {/* <Route path="/signin" element={<Signin />} /> */}
             <Route path="/signin" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
 
           <Toaster

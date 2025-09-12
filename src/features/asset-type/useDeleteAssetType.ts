@@ -21,7 +21,7 @@ export function useDeleteAssetType() {
         queryKey: ["assetType"],
       });
 
-      navigate("/asset-type");
+      navigate("/asset-types");
     },
     onError: (err) => toast.error(err.message),
   });

@@ -156,11 +156,12 @@ const navItems: NavItem[] = [
       // { name: "Asset Type", path: "/asset type" },
       { name: "User", path: "/users" },
       { name: "User Role", path: "/user-role" },
+      { name: "Office Group", path: "/office-groups" },
       { name: "Agent Group", path: "/agent-group" },
       { name: "Enity", path: "/entity" },
-      { name: "Request Type", path: "/request-type" },
-      { name: "Category Type", path: "/category-type" },
-      { name: "Asset Type", path: "/asset-type" },
+      { name: "Request Type", path: "/request-types" },
+      { name: "Category Type", path: "/category-types" },
+      { name: "Asset Type", path: "/asset-types" },
     ],
   },
 ];
@@ -565,7 +566,7 @@ const MyAppSidebar2: React.FC = () => {
               <div className="px-4 pt-1">
                 <img
                   className="dark:hidden w-28"
-                  src="/images/logo/FMIS-Helpdesk_2.svg"
+                  src="/images/logo/FMIS-Helpdesk_2.webp"
                   alt="Logo"
                 />
 

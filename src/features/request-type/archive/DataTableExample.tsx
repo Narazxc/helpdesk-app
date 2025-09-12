@@ -276,7 +276,7 @@ export default function DataTableExample() {
                   ].map(({ key, label }) => (
                     <TableCell
                       key={key}
-                      isHeader
+                      // isHeader
                       className="px-4 py-3 border text-nowrap border-gray-100 dark:border-white/[0.05]"
                     >
                       <div
@@ -326,7 +326,7 @@ export default function DataTableExample() {
                     </TableCell>
                   ))}
                   <TableCell
-                    isHeader
+                    // isHeader
                     className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                   >
                     <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">

@@ -285,7 +285,7 @@ export default function CategoryTable({ requestTypeCode }: CategoryTableProps) {
                     ({ key, label }) => (
                       <TableCell
                         key={key}
-                        isHeader
+                        // isHeader
                         className="px-4 py-3 border text-nowrap border-gray-100 dark:border-white/[0.05]"
                       >
                         <div
@@ -350,7 +350,7 @@ export default function CategoryTable({ requestTypeCode }: CategoryTableProps) {
                       <TableCell className="px-4 py-2 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
                         <Link
                           className="hover:underline"
-                          to={`/category-type/${item.id} `}
+                          to={`/category-types/${item.id} `}
                         >
                           {item.name}
                         </Link>

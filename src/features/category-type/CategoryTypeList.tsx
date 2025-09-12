@@ -26,20 +26,20 @@ export default function CategoryTypeList() {
         return (
           <li
             key={categoryType.categoryTypeCode}
-            className="bg-white group hover:bg-[#1864ab]  lg:min-w-[9rem] flex-1 rounded-md shadow-md border-1 border-gray-200 px-4 py-3 cursor-pointer hover:shadow-lg text-nowrap"
+            className="dark:border-gray-700 transition-[border-color] duration-300 hover:dark:border-gray-100/60 dark:bg-[#171e2e] bg-white group hover:bg-[#1864ab]  lg:min-w-[9rem] flex-1 rounded-md shadow-md border-1 border-gray-200 px-4 py-3 cursor-pointer hover:shadow-lg text-nowrap"
           >
-            <Link to={`/category-type/${categoryType.id}`}>
+            <Link to={`/category-types/${categoryType.id}`}>
               <div>
                 <div className="mb-3 flex items-center justify-center">
                   <Computer
                     size={48}
                     strokeWidth={1.2}
-                    className="group-hover:stroke-white"
+                    className="group-hover:stroke-white dark:stroke-gray-100/90"
                   />
                 </div>
 
                 <div>
-                  <p className="text-wrap text-sm font-medium text-black group-hover:text-white">
+                  <p className="text-wrap dark:text-white/90 text-sm font-medium text-black group-hover:text-white">
                     {categoryType.name}
                   </p>
                   <p className="text-xs text-gray-500 group-hover:text-gray-100/80">

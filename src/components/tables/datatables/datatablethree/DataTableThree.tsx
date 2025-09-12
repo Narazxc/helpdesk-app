@@ -276,7 +276,7 @@ export default function DataTableThree() {
             <TableHeader>
               <TableRow>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">
@@ -317,7 +317,7 @@ export default function DataTableThree() {
                   </div>
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">
@@ -355,7 +355,7 @@ export default function DataTableThree() {
                   </div>
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">
@@ -393,7 +393,7 @@ export default function DataTableThree() {
                   </div>
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">
@@ -431,7 +431,7 @@ export default function DataTableThree() {
                   </div>
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">
@@ -469,7 +469,7 @@ export default function DataTableThree() {
                   </div>
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <div className="flex items-center justify-between cursor-pointer">

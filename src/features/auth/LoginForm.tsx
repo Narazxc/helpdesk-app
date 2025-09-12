@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import fmisHelpdeskLogo from "/images/logo/FMIS-Helpdesk_2.svg";
-import { useNavigate } from "react-router";
+import fmisHelpdeskLogo from "/images/logo/FMIS-Helpdesk_2.webp";
+import { Link, useNavigate } from "react-router";
 
 export function LoginForm({
   className,
@@ -18,17 +18,18 @@ export function LoginForm({
         <CardContent className="grid p-0 md:grid-cols-2">
           {/* bg-muted */}
           {/* md:block */}
-          <div className="bg-[url(/images/login_/Frame1.png)] bg-cover bg-center relative hidden h-full w-full md:flex items-center justify-center">
+          <div className="bg-[url(/images/login_/Frame1.webp)] bg-cover bg-center relative hidden h-full w-full md:flex items-center justify-center">
             <img
               //   src="https://ui.shadcn.com/placeholder.svg"
               src={fmisHelpdeskLogo}
               alt="Image"
               //   h-full w-full
-              className="absolute inset-0 w-50 m-auto object-cover dark:brightness-[0.2] dark:grayscale"
+              // dark:grayscale
+              className="absolute inset-0 w-50 m-auto object-cover dark:brightness-[0.9] "
             />
           </div>
           {/* flex items-center */}
-          <form className="p-6 md:p-8 h-[442px] flex items-center">
+          <form className="p-6 md:p-8 h-[442px] flex items-center dark:bg-gray-900">
             {/*  */}
             <div className="w-full">
               <div className="flex flex-col gap-6">
@@ -37,7 +38,7 @@ export function LoginForm({
                     {/* Welcome back */}
                     Login
                   </h1>
-                  <p className="text-muted-foreground text-balance">
+                  <p className="text-muted-foreground text-sm text-balance">
                     {/* Login to your Acme Inc account */}
                     Welcome to FMIS Helpdesk
                   </p>
@@ -45,7 +46,7 @@ export function LoginForm({
                 <div className="grid gap-3">
                   <Label htmlFor="username">Username</Label>
                   <Input
-                    className="h-10"
+                    className="h-10 ring-blue-500"
                     id="username"
                     type="username"
                     placeholder="Username"
@@ -65,17 +66,17 @@ export function LoginForm({
                 </div>
               </div>
               <div className="text-left mt-4">
-                <a
-                  href="#"
-                  className="ml-auto text-sm underline-offset-2 hover:underline text-blue-600 "
+                <Link
+                  to="/forgot-password"
+                  className="ml-auto text-sm underline-offset-2 hover:underline text-blue-600 dark:text-blue-400/90"
                 >
                   Forgot your password?
-                </a>
+                </Link>
               </div>
               <Button
                 onClick={() => navigate("/")}
                 type="submit"
-                className="w-full h-10 bg-blue-600 hover:bg-blue-500 mt-6"
+                className="w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
               >
                 Login
               </Button>

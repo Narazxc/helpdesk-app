@@ -22,7 +22,7 @@ export function useDeleteRequestType() {
         queryKey: ["requestType"],
       });
 
-      navigate("/request-type");
+      navigate("/request-types");
     },
     onError: (err) => toast.error(err.message),
   });

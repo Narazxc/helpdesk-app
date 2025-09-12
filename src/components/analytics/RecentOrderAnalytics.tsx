@@ -140,31 +140,31 @@ export default function RecentOrderAnalytics() {
             <TableHeader className="border-gray-100 border-y dark:border-white/[0.05]">
               <TableRow>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 font-medium text-gray-500 sm:px-6 text-start text-theme-xs dark:text-gray-400"
                 >
                   Products
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 font-medium text-gray-500 sm:px-6 text-start text-theme-xs dark:text-gray-400"
                 >
                   Category
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 font-medium text-gray-500 sm:px-6 text-start text-theme-xs dark:text-gray-400"
                 >
                   Country
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 font-medium text-gray-500 sm:px-6 text-start text-theme-xs dark:text-gray-400"
                 >
                   CR
                 </TableCell>
                 <TableCell
-                  isHeader
+                  // isHeader
                   className="px-4 py-3 font-medium text-gray-500 sm:px-6 text-start text-theme-xs dark:text-gray-400"
                 >
                   Value

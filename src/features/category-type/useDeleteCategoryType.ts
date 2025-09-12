@@ -21,7 +21,7 @@ export function useDeleteCategoryType() {
         queryKey: ["categoryType"],
       });
 
-      navigate("/category-type");
+      navigate("/category-types");
     },
     onError: (err) => toast.error(err.message),
   });

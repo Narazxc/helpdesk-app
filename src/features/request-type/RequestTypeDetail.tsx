@@ -51,7 +51,7 @@ export default function RequestTypeDetail() {
       label: "Category Name",
       render: (name: string, category: CategoryType) => (
         <Link
-          to={`/category-type/${category.id}`} // or wherever you want to link
+          to={`/category-types/${category.id}`} // or wherever you want to link
           className="text-blue-600 hover:text-blue-800 hover:underline"
         >
           {name}
@@ -156,7 +156,7 @@ export default function RequestTypeDetail() {
               </li>
               <span className="text-gray-500">/</span>
               <li className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400">
-                <Link to="/request-type">Request Type</Link>
+                <Link to="/request-types">Request Type</Link>
               </li>
               <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
                 <span className="text-gray-500 dark:text-gray-400">/</span>
@@ -236,8 +236,9 @@ export default function RequestTypeDetail() {
                 className="max-w-[584px] p-5 lg:p-7"
               >
                 <h2 className="font-semibold text-lg mb-4">Are you sure?</h2>
-                <p className="text-sm text-gray-500">
-                  Deleting parent will effect it's children Category type
+                <p className="text-sm text-gray-500 mb-6">
+                  When a request type is deleted, all linked category types will
+                  also be impacted.
                 </p>
                 <div className="flex justify-end gap-2">
                   <button

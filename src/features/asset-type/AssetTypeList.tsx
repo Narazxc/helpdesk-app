@@ -17,7 +17,7 @@ export default function AssetTypeList() {
           key={assetType.id}
           className="bg-white group hover:bg-[#1864ab]  lg:min-w-[9rem] flex-1 rounded-md shadow-md border-1 border-gray-200 px-4 py-3 cursor-pointer hover:shadow-lg text-nowrap"
         >
-          <Link to={`/asset-type/${assetType.id}`}>
+          <Link to={`/asset-types/${assetType.id}`}>
             <div>
               <div className="mb-3 flex items-center justify-center">
                 <Computer

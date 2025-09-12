@@ -48,7 +48,7 @@ export default function Users() {
         <div className="flex gap-2">
           {/* <Link
             className="bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 rounded-lg text-sm"
-            to="/create-user"
+            to="/create-users"
           >
             <div className="flex px-5 py-2.5 rounded-xl">
               <span>Create user</span>
@@ -61,7 +61,7 @@ export default function Users() {
 
           <Link
             className="bg-brand-500 px-5 rounded-xl py-2.5 flex justify-center items-center text-center text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 text-sm"
-            to="/create-user"
+            to="/create-users"
           >
             <span>Create User</span>
 

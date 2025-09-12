@@ -254,7 +254,7 @@ export default function TempTable() {
                     ({ key, label }) => (
                       <TableCell
                         key={key}
-                        isHeader
+                        // isHeader
                         className="px-4 py-3 border text-nowrap border-gray-100 dark:border-white/[0.05]"
                       >
                         <div
