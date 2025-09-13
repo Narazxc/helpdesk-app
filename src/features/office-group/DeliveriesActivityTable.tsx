@@ -5,6 +5,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { AgentGroup } from "@/types/agent-group";
 import { useState } from "react";
 
 interface Row {
@@ -23,123 +24,130 @@ interface Sort {
   asc: boolean;
 }
 
-const initialRows: Row[] = [
-  {
-    id: "#324112",
-    category: "Furniture",
-    company: "HomeLine",
-    arrival: "10 Apr 2028 2:15 pm",
-    route: "Berlin–Milan",
-    price: "$1,250.00",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#325678",
-    category: "Clothing",
-    company: "StylePro",
-    arrival: "21 May 2028 9:00 am",
-    route: "Paris–Rome",
-    price: "$340.75",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#326789",
-    category: "Books",
-    company: "EduSource",
-    arrival: "02 Jun 2028 11:45 am",
-    route: "New York–Chicago",
-    price: "$128.40",
-    status: "In Transit",
-    statusClass:
-      "bg-warning-50 dark:bg-warning-500/15 text-warning-600 dark:text-warning-400 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#327003",
-    category: "Automotive",
-    company: "AutoParts Co.",
-    arrival: "18 Mar 2028 4:00 pm",
-    route: "Tokyo–Osaka",
-    price: "$2,150.89",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#328556",
-    category: "Electronics",
-    company: "TechNova",
-    arrival: "25 Jul 2028 10:30 am",
-    route: "San Francisco–Seattle",
-    price: "$849.99",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#329101",
-    category: "Health",
-    company: "MediCorp",
-    arrival: "30 May 2028 3:00 pm",
-    route: "Toronto–Vancouver",
-    price: "$579.20",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#330212",
-    category: "Toys",
-    company: "FunTime",
-    arrival: "07 Jun 2028 1:15 pm",
-    route: "Sydney–Melbourne",
-    price: "$212.65",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#331145",
-    category: "Kitchen",
-    company: "CookWell",
-    arrival: "13 May 2028 12:30 pm",
-    route: "Madrid–Barcelona",
-    price: "$489.90",
-    status: "Delivered",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-  {
-    id: "#332800",
-    category: "Beauty",
-    company: "GlamShine",
-    arrival: "28 Jun 2028 5:45 pm",
-    route: "Dubai–Doha",
-    price: "$323.75",
-    status: "Canceled",
-    statusClass:
-      "text-xs rounded-full bg-red-50 px-2 py-0.5 font-medium text-red-600 dark:bg-red-500/15 dark:text-red-500",
-  },
-  {
-    id: "#333902",
-    category: "Sports",
-    company: "FitZone",
-    arrival: "19 Jul 2028 8:00 am",
-    route: "Los Angeles–Las Vegas",
-    price: "$489.90",
-    status: "$675.00",
-    statusClass:
-      "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
-  },
-];
+// const initialRows: Row[] = [
+//   {
+//     id: "#324112",
+//     category: "Furniture",
+//     company: "HomeLine",
+//     arrival: "10 Apr 2028 2:15 pm",
+//     route: "Berlin–Milan",
+//     price: "$1,250.00",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#325678",
+//     category: "Clothing",
+//     company: "StylePro",
+//     arrival: "21 May 2028 9:00 am",
+//     route: "Paris–Rome",
+//     price: "$340.75",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#326789",
+//     category: "Books",
+//     company: "EduSource",
+//     arrival: "02 Jun 2028 11:45 am",
+//     route: "New York–Chicago",
+//     price: "$128.40",
+//     status: "In Transit",
+//     statusClass:
+//       "bg-warning-50 dark:bg-warning-500/15 text-warning-600 dark:text-warning-400 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#327003",
+//     category: "Automotive",
+//     company: "AutoParts Co.",
+//     arrival: "18 Mar 2028 4:00 pm",
+//     route: "Tokyo–Osaka",
+//     price: "$2,150.89",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#328556",
+//     category: "Electronics",
+//     company: "TechNova",
+//     arrival: "25 Jul 2028 10:30 am",
+//     route: "San Francisco–Seattle",
+//     price: "$849.99",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#329101",
+//     category: "Health",
+//     company: "MediCorp",
+//     arrival: "30 May 2028 3:00 pm",
+//     route: "Toronto–Vancouver",
+//     price: "$579.20",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#330212",
+//     category: "Toys",
+//     company: "FunTime",
+//     arrival: "07 Jun 2028 1:15 pm",
+//     route: "Sydney–Melbourne",
+//     price: "$212.65",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#331145",
+//     category: "Kitchen",
+//     company: "CookWell",
+//     arrival: "13 May 2028 12:30 pm",
+//     route: "Madrid–Barcelona",
+//     price: "$489.90",
+//     status: "Delivered",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+//   {
+//     id: "#332800",
+//     category: "Beauty",
+//     company: "GlamShine",
+//     arrival: "28 Jun 2028 5:45 pm",
+//     route: "Dubai–Doha",
+//     price: "$323.75",
+//     status: "Canceled",
+//     statusClass:
+//       "text-xs rounded-full bg-red-50 px-2 py-0.5 font-medium text-red-600 dark:bg-red-500/15 dark:text-red-500",
+//   },
+//   {
+//     id: "#333902",
+//     category: "Sports",
+//     company: "FitZone",
+//     arrival: "19 Jul 2028 8:00 am",
+//     route: "Los Angeles–Las Vegas",
+//     price: "$489.90",
+//     status: "$675.00",
+//     statusClass:
+//       "bg-success-50 dark:bg-success-500/15 text-success-700 dark:text-success-500 text-xs rounded-full px-2 py-0.5 font-medium",
+//   },
+// ];
 
-const DeliveryActivityTable: React.FC = () => {
+interface Props {
+  agentGroupsByOfficeGroupCode: AgentGroup[];
+  // categoryTypeCount: number;
+}
+
+const DeliveryActivityTable: React.FC = ({
+  agentGroupsByOfficeGroupCode,
+}: Props) => {
   const [selectedTab, setSelectedTab] = useState<string>("All");
   const [showFilter, setShowFilter] = useState<boolean>(false);
-  const [rows] = useState<Row[]>(initialRows);
+  const [rows] = useState<Row[]>(agentGroupsByOfficeGroupCode || []);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [sort, setSort] = useState<Sort>({ column: "", asc: true });
   const [page, setPage] = useState<number>(1);
@@ -290,59 +298,7 @@ const DeliveryActivityTable: React.FC = () => {
           <Table className="w-full table-auto">
             <TableHeader>
               <TableRow className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-                {/* <TableCell className="p-4">
-                  <div className="flex w-full cursor-pointer items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <label className="flex cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400">
-                          <span className="relative">
-                            <input
-                              type="checkbox"
-                              className="sr-only"
-                              onChange={toggleAll}
-                              checked={selectedRows.length === rows.length}
-                            />
-                            <span
-                              className={`flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] ${
-                                selectedRows.length === rows.length
-                                  ? "border-brand-500 bg-brand-500"
-                                  : "bg-transparent border-gray-300 dark:border-gray-700"
-                              }`}
-                            >
-                              <span
-                                className={
-                                  selectedRows.length === rows.length
-                                    ? ""
-                                    : "opacity-0"
-                                }
-                              >
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  viewBox="0 0 12 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M10 3L4.5 8.5L2 6"
-                                    stroke="white"
-                                    strokeWidth="1.6666"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                      </div>
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                        Order ID
-                      </p>
-                    </div>
-                  </div>
-                </TableCell> */}
-                {["category", "company", "arrival"].map((col) => (
+                {["category"].map((col) => (
                   <th
                     key={col}
                     className="cursor-pointer p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400"
@@ -391,14 +347,14 @@ const DeliveryActivityTable: React.FC = () => {
                   </th>
                 ))}
                 <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-                  Route
+                  Office Leader
                 </TableCell>
-                <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+                {/* <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                   Price
-                </TableCell>
-                <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+                </TableCell> */}
+                {/* <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                   Status
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHeader>
             <TableBody className="divide-x divide-y divide-gray-200 dark:divide-gray-800">
@@ -407,74 +363,24 @@ const DeliveryActivityTable: React.FC = () => {
                   key={row.id}
                   className="transition hover:bg-gray-50 dark:hover:bg-gray-900"
                 >
-                  {/* <TableCell className="p-4 whitespace-nowrap">
-                    <div className="group flex items-center gap-3">
-                      <div>
-                        <label className="flex cursor-pointer items-center text-sm font-medium text-gray-700 select-none dark:text-gray-400">
-                          <span className="relative">
-                            <input
-                              type="checkbox"
-                              className="sr-only"
-                              onChange={() => toggleRow(row.id)}
-                              checked={selectedRows.includes(row.id)}
-                            />
-                            <span
-                              className={`flex h-4 w-4 items-center justify-center rounded-sm border-[1.25px] ${
-                                selectedRows.includes(row.id)
-                                  ? "border-brand-500 bg-brand-500"
-                                  : "bg-transparent border-gray-300 dark:border-gray-700"
-                              }`}
-                            >
-                              <span
-                                className={
-                                  selectedRows.includes(row.id)
-                                    ? ""
-                                    : "opacity-0"
-                                }
-                              >
-                                <svg
-                                  width="12"
-                                  height="12"
-                                  viewBox="0 0 12 12"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M10 3L4.5 8.5L2 6"
-                                    stroke="white"
-                                    strokeWidth="1.6666"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 dark:text-gray-400">
-                        {row.id}
-                      </span>
-                    </div>
-                  </TableCell> */}
                   <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
                     {row.category}
                   </TableCell>
-                  <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
+                  {/* <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
                     {row.company}
-                  </TableCell>
-                  <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
+                  </TableCell> */}
+                  {/* <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
                     {row.arrival}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
                     {row.route}
                   </TableCell>
-                  <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
+                  {/* <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
                     {row.price}
-                  </TableCell>
-                  <TableCell className="p-4 whitespace-nowrap">
+                  </TableCell> */}
+                  {/* <TableCell className="p-4 whitespace-nowrap">
                     <span className={row.statusClass}>{row.status}</span>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

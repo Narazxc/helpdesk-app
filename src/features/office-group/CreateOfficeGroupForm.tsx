@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import CustomizedInput from "@/components/form/input/CustomizedInput";
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
@@ -6,6 +5,7 @@ import useAllUsers from "../auth/useAllUsers";
 import { useCreateOfficeGroup } from "./useCreateOfficeGroup";
 import type { CreateOfficeGroup } from "@/types/office-group";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
+import Label from "@/components/form/Label";
 
 interface CreateOfficeGroupFormProps {
   closeModal: () => void;

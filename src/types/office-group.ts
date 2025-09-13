@@ -1,6 +1,7 @@
 export interface OfficeGroup {
   id: number;
   officeName: string;
+  officeGroupCode: string;
   chiefOfficeName: string;
   createdAt: string;
   updatedAt: string;
@@ -12,6 +13,11 @@ export interface OfficeGroup {
 export interface CreateOfficeGroup {
   officeName: string;
   userCode: string;
+}
+
+export interface UpdateOfficeGroup {
+  id: string;
+  newOfficeGroupData: CreateOfficeGroup;
 }
 
 //  {

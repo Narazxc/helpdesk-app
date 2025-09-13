@@ -265,11 +265,11 @@ const MyAppSidebar2Test: React.FC<MyAppSidebar2TestProps> = ({
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
 
-  console.log("=======================");
-  console.log("isExpanded", isExpanded);
-  console.log("isMobileOpen", isMobileOpen);
-  console.log("isHovered", isHovered);
-  console.log("=======================");
+  // console.log("=======================");
+  // console.log("isExpanded", isExpanded);
+  // console.log("isMobileOpen", isMobileOpen);
+  // console.log("isHovered", isHovered);
+  // console.log("=======================");
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "support" | "others";

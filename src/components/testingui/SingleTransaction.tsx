@@ -1,7 +1,12 @@
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import PageMeta from "../common/PageMeta";
+import { useOfficeGroupById } from "@/features/office-group/useOfficeGroup";
 
 export default function SingleTransaction() {
+  const { id } = useParams();
+  const { officeGroup } = useOfficeGroupById(id?.toString() || "");
+  console.log("Office group", officeGroup);
+
   return (
     <>
       <PageMeta
@@ -44,14 +49,16 @@ export default function SingleTransaction() {
             </div>
             <div>
               <p className="text-sm text-color font-normal">
-                Office Functional Analysis (OFA)
+                {officeGroup?.officeName}
               </p>
             </div>
             <div>
               <p className="text-sm text-color font-semibold">Office Chief</p>
             </div>
             <div>
-              <p className="text-sm text-color font-normal">HA SOKUN</p>
+              <p className="text-sm text-color font-normal">
+                {officeGroup?.chiefOfficeName}
+              </p>
             </div>
           </div>
 

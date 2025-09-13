@@ -1,7 +1,11 @@
 import { api } from "./axios";
 import type { ApiResponse } from "@/types/api";
 import { API_URL } from "@/config";
-import type { CreateOfficeGroup, OfficeGroup } from "@/types/office-group";
+import type {
+  CreateOfficeGroup,
+  OfficeGroup,
+  UpdateOfficeGroup,
+} from "@/types/office-group";
 
 // Get all office groups
 export async function getOfficeGroups(): Promise<OfficeGroup[]> {
@@ -45,6 +49,25 @@ export async function createOfficeGroup(
 
     console.log(res.data);
 
+    return res.data;
+  } catch (err) {
+    console.error("Failed to fetch posts:", err);
+    throw err; // Let React Query or caller handle the error
+  }
+}
+
+// Update request type
+export async function updateOfficeGroup(
+  newOfficeGroupData: UpdateOfficeGroup,
+  id: string
+): Promise<OfficeGroup> {
+  try {
+    const res = await api.put<OfficeGroup>(
+      `${API_URL}/office-groups/update-name/${id}`,
+      newOfficeGroupData
+    );
+
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.error("Failed to fetch posts:", err);

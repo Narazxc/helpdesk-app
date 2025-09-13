@@ -1,5 +1,5 @@
 import { SquarePen, Trash2 } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 // import TableDropdown from "../common/TableDropdown";
 // import { Link } from "react-router";
 import {
@@ -8,13 +8,15 @@ import {
   TooltipTrigger,
 } from "../../components/ui/tooltip";
 // import { useOfficeGroups } from "./useOfficeGroups";
-import type { OfficeGroup } from "@/types/office-group";
+import type { OfficeGroup, UpdateOfficeGroup } from "@/types/office-group";
 import { useOfficeGroups } from "./useOfficeGroups";
 import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 import { useModal } from "@/hook/useModal";
 import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
 import useDeleteOfficeGroup from "./useDeleteOfficeGroup";
 import { Link } from "react-router";
+import UpdateOfficeGroupForm from "./UpdateOfficeGroupForm";
+import useAllUsers from "../auth/useAllUsers";
 
 // const officeGroups: OfficeGroup[] = [
 //   {
@@ -261,7 +263,11 @@ const TransactionList2: React.FC = () => {
   const { officeGroups } = useOfficeGroups();
   console.log("office groups", officeGroups);
   const [itemToDelete, setItemToDelete] = useState("");
+  const [itemToUpdate, setItemToUpdate] = useState<UpdateOfficeGroup | null>(
+    null
+  );
   const { deleteOfficeGroup } = useDeleteOfficeGroup();
+  const { users } = useAllUsers();
 
   const [page, setPage] = React.useState<number>(1);
   const [search, setSearch] = React.useState<string>("");
@@ -366,7 +372,24 @@ const TransactionList2: React.FC = () => {
     closeModal: closeDeleteModal,
   } = useModal();
 
-  function handleUpdate() {
+  function handleUpdate(rowItem) {
+    if (rowItem) {
+      const user = users.find(
+        (user) => user.userName === rowItem.chiefOfficeName
+      );
+
+      const updateData: UpdateOfficeGroup = {
+        id: rowItem.id, // Fixed: Added colon instead of space
+        newOfficeGroupData: {
+          officeName: rowItem.officeName,
+          userCode: user.userCode, // Now guaranteed to be string
+        },
+      };
+
+      setItemToUpdate(updateData);
+      console.log("updateData", updateData);
+    }
+
     openEditModal();
   }
 
@@ -479,7 +502,7 @@ const TransactionList2: React.FC = () => {
                   onClick={() => sortBy("chiefOfficeName")} // Fixed: Updated to chiefOfficeName
                 >
                   <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
-                    Office Leader
+                    Chief Office
                   </p>
                   <span className="flex flex-col gap-0.5">
                     <svg
@@ -555,7 +578,9 @@ const TransactionList2: React.FC = () => {
                     <Tooltip>
                       <TooltipTrigger>
                         <div
-                          onClick={handleUpdate}
+                          onClick={() => {
+                            handleUpdate(row);
+                          }}
                           className="text-gray-500 h-[25px] hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"
                         >
                           <SquarePen className="size-5" />
@@ -701,7 +726,10 @@ const TransactionList2: React.FC = () => {
         onClose={closeEditModal}
         className="max-w-[584px] p-5 lg:p-7"
       >
-        <p>b</p>
+        <UpdateOfficeGroupForm
+          officeGroupData={itemToUpdate}
+          closeModal={closeEditModal}
+        />
       </ModalWithAnimation>
 
       <ModalWithAnimation
