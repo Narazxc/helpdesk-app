@@ -23,7 +23,9 @@ export function useUpdateOfficeGroup() {
         (error.response?.data as any)?.error ===
         "This office group already exists!"
       ) {
-        toast.error(`Office group "${variables.officeName}" already exists!`);
+        toast.error(
+          `Office group "${variables.newOfficeGroupData.officeName}" already exists!`
+        );
       } else {
         toast.error(`${(error.response?.data as any)?.error}`);
       }

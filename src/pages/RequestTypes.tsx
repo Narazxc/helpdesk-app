@@ -23,10 +23,9 @@ export default function RequestTypes() {
         {/* Breadcrumb */}
         <nav>
           <ol className="flex flex-wrap items-center gap-1.5">
-            <li className="page-title-text">
+            <li>
               <Link
-                // text-gray-500
-                className={`page-title-text flex items-center gap-1.5 text-sm hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400`}
+                className={`flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400`}
                 to="/"
               >
                 Home

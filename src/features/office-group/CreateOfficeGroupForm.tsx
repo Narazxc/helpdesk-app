@@ -1,7 +1,7 @@
 import CustomizedInput from "@/components/form/input/CustomizedInput";
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
-import useAllUsers from "../auth/useAllUsers";
+import { useAllUsers } from "../auth/useAllUsers";
 import { useCreateOfficeGroup } from "./useCreateOfficeGroup";
 import type { CreateOfficeGroup } from "@/types/office-group";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
@@ -122,7 +122,7 @@ export default function CreateOfficeGroupForm({
             htmlFor="officeName"
             className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
           >
-            Office Name<span className="text-red-500">*</span>
+            Office Name<span className="text-red-500"> *</span>
           </Label>
           <div className="flex flex-col">
             <CustomizedInput
@@ -161,7 +161,7 @@ export default function CreateOfficeGroupForm({
             htmlFor="userCode"
             className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
           >
-            Chief Office<span className="text-red-500">*</span>
+            Chief Office<span className="text-red-500"> *</span>
           </Label>
           <div className="flex flex-col">
             {/* <GenericCombobox
@@ -182,6 +182,7 @@ export default function CreateOfficeGroupForm({
               rules={{ required: "Please select a user" }} // Optional validation
               render={({ field }) => (
                 <GenericCombobox
+                  id="userCode"
                   items={users}
                   value={field.value} // Use field.value instead of selectedUserId
                   onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
@@ -195,6 +196,11 @@ export default function CreateOfficeGroupForm({
                 />
               )}
             />
+            {errors.userCode && (
+              <span className="text-red-500 text-sm mt-1">
+                {errors.userCode.message}
+              </span>
+            )}
           </div>
         </div>
       </div>

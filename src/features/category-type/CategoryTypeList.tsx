@@ -1,6 +1,10 @@
 // Icon
 import { Link } from "react-router";
-import { Computer } from "lucide-react";
+import {
+  FolderOpenDot,
+  // Old Icon
+  // Computer
+} from "lucide-react";
 
 // Component
 import RequestTypeListSkeleton from "../request-type/RequestTypeListSkeleton";
@@ -31,7 +35,12 @@ export default function CategoryTypeList() {
             <Link to={`/category-types/${categoryType.id}`}>
               <div>
                 <div className="mb-3 flex items-center justify-center">
-                  <Computer
+                  {/* <Computer
+                    size={48}
+                    strokeWidth={1.2}
+                    className="group-hover:stroke-white dark:stroke-gray-100/90"
+                  /> */}
+                  <FolderOpenDot
                     size={48}
                     strokeWidth={1.2}
                     className="group-hover:stroke-white dark:stroke-gray-100/90"

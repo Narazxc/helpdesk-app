@@ -88,9 +88,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({ onToggleSidebarLogo }) => {
             {/* Cross Icon */}
           </button>
 
-          <button onClick={onToggleSidebarLogo} className="bg-red-200">
-            Toggle logo
-          </button>
+          {import.meta.env.MODE !== "uat" && (
+            <button onClick={onToggleSidebarLogo} className="bg-red-200">
+              Toggle logo
+            </button>
+          )}
 
           <Link to="/" className="lg:hidden">
             {/* <img

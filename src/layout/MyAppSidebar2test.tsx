@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // React router
 import { Link, useLocation } from "react-router";
 
-// Assume these icons are imported from an icon library
 // Icon
 import {
   // BoxCubeIcon,
@@ -13,7 +12,9 @@ import {
   // DocsIcon,
   GridIcon,
   HorizontaLDots,
+  // HorizontaLDots,
   ListIcon,
+  // PlugInIcon,
   // MailIcon,
   // PageIcon,
   // PieChartIcon,
@@ -23,12 +24,15 @@ import {
   // UserCircleIcon,
 } from "../icons";
 // import GearIcon from "../../icons/GearIcon";
-// import { useSidebar } from "../../context/SidebarContext";
-// import SidebarWidget from ".././SidebarWidget";
 // import { GearIcon } from "../icons/GearIcon";
+
+// Component
+// import SidebarWidget from ".././SidebarWidget";
 
 // Hook
 import { useSidebar } from "../context/SidebarContext";
+
+// Lucide icon
 import {
   BadgeAlert,
   FolderCog,
@@ -52,111 +56,11 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  // {
-  //   icon: <GridIcon />,
-  //   name: "Dashboard",
-  //   subItems: [
-  //     // { name: "Ecommerce", path: "/", pro: false },
-  //     // { name: "Analytics", path: "/analytics", pro: true },
-  //     // { name: "Marketing", path: "/marketing", pro: true },
-  //     // { name: "CRM", path: "/crm", pro: true },
-  //     // { name: "Stocks", path: "/stocks", new: true, pro: true },
-  //     // { name: "SaaS", path: "/saas", new: true, pro: true },
-  //   ],
-  // },
   {
     icon: <GridIcon />,
     name: "Dashboard",
     path: "/",
   },
-  // {
-  //   icon: <GridIcon />,
-  //   name: "Ticket Request",
-  //   subItems: [
-  //     // { name: "All Ticket", path: "/", pro: false },
-  //     // { name: "Knowledge Base", path: "/analytics", pro: true },
-  //     // { name: "Reports", path: "/marketing", pro: true },
-  //     // { name: "Dashboard", path: "/crm", pro: true },
-  //   ],
-  // },
-  // {
-  //   icon: <CalenderIcon />,
-  //   name: "Ticket Request",
-  //   // path: "/ticket-request",
-  //   path: "/form-layout",
-  // },
-  // {
-  //   icon: <GridIcon />,
-  //   name: "All Tickets",
-  //   subItems: [
-  //     { name: "My Team Tickets", path: "/basic-tables" },
-  //     { name: "My Ticket Response", path: "/data-tables" },
-  //   ],
-  // },
-  // {
-  //   icon: <GridIcon />,
-  //   name: "Reports",
-  //   path: "/a",
-  // },
-  // {
-  //   icon: <GridIcon />,
-  //   name: "Knowledge Base",
-  //   subItems: [
-  //     { name: "View Knowledge Base", path: "/b" },
-  //     { name: "FAQ", path: "/analytics" },
-  //   ],
-  // },
-
-  // {
-  //   icon: <CalenderIcon />,
-  //   name: "Calendar",
-  //   path: "/calendar",
-  // },
-  // {
-  //   icon: <UserCircleIcon />,
-  //   name: "User Profile",
-  //   path: "/profile",
-  // },
-  // {
-  //   name: "Task",
-  //   icon: <TaskIcon />,
-  //   subItems: [
-  //     { name: "List", path: "/task-list", pro: true },
-  //     { name: "Kanban", path: "/task-kanban", pro: true },
-  //   ],
-  // },
-  // {
-  //   name: "Forms",
-  //   icon: <ListIcon />,
-  //   subItems: [
-  //     { name: "Form Elements", path: "/form-elements", pro: false },
-  //     { name: "Form Layout", path: "/form-layout", pro: true },
-  //   ],
-  // },
-  // {
-  //   name: "Tables",
-  //   icon: <TableIcon />,
-  //   subItems: [
-  //     { name: "Basic Tables", path: "/basic-tables", pro: false },
-  //     { name: "Data Tables", path: "/data-tables", pro: true },
-  //   ],
-  // },
-  // {
-  //   name: "Pages",
-  //   icon: <PageIcon />,
-  //   subItems: [
-  //     { name: "File Manager", path: "/file-manager", pro: true },
-  //     { name: "Pricing Tables", path: "/pricing-tables", pro: true },
-  //     { name: "Faqs", path: "/faq", pro: true },
-  //     { name: "Blank Page", path: "/blank", pro: false },
-  //     { name: "404 Error", path: "/error-404", pro: false },
-  //     { name: "500 Error", path: "/error-500", pro: true },
-  //     { name: "503 Error", path: "/error-503", pro: true },
-  //     { name: "Coming Soon", path: "/coming-soon", pro: true },
-  //     { name: "Maintenance", path: "/maintenance", pro: true },
-  //     { name: "Success", path: "/success", pro: true },
-  //   ],
-  // },
   {
     icon: <ListIcon />,
     name: "Settings",
@@ -168,14 +72,34 @@ const navItems: NavItem[] = [
       // { name: "Enity", path: "/entity" },
       // { name: "Category Type", path: "/category" },
       // { name: "Asset Type", path: "/asset type" },
-      { icon: <User />, name: "User", path: "/users" },
-      { icon: <UserRoundCog />, name: "User Role", path: "/user-roles" },
-      { icon: <User />, name: "Office Group", path: "/office-groups" },
-      { icon: <User />, name: "Agent Group", path: "/agent-groups" },
-      { icon: <Landmark />, name: "Enity", path: "/entity" },
-      { icon: <BadgeAlert />, name: "Request Type", path: "/request-types" },
-      { icon: <Tag />, name: "Category Type", path: "/category-types" },
-      { icon: <FolderCog />, name: "Asset Type", path: "/asset-types" },
+      { icon: <User size={20} />, name: "User", path: "/users" },
+      {
+        icon: <UserRoundCog size={20} />,
+        name: "User Role",
+        path: "/user-roles",
+      },
+      {
+        icon: <User size={20} />,
+        name: "Office Group",
+        path: "/office-groups",
+      },
+      { icon: <User size={20} />, name: "Agent Group", path: "/agent-groups" },
+      { icon: <Landmark size={20} />, name: "Entity", path: "/entity" },
+      {
+        icon: <BadgeAlert size={20} />,
+        name: "Request Type",
+        path: "/request-types",
+      },
+      {
+        icon: <Tag size={20} />,
+        name: "Category Type",
+        path: "/category-types",
+      },
+      {
+        icon: <FolderCog size={20} />,
+        name: "Asset Type",
+        path: "/asset-types",
+      },
     ],
   },
 ];
@@ -489,7 +413,9 @@ const MyAppSidebar2Test: React.FC<MyAppSidebar2TestProps> = ({
                             new
                           </span>
                         )}
-                        {subItem.pro && (
+
+                        {/* Nav item label */}
+                        {/* {subItem.pro && (
                           <span
                             className={`ml-auto ${
                               isSubItemActive(subItem.path)
@@ -499,7 +425,7 @@ const MyAppSidebar2Test: React.FC<MyAppSidebar2TestProps> = ({
                           >
                             pro
                           </span>
-                        )}
+                        )} */}
                       </span>
                     </Link>
                   </li>
@@ -540,7 +466,6 @@ const MyAppSidebar2Test: React.FC<MyAppSidebar2TestProps> = ({
     <aside
       // bg-[#192436]
       // bg-[#1f2e44]
-
       // bg-[#3e5b87]
 
       //20250811
@@ -647,11 +572,9 @@ const MyAppSidebar2Test: React.FC<MyAppSidebar2TestProps> = ({
                     : "justify-start"
                 }`}
               >
-                {/* {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
-                ) : (
+                {isExpanded || isHovered || isMobileOpen ? null : ( // "Menu"
                   <HorizontaLDots className="size-6" />
-                )} */}
+                )}
 
                 {(isExpanded || isHovered || isMobileOpen) && "Menu"}
               </h2>

@@ -647,7 +647,7 @@ export default function AssetTypeTable() {
                 </option>
               ))}
             </select>
-            <span className="absolute z-30 text-gray-500 -translate-y-1/2 right-2 top-1/2 dark:text-gray-400">
+            <span className="absolute z-30 pointer-events-none text-gray-500 -translate-y-1/2 right-2 top-1/2 dark:text-gray-400">
               <svg
                 className="stroke-current"
                 width="16"
@@ -766,7 +766,7 @@ export default function AssetTypeTable() {
                   className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
                 >
                   <p className="font-medium text-center text-gray-700 text-theme-xs dark:text-gray-400">
-                    Action
+                    Actions
                   </p>
                 </TableCell>
               </TableRow>

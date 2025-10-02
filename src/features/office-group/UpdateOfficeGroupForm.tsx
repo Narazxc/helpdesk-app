@@ -2,15 +2,15 @@ import CustomizedInput from "@/components/form/input/CustomizedInput";
 import { GenericCombobox } from "@/components/GenericCombobox";
 import Button from "@/components/ui/button/Button";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import useAllUsers from "../auth/useAllUsers";
+import { useAllUsers } from "../auth/useAllUsers";
 import type {
   CreateOfficeGroup,
   UpdateOfficeGroup,
 } from "@/types/office-group";
-import { useModal } from "@/hook/useModal";
+// import { useModal } from "@/hook/useModal";
 import Label from "@/components/form/Label";
 import { useUpdateOfficeGroup } from "./useUpdateOfficeGroup";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 interface UpdateOfficeGroupFormProp {
   officeGroupData: UpdateOfficeGroup;
@@ -35,6 +35,8 @@ export default function UpdateOfficeGroupForm({
     },
   });
   const { updateOfficeGroup } = useUpdateOfficeGroup();
+
+  console.log("office Group data", officeGroupData);
 
   //   const { updateOfficeGroup } = useUpdateOfficeGroup();
 
@@ -75,7 +77,7 @@ export default function UpdateOfficeGroupForm({
             htmlFor="officeName"
             className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
           >
-            Office Name<span className="text-red-500">*</span>
+            Office Name<span className="text-red-500"> *</span>
           </Label>
           <div className="flex flex-col">
             <CustomizedInput
@@ -114,15 +116,16 @@ export default function UpdateOfficeGroupForm({
             htmlFor="userCode"
             className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
           >
-            Chief Office<span className="text-red-500">*</span>
+            Chief Office<span className="text-red-500"> *</span>
           </Label>
           <div className="flex flex-col">
             <Controller
               name="userCode"
               control={control}
               rules={{ required: "Please select a user" }}
-              render={({ field, fieldState }) => (
+              render={({ field }) => (
                 <GenericCombobox
+                  id="userCode"
                   items={users}
                   value={field.value}
                   onChange={field.onChange}
@@ -132,7 +135,7 @@ export default function UpdateOfficeGroupForm({
                   placeholder="Select User..."
                   searchPlaceholder="Search users..."
                   emptyMessage="No users found."
-                  error={fieldState.error?.message}
+                  // error={fieldState.error?.message}
                 />
               )}
             />

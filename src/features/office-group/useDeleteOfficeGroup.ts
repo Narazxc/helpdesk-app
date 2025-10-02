@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteOfficeGroup as deleteOfficeGroupApi } from "@/services/apiOfficeGroup";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
-export default function useDeleteOfficeGroup() {
+export function useDeleteOfficeGroup() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const {
     isPending: isDeleting,
@@ -12,12 +14,13 @@ export default function useDeleteOfficeGroup() {
   } = useMutation({
     mutationFn: deleteOfficeGroupApi,
     onSuccess: () => {
-      toast.success("Office group deleted successfully");
-
       queryClient.invalidateQueries({
         queryKey: ["officeGroups"],
       });
+
+      navigate("/office-groups");
     },
+
     onError: (err) => toast.error(err.message),
   });
 

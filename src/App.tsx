@@ -18,9 +18,9 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 
 // Page component
 // import SignIn from "./pages/AuthPages/SignIn";
-import MyDashboardPage from "./components/dashboard/MyDashboardPage";
-import Users from "./pages/user/Users";
-import CreateUserPage from "./pages/user/CreateUserPage";
+
+import Users from "./pages/archive/user/Users";
+import CreateUserPage from "./pages/archive/user/CreateUserPage";
 import RequestTypes from "./pages/RequestTypes";
 import RequestType from "./pages/RequestType";
 import CategoryTypes from "./pages/CategoryTypes";
@@ -33,6 +33,8 @@ import Entities from "./pages/Entities";
 import OfficeGroups from "./pages/OfficeGroups";
 import OfficeGroup from "./pages/OfficeGroup";
 import AgentGroups from "./pages/AgentGroups";
+import AgentGroup from "./pages/AgentGroup";
+import MyDashboardPage from "./pages/MyDashboardPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -59,6 +61,7 @@ function App() {
               <Route path="office-groups" element={<OfficeGroups />} />
               <Route path="office-groups/:id" element={<OfficeGroup />} />
               <Route path="agent-groups" element={<AgentGroups />} />
+              <Route path="agent-groups/:id" element={<AgentGroup />} />
               <Route path="request-types" element={<RequestTypes />} />
               <Route path="request-types/:id" element={<RequestType />} />
               <Route path="category-types" element={<CategoryTypes />} />

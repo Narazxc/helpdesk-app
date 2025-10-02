@@ -5,7 +5,11 @@ import type { RequestType } from "@/types/request-type";
 import { Link } from "react-router";
 
 // Icon
-import { Mail } from "lucide-react";
+import {
+  FolderOpen,
+  // Old icon
+  // Mail,
+} from "lucide-react";
 
 // Hook
 import { useCategoryTypes } from "../category-type/useCategoryTypes";
@@ -38,7 +42,12 @@ export default function RequestTypeList({
             <Link to={`/request-types/${requestType.id}`}>
               <div>
                 <div className="mb-3 flex items-center justify-center">
-                  <Mail
+                  {/* <Mail
+                    size={48}
+                    strokeWidth={1.2}
+                    className="group-hover:stroke-white dark:stroke-gray-100/90"
+                  /> */}
+                  <FolderOpen
                     size={48}
                     strokeWidth={1.2}
                     className="group-hover:stroke-white dark:stroke-gray-100/90"

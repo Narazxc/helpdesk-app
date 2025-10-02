@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { User } from "@/types/user";
 import { getUsers } from "@/services/apiUser";
 
-export default function useAllUsers() {
+export function useAllUsers() {
   const {
     isLoading,
     data: users = [],

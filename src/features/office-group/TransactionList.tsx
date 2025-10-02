@@ -441,7 +441,7 @@ const TransactionList: React.FC = () => {
                 </div>
               </th>
               <th className="p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400">
-                Action
+                Actions
               </th>
               <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div className="relative">

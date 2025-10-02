@@ -1,27 +1,88 @@
-import PageMeta from "@/components/common/PageMeta";
-import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
-// import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
-import DeliveryActivityTable from "@/features/office-group/DeliveriesActivityTable";
-import { useOfficeGroupById } from "@/features/office-group/useOfficeGroup";
+// React router
 import { Link, useParams } from "react-router";
+
+// Type
+import type { OfficeGroup, UpdateOfficeGroup } from "@/types/office-group";
+import { Pencil, Trash2 } from "lucide-react";
+
+// Hook
+import { useState } from "react";
+import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
+import { useAllUsers } from "@/features/auth/useAllUsers";
+import { useDeleteOfficeGroup } from "@/features/office-group/useDeleteOfficeGroup";
+import { useOfficeGroupById } from "@/features/office-group/useOfficeGroup";
+import { useModal } from "@/hook/useModal";
+
+// import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
+
+// Component
+import DeliveryActivityTable from "@/features/office-group/AgentGroupTable";
+import UpdateOfficeGroupForm from "@/features/office-group/UpdateOfficeGroupForm";
+import PageMeta from "@/components/common/PageMeta";
+import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 export default function OfficeGroup() {
   const { id } = useParams();
-  const { officeGroup } = useOfficeGroupById(id?.toString() || "");
-  console.log("Office group", officeGroup);
-
-  // const { agentGroups } = useAgentGroups();
-  // console.log("inside office group detail, agent group", agentGroups);
-
-  // categoryTypes data under this requestType, to pass into TypeDataTable
-  // const { categoryTypes } = useCategoryByRequestTypeCode(
-  //   requestType?.requestTypeCode || "" // Can pass empty string now
-  // );
-
-  const { agentGroupsByOfficeGroupCode } = useAgentGroupsByOfficeGroupCode(
-    officeGroup?.officeGroupCode || ""
+  const { users } = useAllUsers();
+  const { officeGroup, isLoading: isOfficeGroupLoading } = useOfficeGroupById(
+    id?.toString() || ""
   );
-  console.log("useAgentGroupsByOfficeGroupCode", agentGroupsByOfficeGroupCode);
+  const { deleteOfficeGroup } = useDeleteOfficeGroup();
+  const [updateData, setUpdateData] = useState<UpdateOfficeGroup>();
+
+  const { agentGroupsByOfficeGroupCode, isLoading: isAgentGroupsLoading } =
+    useAgentGroupsByOfficeGroupCode(officeGroup?.officeGroupCode || "");
+
+  // Modal
+  const {
+    isOpen: isEditModalOpen,
+    openModal: openEditModal,
+    closeModal: closeEditModal,
+  } = useModal();
+
+  const {
+    isOpen: isDeleteModalOpen,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal();
+
+  function handleDelete() {
+    if (id) {
+      deleteOfficeGroup(id, {
+        onSuccess: () => {
+          console.log("Deleted successfully!");
+          closeDeleteModal();
+        },
+      });
+    }
+  }
+
+  function handleUpdate() {
+    if (officeGroup) {
+      const user = users.find(
+        (user) => user.userName === officeGroup.chiefOfficeName
+      );
+
+      if (!user) {
+        console.error(
+          "User not found for chiefOfficeName:",
+          officeGroup.chiefOfficeName
+        );
+        return; // Exit early if user is not found
+      }
+
+      const updateData: UpdateOfficeGroup = {
+        id: officeGroup.id.toString(),
+        newOfficeGroupData: {
+          officeName: officeGroup.officeName,
+          userCode: user.userCode,
+        },
+      };
+
+      setUpdateData(updateData);
+    }
+  }
 
   return (
     <>
@@ -61,7 +122,7 @@ export default function OfficeGroup() {
         </div>
 
         {/* Office group detail section */}
-        <div className="flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
+        <div className="shadow-sm lg:items-start lg:justify-between flex flex-col justify-between gap-6 rounded-2xl border border-gray-200 bg-white px-6 py-5 sm:flex-row sm:items-center dark:border-gray-800 dark:bg-white/3">
           <div className="flex flex-col gap-2.5 divide-gray-300 sm:flex-row sm:divide-x dark:divide-gray-700">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-[150px_1fr] lg:gap-4 2xl:gap-x-8">
               <div>
@@ -83,24 +144,78 @@ export default function OfficeGroup() {
             </div>
           </div>
 
-          {/* Left buttons */}
-          <div className="flex gap-3">
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                openEditModal();
+                handleUpdate();
+              }}
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
+            >
+              <Pencil size={18} />
+              Edit
+            </button>
+
+            <button
+              onClick={openDeleteModal}
+              className="flex w-full items-center justify-center bg-white text-gray-700 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
+            >
+              <Trash2 size={18} />
+              Delete
+            </button>
+          </div>
+
+          <ModalWithAnimation
+            isOpen={isEditModalOpen}
+            onClose={closeEditModal}
+            className="max-w-[584px] p-5 lg:p-7"
+          >
+            <UpdateOfficeGroupForm
+              officeGroupData={updateData!}
+              closeModal={closeEditModal}
+            />
+          </ModalWithAnimation>
+
+          <ModalWithAnimation
+            isOpen={isDeleteModalOpen}
+            onClose={closeDeleteModal}
+            className="max-w-[584px] p-5 lg:p-7"
+          >
+            <DeleteConfirmationBox
+              headerText={`Are you sure?`}
+              descriptionText={`Are you sure you want to delete this item`}
+              onClose={closeDeleteModal}
+              onDelete={handleDelete}
+            />
+          </ModalWithAnimation>
+        </div>
+
+        {isOfficeGroupLoading || isAgentGroupsLoading ? (
+          <div>Loading...</div>
+        ) : agentGroupsByOfficeGroupCode?.length > 0 ? (
+          <DeliveryActivityTable
+            agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode}
+          />
+        ) : (
+          <div>No agent groups found</div>
+        )}
+      </div>
+    </>
+  );
+
+  {
+    /* Left buttons */
+  }
+  {
+    /* <div className="flex gap-3">
             <button className="bg-brand-500 shadow-theme-xs hover:bg-brand-600 inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium text-white transition">
               View Receipt
             </button>
             <button className="shadow-theme-xs inline-flex items-center justify-center gap-2 rounded-lg bg-white px-4 py-3 text-sm font-medium text-gray-700 ring-1 ring-gray-300 transition hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03]">
               Refund
             </button>
-          </div>
-        </div>
-
-        {/* Agent Group table */}
-        <DeliveryActivityTable
-        // agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode}
-        />
-      </div>
-    </>
-  );
+          </div> */
+  }
 
   // return (
   //   <>

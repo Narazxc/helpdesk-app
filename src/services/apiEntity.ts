@@ -7,8 +7,10 @@ import type { Entity } from "@/types/entity";
 export async function getEntities(): Promise<Entity[]> {
   try {
     const res = await api.get<ApiResponse<Entity[]>>(
-      `${API_URL}/operating-units`
+      `${API_URL}/operating-units/active`
     );
+
+    //
 
     console.log(res.data.data);
 

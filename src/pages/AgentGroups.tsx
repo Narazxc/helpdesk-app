@@ -1,7 +1,13 @@
-import TransactionList2 from "@/features/office-group/TransactionList2";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
+import AgentGroupTable from "@/features/agent-group/AgentGroupTable";
+import CreateAgentGroupForm from "@/features/agent-group/CreateAgentGroupForm";
+
+import { useModal } from "@/hook/useModal";
 import { Link } from "react-router";
 
 export default function AgentGroups() {
+  const { isOpen, openModal, closeModal } = useModal();
+
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
@@ -23,15 +29,26 @@ export default function AgentGroups() {
           </ol>
         </nav>
       </div>
-      <button className="bg-[#4264eb] hover:bg-[#5b78ed] border-[2px] flex flex-col justify-center h-9 transition-colors duration-150 hover:border-[#4b6cee] border-[#a0afee] mb-4 text-sm dark:text-white text-white px-4 py-2 rounded-md">
+      <button
+        onClick={openModal}
+        className="bg-[#4264eb] hover:bg-[#5b78ed] border-[2px] flex flex-col justify-center h-9 transition-colors duration-150 hover:border-[#4b6cee] border-[#a0afee] mb-4 text-sm dark:text-white text-white px-4 py-2 rounded-md"
+      >
         Add New
       </button>
-      {/* <AssetTypeList /> */}
-      {/* border-blue-400 */}
+
       <div className="border-1 dark:bg-gray-900 dark:border-gray-800 p-6 rounded-md bg-white shadow-md">
         {/* <TransactionList /> */}
-        <TransactionList2 />
+        <AgentGroupTable />
       </div>
+
+      <ModalWithAnimation
+        isOpen={isOpen}
+        onClose={closeModal}
+        className="max-w-[584px] p-5 lg:p-7"
+      >
+        {/* <CreateOfficeGroupForm closeModal={closeModal} /> */}
+        <CreateAgentGroupForm closeModal={closeModal} />
+      </ModalWithAnimation>
     </div>
   );
 }

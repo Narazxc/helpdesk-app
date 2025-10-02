@@ -227,7 +227,7 @@ export default function TypeDataTable<T extends Record<string, any>>({
                 </option>
               ))}
             </select>
-            <span className="absolute z-30 text-gray-500 -translate-y-1/2 right-2 top-1/2 dark:text-gray-400">
+            <span className="absolute z-30 pointer-events-none text-gray-500 -translate-y-1/2 right-2 top-1/2 dark:text-gray-400">
               <svg
                 className="stroke-current"
                 width="16"

@@ -18,7 +18,7 @@ import {
 
 interface GenericComboboxProps<T> {
   items: T[];
-  value: string;
+  value: string | null;
   onChange: (value: string) => void;
   getDisplayValue: (item: T) => string; // Function to get display text
   getItemValue: (item: T) => string; // Function to get the value
@@ -64,7 +64,11 @@ export function GenericCombobox<T>({
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] p-0 z-[99999]">
+      {/* w-[400px] */}
+      <PopoverContent
+        className="p-0 z-[99999]"
+        style={{ width: "var(--radix-popover-trigger-width)" }}
+      >
         <Command>
           <CommandInput placeholder={searchPlaceholder} className="h-9" />
           <CommandList className="max-h-[200px] overflow-y-auto">
