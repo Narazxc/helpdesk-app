@@ -501,22 +501,22 @@ const AgentGroupTable: React.FC = () => {
           </thead>
           <tbody className="divide-x divide-y divide-gray-200 dark:divide-gray-800">
             {/* case fetch and got no data */}
-            {isLoadingAgentGroups && agentGroups.length === 0 && (
+            {isLoadingAgentGroups && (
               <tr className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group">
                 <td colSpan={6} className="p-4 whitespace-nowrap text-center">
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    No data
+                    Loading...
                   </p>
                 </td>
               </tr>
             )}
 
             {/* case search with no matches */}
-            {!isLoadingAgentGroups && paginatedRows.length === 0 && (
+            {!isLoadingAgentGroups && agentGroups.length === 0 && (
               <tr className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group">
                 <td colSpan={6} className="p-4 whitespace-nowrap text-center">
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    No matches
+                    No data
                   </p>
                 </td>
               </tr>

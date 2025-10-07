@@ -3,14 +3,17 @@ import EntitiesTable, {
 } from "@/features/entities/EntitiesTable";
 import { TableSkeleton } from "@/features/entities/EntitiesTableSkeleton";
 import { useEntities } from "@/features/entities/useEntities";
+import type { Entity2 } from "@/types/entity";
 // import TypeDataTable, {
 //   type ColumnConfig,
 // } from "@/features/request-type/TypeDataTable";
-import type { Entity } from "@/types/entity";
+
 import { Link } from "react-router";
 
 export default function Entities() {
   const { entities, isLoading } = useEntities();
+
+  console.log("In entity page", entities);
 
   // const entityTypeColumn: ColumnConfig<Entity>[] = [
   //   {
@@ -72,30 +75,60 @@ export default function Entities() {
   //   },
   // ];
 
-  const columns: ColumnConfig2<Entity>[] = [
+  // const columns: ColumnConfig2<Entity>[] = [
+  //   {
+  //     key: "businessId",
+  //     label: "Business Unit",
+  //     width: "6.25rem", // 100px ÷ 16 = 6.25rem
+  //     minWidth: "5rem", // 80px ÷ 16 = 5rem
+  //     sortable: true,
+  //   },
+  //   {
+  //     key: "operatingId",
+  //     label: "Operating Unit",
+  //     width: "7.5rem", // 120px ÷ 16 = 7.5rem
+  //     minWidth: "7.5rem", // 120px ÷ 16 = 7.5rem
+  //     sortable: true,
+  //   },
+  //   {
+  //     key: "shortName",
+  //     label: "Short Name",
+  //     width: "9.375rem", // 150px ÷ 16 = 9.375rem
+  //     minWidth: "9.375rem", // 150px ÷ 16 = 9.375rem
+  //     sortable: true,
+  //   },
+  //   {
+  //     key: "longName",
+  //     label: "Long Name",
+  //     width: "31.25rem", // 500px ÷ 16 = 31.25rem
+  //     sortable: true,
+  //   },
+  // ];
+
+  const columns: ColumnConfig2<Entity2>[] = [
     {
-      key: "businessId",
+      key: "businessUnit",
       label: "Business Unit",
       width: "6.25rem", // 100px ÷ 16 = 6.25rem
       minWidth: "5rem", // 80px ÷ 16 = 5rem
       sortable: true,
     },
     {
-      key: "operatingId",
+      key: "operatingUnit",
       label: "Operating Unit",
       width: "7.5rem", // 120px ÷ 16 = 7.5rem
       minWidth: "7.5rem", // 120px ÷ 16 = 7.5rem
       sortable: true,
     },
     {
-      key: "shortName",
+      key: "enShortName",
       label: "Short Name",
       width: "9.375rem", // 150px ÷ 16 = 9.375rem
       minWidth: "9.375rem", // 150px ÷ 16 = 9.375rem
       sortable: true,
     },
     {
-      key: "longName",
+      key: "enLongName",
       label: "Long Name",
       width: "31.25rem", // 500px ÷ 16 = 31.25rem
       sortable: true,

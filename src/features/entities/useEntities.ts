@@ -1,5 +1,5 @@
 import { getEntities } from "@/services/apiEntity";
-import type { Entity } from "@/types/entity";
+import type { Entity2 } from "@/types/entity";
 import { useQuery } from "@tanstack/react-query";
 
 export function useEntities() {
@@ -7,7 +7,7 @@ export function useEntities() {
     isLoading,
     data: entities = [],
     error,
-  } = useQuery<Entity[], Error>({
+  } = useQuery<Entity2[], Error>({
     queryKey: ["entities"],
     queryFn: getEntities,
     staleTime: 30 * 60 * 1000, // 30 minutes fresh

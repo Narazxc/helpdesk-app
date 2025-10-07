@@ -384,7 +384,7 @@ const AgentGroupTable: React.FC<AgentGroupTableProps> = ({
                   key={row.id}
                   className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group"
                 >
-                  <TableCell className="p-4 group-hover:underline text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
+                  <TableCell className="p-4 group-hover:underline underline-offset-4 text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
                     <Link className="" to={`/agent-groups/${row.id}`}>
                       <span className="hover:underline">{row.agentName}</span>
                     </Link>

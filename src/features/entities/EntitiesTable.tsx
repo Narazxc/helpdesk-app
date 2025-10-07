@@ -240,6 +240,7 @@ export default function EntitiesTable<T extends Record<string, any>>({
           />
         </div>
 
+        {/* Item per page dropdown */}
         <div className="flex items-center gap-3">
           <span className="text-gray-500 dark:text-gray-400"> Show </span>
           <div className="relative z-20 bg-transparent">
