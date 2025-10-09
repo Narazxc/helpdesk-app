@@ -37,6 +37,7 @@ import AgentGroup from "./pages/AgentGroup";
 import MyDashboardPage from "./pages/MyDashboardPage";
 import Roles from "./pages/Roles";
 import CreateRoleForm from "./features/role/CreateRoleForm";
+import UpdateRoleForm from "./features/role/UpdateRoleForm";
 
 function App() {
   const queryClient = new QueryClient({
@@ -62,6 +63,10 @@ function App() {
               <Route path="create-users" element={<CreateUserPage />} />
               <Route path="user-roles" element={<Roles />} />
               <Route path="user-roles/create" element={<CreateRoleForm />} />
+              <Route
+                path="user-roles/:id/update"
+                element={<UpdateRoleForm />}
+              />
               <Route path="office-groups" element={<OfficeGroups />} />
               <Route path="office-groups/:id" element={<OfficeGroup />} />
               <Route path="agent-groups" element={<AgentGroups />} />

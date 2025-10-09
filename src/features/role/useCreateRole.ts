@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createRole as createRoleApi } from "@/services/apiRole";
+import type { AxiosError } from "axios";
 
 type UseCreateRoleOptions = {
   onSuccess?: () => void;
@@ -23,8 +24,10 @@ export function useCreateRole(options?: UseCreateRoleOptions) {
       queryClient.invalidateQueries({ queryKey: ["roles"] });
     },
 
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (err: AxiosError) => {
+      const errorMessage = (err.response?.data as any)?.error || err.message;
+      toast.error(errorMessage);
+      console.log("axios error", errorMessage);
     },
   });
 

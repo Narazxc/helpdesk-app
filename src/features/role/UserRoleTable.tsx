@@ -23,6 +23,7 @@ import { useRoles } from "./useRoles";
 import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
 
 import { useDeleteRole } from "./useDeleteRole";
+import { Link } from "react-router";
 
 interface SortState {
   key: "roleName" | "description"; // Fixed: Updated to match OfficeGroup properties
@@ -366,9 +367,11 @@ function UserRoleTable() {
                   <div className="flex gap-6 justify-center text-gray-500">
                     <Tooltip>
                       <TooltipTrigger>
-                        <div className="text-gray-500 h-[25px] hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                          <SquarePen className="size-5" />
-                        </div>
+                        <Link to={`${row.id}/update`}>
+                          <div className="text-gray-500 h-[25px] hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                            <SquarePen className="size-5" />
+                          </div>
+                        </Link>
                       </TooltipTrigger>
                       <TooltipContent side="left">
                         <p>Edit</p>

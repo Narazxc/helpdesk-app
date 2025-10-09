@@ -53,6 +53,26 @@ export async function deleteRole(roleId: string) {
   }
 }
 
+// Update category type
+export async function updateRole(
+  newRoleData: CreateRole,
+  id: string
+): Promise<Role> {
+  try {
+    // console.log(updateData, id);
+    const res = await api.put<Role>(
+      `${API_URL}/roles/update/${id}`,
+      newRoleData
+    );
+
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.error("Failed to update: ", err);
+    throw err; // Let React Query or caller handle the error
+  }
+}
+
 // export async function deleteCategoryType(categoryTypeCode: string) {
 //   try {
 //     const res = await api.delete<CategoryType>(

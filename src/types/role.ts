@@ -29,3 +29,8 @@ export interface CreateRole {
   description: string;
   permissionCodes: string[];
 }
+
+export interface UpdateRole {
+  id: string;
+  newRoleData: CreateRole;
+}

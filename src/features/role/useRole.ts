@@ -10,6 +10,7 @@ export function useRoleById(id: string) {
   } = useQuery<Role, Error>({
     queryKey: ["role", id],
     queryFn: () => getRole(id),
+    enabled: !!id,
   });
 
   return { role, isLoading, error };
