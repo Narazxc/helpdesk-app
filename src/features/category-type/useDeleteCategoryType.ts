@@ -21,6 +21,11 @@ export function useDeleteCategoryType() {
         queryKey: ["categoryType"],
       });
 
+      // refresh category type's children cache
+      queryClient.invalidateQueries({
+        queryKey: ["assetTypes"],
+      });
+
       navigate("/category-types");
     },
     onError: (err) => toast.error(err.message),

@@ -1,8 +1,10 @@
+import type { ReactNode } from "react";
+
 interface DeleteConfirmationBoxProps {
   onDelete: () => void; // function with no arguments
   onClose: () => void; // function with no arguments
   headerText: string;
-  descriptionText?: string; // optional prop
+  descriptionText?: ReactNode; // optional prop
 }
 
 export default function DeleteConfirmationBox({

@@ -72,7 +72,7 @@ export default function ForgetPasswordForm() {
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="example@fmis.gov.kh"
               required
               className="h-10"
             />

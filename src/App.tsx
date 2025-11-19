@@ -1,6 +1,4 @@
 // React router
-
-// React router
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 
 // Style
@@ -19,8 +17,8 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 // Page component
 // import SignIn from "./pages/AuthPages/SignIn";
 
-import Users from "./pages/archive/user/Users";
-import CreateUserPage from "./pages/archive/user/CreateUserPage";
+// import Users from "./pages/archive/user/Users";
+// import CreateUserPage from "./pages/archive/user/CreateUserPage";
 import RequestTypes from "./pages/RequestTypes";
 import RequestType from "./pages/RequestType";
 import CategoryTypes from "./pages/CategoryTypes";
@@ -38,18 +36,30 @@ import MyDashboardPage from "./pages/MyDashboardPage";
 import Roles from "./pages/Roles";
 import CreateRoleForm from "./features/role/CreateRoleForm";
 import UpdateRoleForm from "./features/role/UpdateRoleForm";
+import Users from "./pages/Users";
+import CreateUserPage2 from "./pages/archive/user/CreateUserPage2";
+import UpdateUserPage from "./pages/archive/user/UpdateUserPage";
+import AdminResetPassword from "./features/auth/AdminResetPassword";
+// import UpdateUserPage from "./pages/archive/user/UpdateUserpage";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    // Before 20251027
+    queries: {
+      // staleTime: 60 * 1000, //1 minute be for another re-fetch
+      // staleTime: 2000,
+      staleTime: 0,
+    },
+    // On 20251027
+    // queries: {
+    //   staleTime: 60 * 1000, // 1 minute
+    //   gcTime: 5 * 60 * 1000, // 5 minutes
+    //   refetchOnWindowFocus: false, // Optional but recommended
+    // },
+  },
+});
 
 function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        // staleTime: 60 * 1000, //1 minute be for another re-fetch
-        // staleTime: 2000,
-        staleTime: 0,
-      },
-    },
-  });
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -59,8 +69,11 @@ function App() {
             {/* Dashboard Layout */}
             <Route element={<AppLayout />}>
               <Route index path="/" element={<MyDashboardPage />} />
+              {/* <Route path="users" element={<Users />} /> */}
               <Route path="users" element={<Users />} />
-              <Route path="create-users" element={<CreateUserPage />} />
+              {/* <Route path="create-users" element={<CreateUserPage />} /> */}
+              <Route path="users/create" element={<CreateUserPage2 />} />
+              <Route path="users/update" element={<UpdateUserPage />} />
               <Route path="user-roles" element={<Roles />} />
               <Route path="user-roles/create" element={<CreateRoleForm />} />
               <Route
@@ -78,6 +91,10 @@ function App() {
               <Route path="asset-types" element={<AssetTypes />} />
               <Route path="asset-types/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
+              <Route
+                path="admin/users/reset-password"
+                element={<AdminResetPassword />}
+              />
             </Route>
 
             {/* Auth Layout */}

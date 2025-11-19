@@ -11,7 +11,7 @@ import type { SubmitHandler } from "react-hook-form";
 
 // hook
 import { usePermissions } from "./usePermissions";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 // component
 import CustomizedInput from "@/components/form/input/CustomizedInput";
@@ -22,6 +22,8 @@ import PageMeta from "@/components/common/PageMeta";
 import { Spinner } from "@/components/ui/spinner";
 import { useRoleById } from "./useRole";
 import { useUpdateRole } from "./useUpdateRole";
+import TextArea from "@/components/form/input/TextArea";
+import { CircleAlert } from "lucide-react";
 
 type CategorizedPermissions = {
   T: Permission[];
@@ -39,6 +41,7 @@ export default function UpdateRoleForm() {
   console.log("role", role);
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -429,7 +432,7 @@ export default function UpdateRoleForm() {
               >
                 Description
               </Label>
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <CustomizedInput
                   type="text"
                   error={!!errors.description}
@@ -447,6 +450,39 @@ export default function UpdateRoleForm() {
                     {errors.description.message}
                   </span>
                 )}
+              </div> */}
+              <div className="flex flex-col">
+                <Controller
+                  name="description"
+                  rules={{
+                    maxLength: {
+                      value: 250,
+                      message: "Description must be 250 characters or less",
+                    },
+                  }}
+                  control={control}
+                  render={({ field }) => (
+                    <TextArea
+                      id="description"
+                      placeholder="Enter Role Description... (max 250)"
+                      rows={6}
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      error={!!errors.description}
+                      className={`bg-gray-50 dark:bg-gray-800 h-30 ${
+                        errors.description
+                          ? "border-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
+                      }`}
+                    />
+                  )}
+                />
+
+                {errors.description && (
+                  <span className="text-red-500 text-sm mt-1 block">
+                    {errors.description.message}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -455,7 +491,7 @@ export default function UpdateRoleForm() {
           <div className="border-b mt-10 mb-10" />
 
           {/* Select all permission checkbox */}
-          <div className="flex items-center gap-3 mb-4">
+          {/* <div className="flex items-center gap-3 mb-4">
             <Checkbox
               className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
               checked={isAllSelected}
@@ -465,16 +501,50 @@ export default function UpdateRoleForm() {
             <Label htmlFor="selectAll" className="mb-0">
               Select All
             </Label>
+          </div> */}
+
+          <div className="flex justify-between items-center mr-10 mb-10">
+            <div>
+              <div>
+                <h3 className="text-color text-xl font-bold">Permissions</h3>
+                <p className="text-sm text-gray-500">
+                  Select the items you want to display in the sidebar.
+                </p>
+              </div>
+            </div>
+
+            {/* Select all permission checkbox */}
+            <div className="flex items-center gap-3 mb-4">
+              <Checkbox
+                className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                checked={isAllSelected}
+                onCheckedChange={(checked) => handleSelectAll(!!checked)}
+                id="selectAll"
+              />
+              <Label htmlFor="selectAll" className="mb-0">
+                Select All
+              </Label>
+            </div>
           </div>
 
           {/* Ticket Permissions */}
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
-              <div>
+              {/* <div>
                 <h3 className="text-color font-semibold">Ticket Permissions</h3>
                 <p className="text-sm text-gray-500">
                   Select the items you want to display in the sidebar.
                 </p>
+              </div> */}
+              <div>
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">
+                    Ticket Permissions
+                  </h3>
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -514,13 +584,23 @@ export default function UpdateRoleForm() {
           {/* Workflow Permissions */}
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
-              <div>
+              {/* <div>
                 <h3 className="text-color font-semibold">
                   Workflow Permissions
                 </h3>
                 <p className="text-sm text-gray-500">
                   Select the items you want to display in the sidebar.
                 </p>
+              </div> */}
+              <div>
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">
+                    Workflow Permissions
+                  </h3>
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -560,11 +640,19 @@ export default function UpdateRoleForm() {
           {/* User Permissions */}
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
-              <div>
+              {/* <div>
                 <h3 className="text-color font-semibold">User Permissions</h3>
                 <p className="text-sm text-gray-500">
                   Select the items you want to display in the sidebar.
                 </p>
+              </div> */}
+              <div>
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">User Permissions</h3>
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -602,7 +690,12 @@ export default function UpdateRoleForm() {
           </div>
 
           <div className="flex items-center justify-end w-full gap-3 mt-6">
-            <Button size="sm" variant="outline" type="button">
+            <Button
+              onClick={() => navigate(-1)}
+              size="sm"
+              variant="outline"
+              type="button"
+            >
               Close
             </Button>
             <Button

@@ -377,10 +377,39 @@ function OfficeGroupTable() {
   //   //logic will be there
   // };
 
+  // function handleUpdate(rowItem: OfficeGroup) {
+  //   if (rowItem) {
+  //     const user = users.find(
+  //       (user) => user.userName === rowItem.chiefOfficeName
+  //     );
+
+  //     if (!user) {
+  //       console.error(
+  //         "User not found for chiefOfficeName:",
+  //         rowItem.chiefOfficeName
+  //       );
+  //       return; // Exit early if user is not found
+  //     }
+
+  //     const updateData: UpdateOfficeGroup = {
+  //       id: rowItem.id.toString(), // Fixed: Added colon instead of space
+  //       newOfficeGroupData: {
+  //         officeName: rowItem.officeName,
+  //         userCode: user?.userCode, // Now guaranteed to be string
+  //       },
+  //     };
+
+  //     setItemToUpdate(updateData);
+  //     console.log("updateData", updateData);
+  //   }
+
+  //   openEditModal();
+  // }
+
   function handleUpdate(rowItem: OfficeGroup) {
     if (rowItem) {
       const user = users.find(
-        (user) => user.userName === rowItem.chiefOfficeName
+        (user) => user.username === rowItem.chiefOfficeName
       );
 
       if (!user) {
@@ -388,14 +417,25 @@ function OfficeGroupTable() {
           "User not found for chiefOfficeName:",
           rowItem.chiefOfficeName
         );
-        return; // Exit early if user is not found
+
+        const updateData: UpdateOfficeGroup = {
+          id: rowItem.id.toString(),
+          newOfficeGroupData: {
+            officeName: rowItem.officeName,
+            userCode: "", // Default value when user not found
+          },
+        };
+
+        setItemToUpdate(updateData);
+        openEditModal();
+        return; // Exit after handling the not-found case
       }
 
       const updateData: UpdateOfficeGroup = {
-        id: rowItem.id.toString(), // Fixed: Added colon instead of space
+        id: rowItem.id.toString(),
         newOfficeGroupData: {
           officeName: rowItem.officeName,
-          userCode: user.userCode, // Now guaranteed to be string
+          userCode: user.userCode, // user is guaranteed to exist here
         },
       };
 
@@ -426,6 +466,7 @@ function OfficeGroupTable() {
             Your most recent transactions list
           </p>
         </div> */}
+        <div></div>
 
         {/* Search bar */}
         <div className="flex gap-3.5">

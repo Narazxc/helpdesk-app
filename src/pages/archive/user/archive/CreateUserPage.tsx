@@ -1,9 +1,14 @@
 import { Fragment } from "react/jsx-runtime";
-import CreateUserForm from "../../../components/user/CreateUserForm";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { Link } from "react-router";
-import AssingUserRoleForm from "../../../components/user/AssingUserRoleForm";
-import UserAuditPage from "./UserAuditPage";
+import CreateUserForm from "@/components/user/CreateUserForm";
+import AssingUserRoleForm from "@/components/user/AssingUserRoleForm";
+import UserAuditPage from "../UserAuditPage";
+
+// Old import from when this file is one directory above
+// import CreateUserForm from "../../../components/user/CreateUserForm";
+// import AssingUserRoleForm from "../../../components/user/AssingUserRoleForm";
+// import UserAuditPage from "./UserAuditPage";
 
 const categories = [
   {

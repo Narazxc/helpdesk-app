@@ -322,79 +322,99 @@ const AgentGroupTable: React.FC<AgentGroupTableProps> = ({
       <div>
         <div className="custom-scrollbar overflow-x-auto">
           <Table className="w-full table-auto">
-            <TableHeader>
-              <TableRow className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-                {/* {["category"].map((col) => ( */}
-                {["Agent Group"].map((col) => (
-                  <th
-                    key={col}
-                    className="cursor-pointer p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400"
-                    onClick={() => sortBy(col)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                        {col.charAt(0).toUpperCase() +
-                          col.slice(1).replace("arrival", "Arrival Time")}
-                      </p>
-                      <span className="flex flex-col gap-0.5">
-                        <svg
-                          className={
-                            sort.column === col && sort.asc
-                              ? "text-gray-500"
-                              : "text-gray-300"
-                          }
-                          width="8"
-                          height="5"
-                          viewBox="0 0 8 5"
-                          fill="none"
-                        >
-                          <path
-                            d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                        <svg
-                          className={
-                            sort.column === col && !sort.asc
-                              ? "text-gray-500"
-                              : "text-gray-300"
-                          }
-                          width="8"
-                          height="5"
-                          viewBox="0 0 8 5"
-                          fill="none"
-                        >
-                          <path
-                            d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </th>
-                ))}
-                <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-                  Agent Group Leader
-                </TableCell>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="divide-x divide-y divide-gray-200 dark:divide-gray-800">
-              {paginatedRows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group"
-                >
-                  <TableCell className="p-4 group-hover:underline underline-offset-4 text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
-                    <Link className="" to={`/agent-groups/${row.id}`}>
-                      <span className="hover:underline">{row.agentName}</span>
-                    </Link>
+            {agentGroupsByOfficeGroupCode.length < 1 ? (
+              <TableBody>
+                <TableRow className="transition hover:bg-gray-50 dark:hover:bg-gray-900">
+                  <TableCell className="text-center p-4 text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
+                    <span>No data</span>
                   </TableCell>
-                  <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
+                  {/* <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
                     {row.leaderName}
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
-              ))}
-            </TableBody>
+              </TableBody>
+            ) : (
+              <>
+                <TableHeader>
+                  <TableRow className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
+                    {/* {["category"].map((col) => ( */}
+                    {["Agent Group"].map((col) => (
+                      <th
+                        key={col}
+                        className="cursor-pointer p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400"
+                        onClick={() => sortBy(col)}
+                      >
+                        <div className="flex items-center gap-3">
+                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                            {col.charAt(0).toUpperCase() +
+                              col.slice(1).replace("arrival", "Arrival Time")}
+                          </p>
+                          <span className="flex flex-col gap-0.5">
+                            <svg
+                              className={
+                                sort.column === col && sort.asc
+                                  ? "text-gray-500"
+                                  : "text-gray-300"
+                              }
+                              width="8"
+                              height="5"
+                              viewBox="0 0 8 5"
+                              fill="none"
+                            >
+                              <path
+                                d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                            <svg
+                              className={
+                                sort.column === col && !sort.asc
+                                  ? "text-gray-500"
+                                  : "text-gray-300"
+                              }
+                              width="8"
+                              height="5"
+                              viewBox="0 0 8 5"
+                              fill="none"
+                            >
+                              <path
+                                d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                      </th>
+                    ))}
+                    <TableCell className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+                      Agent Group Leader
+                    </TableCell>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="divide-x divide-y divide-gray-200 dark:divide-gray-800">
+                  {paginatedRows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group"
+                    >
+                      <TableCell className="p-4 group-hover:underline underline-offset-4 text-sm font-normal whitespace-nowrap text-gray-800 dark:text-white/90">
+                        <Link className="" to={`/agent-groups/${row.id}`}>
+                          <span className="hover:underline">
+                            {row.agentName}
+                          </span>
+                        </Link>
+                      </TableCell>
+                      <TableCell className="p-4 text-sm font-normal whitespace-nowrap text-gray-700 dark:text-white/90">
+                        {row.leaderName}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                  {/* {paginatedRows.map((row) => (
+              ))} */}
+                </TableBody>
+              </>
+            )}
           </Table>
         </div>
         <div className="flex items-center flex-col sm:flex-row  justify-between border-t border-gray-200 px-5 py-4 dark:border-gray-800">

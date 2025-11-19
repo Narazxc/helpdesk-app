@@ -24,6 +24,7 @@ import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
 
 import { useDeleteRole } from "./useDeleteRole";
 import { Link } from "react-router";
+import toast from "react-hot-toast";
 
 interface SortState {
   key: "roleName" | "description"; // Fixed: Updated to match OfficeGroup properties
@@ -33,7 +34,9 @@ interface SortState {
 function UserRoleTable() {
   const { roles } = useRoles();
   const { deleteRole } = useDeleteRole();
-  const [itemToDelete, setItemToDelete] = useState("");
+  const [itemToDelete, setItemToDelete] = useState<Role | null>(null);
+
+  console.log("roles", roles);
 
   // console.log("roles", roles);
 
@@ -186,8 +189,14 @@ function UserRoleTable() {
   //   }
 
   function handleDelete() {
-    deleteRole(itemToDelete, {
+    if (!itemToDelete) return;
+
+    deleteRole(itemToDelete?.id.toString(), {
       onSuccess: () => {
+        toast.success(
+          `Role "${itemToDelete.roleName}" has been successfully deleted.`
+        );
+
         closeDeleteModal();
       },
     });
@@ -196,14 +205,15 @@ function UserRoleTable() {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-gray-800">
-        <div>
+        {/* <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
-            Transactions
+            User Roles
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Your most recent transactions list
           </p>
-        </div>
+        </div> */}
+        <div></div>
 
         {/* Search bar */}
         <div className="flex gap-3.5">
@@ -244,7 +254,7 @@ function UserRoleTable() {
         <table className="w-full table-auto">
           <thead>
             <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="w-1/4 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("roleName")}
@@ -290,7 +300,7 @@ function UserRoleTable() {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="w-1/2 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("description")} // Fixed: Updated to description
@@ -336,14 +346,14 @@ function UserRoleTable() {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400">
+              <th className="w-1/4 p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400">
                 Actions
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              {/* <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div className="relative">
                   <span className="sr-only">Action</span>
                 </div>
-              </th>
+              </th> */}
             </tr>
           </thead>
 
@@ -353,13 +363,13 @@ function UserRoleTable() {
                 key={row.id}
                 className="transition hover:bg-gray-50 dark:hover:bg-gray-900 group"
               >
-                <td className="p-4 whitespace-nowrap">
+                <td className="p-4">
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-400">
                     {row.roleName}
                   </p>
                 </td>
-                <td className="p-4 whitespace-nowrap">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                <td className="p-4 w-[32rem]">
+                  <p className="text-sm break-words text-gray-500 dark:text-gray-400">
                     {row.description}
                   </p>
                 </td>
@@ -383,7 +393,8 @@ function UserRoleTable() {
                         <div
                           onClick={() => {
                             openDeleteModal();
-                            setItemToDelete(row.id.toString());
+                            // setItemToDelete(row.id.toString());
+                            setItemToDelete(row);
                           }}
                           className="text-gray-500 hover:text-error-500 dark:hover:text-error-500 h-[25px] dark:text-gray-400"
                         >
@@ -396,11 +407,11 @@ function UserRoleTable() {
                     </Tooltip>
                   </div>
                 </td>
-                <td className="p-4 whitespace-nowrap">
+                {/* <td className="p-4 whitespace-nowrap">
                   <div className="relative inline-block">
-                    {/* TableDropdown component would go here */}
+                    TableDropdown component would go here
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
@@ -517,7 +528,11 @@ function UserRoleTable() {
       >
         <DeleteConfirmationBox
           headerText={`Are you sure?`}
-          descriptionText={`Are you sure you want to delete this item`}
+          descriptionText={
+            itemToDelete
+              ? `Are you sure you want to delete role: ${itemToDelete.roleName}`
+              : "Are you sure you want to delete this role?"
+          }
           onClose={closeDeleteModal}
           onDelete={handleDelete}
         />

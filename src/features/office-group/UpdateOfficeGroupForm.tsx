@@ -34,6 +34,7 @@ export default function UpdateOfficeGroupForm({
       userCode: officeGroupData?.newOfficeGroupData?.userCode || "",
     },
   });
+
   const { updateOfficeGroup } = useUpdateOfficeGroup();
 
   console.log("office Group data", officeGroupData);
@@ -129,7 +130,7 @@ export default function UpdateOfficeGroupForm({
                   items={users}
                   value={field.value}
                   onChange={field.onChange}
-                  getDisplayValue={(user) => user.userName}
+                  getDisplayValue={(user) => user.username}
                   getItemValue={(user) => user.userCode}
                   getItemKey={(user) => user.userCode}
                   placeholder="Select User..."

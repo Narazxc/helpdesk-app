@@ -12,7 +12,7 @@ import type { SubmitHandler } from "react-hook-form";
 // hook
 import { usePermissions } from "./usePermissions";
 import { useCreateRole } from "./useCreateRole";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 // component
 import CustomizedInput from "@/components/form/input/CustomizedInput";
@@ -21,6 +21,8 @@ import Button from "@/components/ui/button/Button";
 import { Checkbox } from "@/components/ui/checkbox";
 import PageMeta from "@/components/common/PageMeta";
 import { Spinner } from "@/components/ui/spinner";
+import TextArea from "@/components/form/input/TextArea";
+import { CircleAlert } from "lucide-react";
 
 type CategorizedPermissions = {
   T: Permission[];
@@ -30,6 +32,7 @@ type CategorizedPermissions = {
 
 export default function CreateRoleForm() {
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -259,6 +262,10 @@ export default function CreateRoleForm() {
     setIsAllSelected(false);
   }
 
+  function goBack() {
+    navigate(-1); // Go back one page
+  }
+
   return (
     <div>
       <PageMeta
@@ -316,11 +323,11 @@ export default function CreateRoleForm() {
                     required: "Role name is required",
                     maxLength: {
                       value: 50,
-                      message: "Role name name must be less than 50 characters",
+                      message: "Role name must be less than 50 characters",
                     },
                     minLength: {
                       value: 2,
-                      message: "Role name name must be at least 2 characters",
+                      message: "Role name must be at least 2 characters",
                     },
                   })}
                 />
@@ -339,7 +346,7 @@ export default function CreateRoleForm() {
               >
                 Description
               </Label>
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <CustomizedInput
                   type="text"
                   error={!!errors.description}
@@ -357,6 +364,40 @@ export default function CreateRoleForm() {
                     {errors.description.message}
                   </span>
                 )}
+              </div> */}
+
+              <div className="flex flex-col">
+                <Controller
+                  name="description"
+                  rules={{
+                    maxLength: {
+                      value: 250,
+                      message: "Description must be 250 characters or less",
+                    },
+                  }}
+                  control={control}
+                  render={({ field }) => (
+                    <TextArea
+                      id="description"
+                      placeholder="Enter Role Description... (250 character limit)"
+                      rows={6}
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                      error={!!errors.description}
+                      className={`bg-gray-50 dark:bg-gray-800 h-30 ${
+                        errors.description
+                          ? "border-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
+                      }`}
+                    />
+                  )}
+                />
+
+                {errors.description && (
+                  <span className="text-red-500 text-sm mt-1 block">
+                    {errors.description.message}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -364,27 +405,45 @@ export default function CreateRoleForm() {
           {/* Divider */}
           <div className="border-b mt-10 mb-10" />
 
-          {/* Select all permission checkbox */}
-          <div className="flex items-center gap-3 mb-4">
-            <Checkbox
-              className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
-              checked={isAllSelected}
-              onCheckedChange={(checked) => handleSelectAll(!!checked)}
-              id="selectAll"
-            />
-            <Label htmlFor="selectAll" className="mb-0">
-              Select All
-            </Label>
+          <div className="flex justify-between items-center mr-10 mb-10">
+            <div>
+              <div>
+                <h3 className="text-color text-xl font-bold">Permissions</h3>
+                <p className="text-sm text-gray-500">
+                  Select the items you want to display in the sidebar.
+                </p>
+              </div>
+            </div>
+
+            {/* Select all permission checkbox */}
+            <div className="flex items-center gap-3 mb-4">
+              <Checkbox
+                className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                checked={isAllSelected}
+                onCheckedChange={(checked) => handleSelectAll(!!checked)}
+                id="selectAll"
+              />
+              <Label htmlFor="selectAll" className="mb-0">
+                Select All
+              </Label>
+            </div>
           </div>
 
           {/* Ticket Permissions */}
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
               <div>
-                <h3 className="text-color font-semibold">Ticket Permissions</h3>
-                <p className="text-sm text-gray-500">
-                  Select the items you want to display in the sidebar.
-                </p>
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">
+                    Ticket Permissions
+                  </h3>
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
+                {/* <p className="text-sm text-gray-500">
+                    Select the items you want to display in the sidebar.
+                  </p> */}
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -425,12 +484,17 @@ export default function CreateRoleForm() {
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
               <div>
-                <h3 className="text-color font-semibold">
-                  Workflow Permissions
-                </h3>
-                <p className="text-sm text-gray-500">
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">
+                    Workflow Permissions
+                  </h3>
+                  {/* <p className="text-sm text-gray-500">
                   Select the items you want to display in the sidebar.
-                </p>
+                </p> */}
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -471,10 +535,15 @@ export default function CreateRoleForm() {
           <div className="mb-12">
             <div className="mb-4 flex justify-between">
               <div>
-                <h3 className="text-color font-semibold">User Permissions</h3>
-                <p className="text-sm text-gray-500">
+                <div className="flex gap-3">
+                  <h3 className="text-color font-semibold">User Permissions</h3>
+                  {/* <p className="text-sm text-gray-500">
                   Select the items you want to display in the sidebar.
-                </p>
+                </p> */}
+                  <span>
+                    <CircleAlert className="w-4 text-gray-500" />
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center gap-3 mr-10">
@@ -512,7 +581,7 @@ export default function CreateRoleForm() {
           </div>
 
           <div className="flex items-center justify-end w-full gap-3 mt-6">
-            <Button size="sm" variant="outline" type="button">
+            <Button onClick={goBack} size="sm" variant="outline" type="button">
               Close
             </Button>
             <Button
@@ -541,4 +610,50 @@ export default function CreateRoleForm() {
             {selectedPermissions.join(", ") || "None"}
           </div>
           <strong>Selected count: {selectedPermissions.length}</strong> */
+}
+
+// 20251010
+{
+  /* <div className="grid lg:grid-cols-[10rem_1fr] items-start gap-[0.1rem]">
+          <Label
+            htmlFor="reqTypeDescription"
+            className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
+          >
+            Description
+          </Label>
+
+          <div className="flex flex-col">
+            <Controller
+              name="reqTypeDescription"
+              rules={{
+                maxLength: {
+                  value: 250,
+                  message: "Description must be 250 characters or less",
+                },
+              }}
+              control={control}
+              render={({ field }) => (
+                <TextArea
+                  id="reqTypeDescription"
+                  placeholder="Enter Request Type Description... (max 250)"
+                  rows={6}
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                  error={!!errors.reqTypeDescription}
+                  className={`bg-gray-50 dark:bg-gray-800 h-20  ${
+                    errors.reqTypeDescription
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  }`}
+                />
+              )}
+            />
+            {errors.reqTypeDescription && (
+              <span className="text-red-500 text-sm mt-1 block">
+                {errors.reqTypeDescription.message}
+              </span>
+            )}
+          </div>
+        </div>
+      </div> */
 }

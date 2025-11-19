@@ -5,12 +5,56 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import fmisHelpdeskLogo from "/images/logo/FMIS-Helpdesk_2.webp";
 import { Link, useNavigate } from "react-router";
+import { useLogin } from "./useLogin";
+import type { LoginCredential } from "@/types/auth";
+import { useForm } from "react-hook-form";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
+  const { login, isLoggingIn } = useLogin();
+
+  const { register, handleSubmit } = useForm<LoginCredential>({
+    defaultValues: {
+      userId: "super.admin",
+      password: "Fmis@admin2025#!",
+    },
+  });
+
+  // const loginCredentials = {
+  //   userId: "super.admin",
+  //   password: "Fmis@admin2025#!",
+  // };
+
+  if (isLoggingIn) {
+    <div>loading...</div>;
+  }
+
+  // const loginCredential: LoginCredential = {
+  //   userId: "super.admin",
+  //   password: "Fmis@admin2025#!",
+  // };
+
+  const onSubmit = (data: LoginCredential) => {
+    login(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+    });
+  };
+
+  // function handleLogin({ userId, password }: LoginCredential) {
+  //   login(
+  //     { userId, password },
+  //     {
+  //       onSuccess: () => {
+  //         navigate("/");
+  //       },
+  //     }
+  //   );
+  // }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -29,7 +73,10 @@ export function LoginForm({
             />
           </div>
           {/* flex items-center */}
-          <form className="p-6 md:p-8 h-[442px] flex items-center dark:bg-gray-900">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-6 md:p-8 h-[442px] flex items-center dark:bg-gray-900"
+          >
             {/*  */}
             <div className="w-full">
               <div className="flex flex-col gap-6">
@@ -44,13 +91,17 @@ export function LoginForm({
                   </p>
                 </div>
                 <div className="grid gap-3">
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="userId">User ID</Label>
                   <Input
                     className="h-10 ring-blue-500"
-                    id="username"
-                    type="username"
-                    placeholder="Username"
+                    id="userId"
+                    // type="userId"
+                    placeholder="User ID"
+                    autoComplete="off"
                     required
+                    {...register("userId", {
+                      required: "User ID is required",
+                    })}
                   />
                 </div>
                 <div className="grid gap-3">
@@ -60,8 +111,12 @@ export function LoginForm({
                     className="h-10"
                     id="password"
                     type="password"
+                    autoComplete="off"
                     placeholder="Password"
                     required
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                   />
                 </div>
               </div>
@@ -74,12 +129,21 @@ export function LoginForm({
                 </Link>
               </div>
               <Button
-                onClick={() => navigate("/")}
+                // onClick={() => handleLogin(loginCredential)}
                 type="submit"
                 className="w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
               >
-                Login
+                {isLoggingIn ? <span>Loading...</span> : <span>Login</span>}
               </Button>
+
+              {/* {errorMessage && (
+                <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md">
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                    {errorMessage}
+                  </p>
+                </div>
+              )} */}
+
               {/* <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
                   Or continue with

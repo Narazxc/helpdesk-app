@@ -302,7 +302,7 @@ export default function CreateAgentGroupForm({
                   items={users}
                   value={field.value} // Use field.value instead of selectedUserId
                   onChange={field.onChange} // Use field.onChange instead of zsetSelectedUserId
-                  getDisplayValue={(user) => user.userName}
+                  getDisplayValue={(user) => user.username}
                   getItemValue={(user) => user.userCode}
                   getItemKey={(user) => user.userCode}
                   placeholder="Select User..."
@@ -334,7 +334,7 @@ export default function CreateAgentGroupForm({
               {selected.map((tag) => (
                 <TagsValue key={tag} onRemove={() => handleRemove(tag)}>
                   {/* {usersa.find((t) => t.id.toString() === tag)?.username} */}
-                  {users.find((t) => t.userCode === tag)?.userName}
+                  {users.find((t) => t.userCode === tag)?.username}
                 </TagsValue>
               ))}
             </TagsTrigger>
@@ -356,7 +356,7 @@ export default function CreateAgentGroupForm({
                           onSelect={() => handleSelect(tag.userCode)}
                           // value={`${tag.username} ${tag.email}`} // for search
                           value={tag.userCode} // ✅ Still use ID for internal tracking
-                          keywords={[tag.userName, tag.email]} // ✅ Used for search filtering
+                          keywords={[tag.username, tag.email]} // ✅ Used for search filtering
 
                           // value={tag.id.toString()}
                           // value={`${tag.username} ${tag.email}`} // This enables search
@@ -364,7 +364,7 @@ export default function CreateAgentGroupForm({
                           {/* // ✅ Works now
                           <Icon className="mr-2 h-4 w-4" /> */}
                           <div className="flex flex-col">
-                            <span className="font-medium">{tag.userName}</span>
+                            <span className="font-medium">{tag.username}</span>
                             <span className="text-xs text-muted-foreground">
                               {tag.email}
                             </span>

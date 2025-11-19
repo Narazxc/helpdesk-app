@@ -10,7 +10,7 @@ export function useDeleteRole() {
   const { isPending: isDeleting, mutate: deleteRole } = useMutation({
     mutationFn: deleteRoleApi,
     onSuccess: () => {
-      toast.success("Role successfully deleted");
+      // toast.success("Role successfully deleted");
 
       queryClient.invalidateQueries({
         queryKey: ["roles"],

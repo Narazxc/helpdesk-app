@@ -60,6 +60,7 @@ const LayoutContent: React.FC = () => {
   // Example: assuming dashboard route is "/dashboard"
   const isDashboard = location.pathname === "/";
   const isEntities = location.pathname === "/entity";
+  const isUsersPage = location.pathname === "/users";
 
   function handleToggleSidebarLogo() {
     console.log("isToggleLogo state", isToggleLogo);
@@ -82,7 +83,7 @@ const LayoutContent: React.FC = () => {
         <AppHeader onToggleSidebarLogo={handleToggleSidebarLogo} />
         <div
           className={
-            isDashboard || isEntities
+            isDashboard || isEntities || isUsersPage
               ? "p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6"
               : "p-4 mx-auto max-w-[78rem] md:p-6"
           }

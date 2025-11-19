@@ -186,7 +186,7 @@ export default function CreateOfficeGroupForm({
                   items={users}
                   value={field.value} // Use field.value instead of selectedUserId
                   onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
-                  getDisplayValue={(user) => user.userName}
+                  getDisplayValue={(user) => user.username}
                   getItemValue={(user) => user.userCode}
                   getItemKey={(user) => user.userCode}
                   placeholder="Select User..."

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { User } from "@/types/user";
+import type { User4 } from "@/types/user";
 import { getUsers } from "@/services/apiUser";
 
 export function useAllUsers() {
@@ -7,7 +7,7 @@ export function useAllUsers() {
     isLoading,
     data: users = [],
     error,
-  } = useQuery<User[], Error>({
+  } = useQuery<User4[], Error>({
     queryKey: ["users"],
     queryFn: getUsers,
   });

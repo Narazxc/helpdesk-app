@@ -58,10 +58,36 @@ export default function OfficeGroup() {
     }
   }
 
+  // function handleUpdate() {
+  //   if (officeGroup) {
+  //     const user = users.find(
+  //       (user) => user.userName === officeGroup.chiefOfficeName
+  //     );
+
+  //     if (!user) {
+  //       console.error(
+  //         "User not found for chiefOfficeName:",
+  //         officeGroup.chiefOfficeName
+  //       );
+  //       return; // Exit early if user is not found
+  //     }
+
+  //     const updateData: UpdateOfficeGroup = {
+  //       id: officeGroup.id.toString(),
+  //       newOfficeGroupData: {
+  //         officeName: officeGroup.officeName,
+  //         userCode: user.userCode,
+  //       },
+  //     };
+
+  //     setUpdateData(updateData);
+  //   }
+  // }
+
   function handleUpdate() {
     if (officeGroup) {
       const user = users.find(
-        (user) => user.userName === officeGroup.chiefOfficeName
+        (user) => user.username === officeGroup.chiefOfficeName
       );
 
       if (!user) {
@@ -69,7 +95,17 @@ export default function OfficeGroup() {
           "User not found for chiefOfficeName:",
           officeGroup.chiefOfficeName
         );
-        return; // Exit early if user is not found
+
+        const updateData: UpdateOfficeGroup = {
+          id: officeGroup.id.toString(),
+          newOfficeGroupData: {
+            officeName: officeGroup.officeName,
+            userCode: "", // Default value when user not found
+          },
+        };
+
+        setUpdateData(updateData);
+        return; // Exit after handling the not-found case
       }
 
       const updateData: UpdateOfficeGroup = {
@@ -190,14 +226,22 @@ export default function OfficeGroup() {
           </ModalWithAnimation>
         </div>
 
-        {isOfficeGroupLoading || isAgentGroupsLoading ? (
+        {/* {isOfficeGroupLoading || isAgentGroupsLoading ? (
           <div>Loading...</div>
         ) : agentGroupsByOfficeGroupCode?.length > 0 ? (
           <DeliveryActivityTable
-            agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode}
+            agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode ?? []}
           />
         ) : (
           <div>No agent groups found</div>
+        )} */}
+
+        {isOfficeGroupLoading || isAgentGroupsLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <DeliveryActivityTable
+            agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode ?? []}
+          />
         )}
       </div>
     </>

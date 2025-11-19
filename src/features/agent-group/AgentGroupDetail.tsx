@@ -63,7 +63,7 @@ export default function AgentGroupDetail() {
   // This feature not yet implemented
   function handleUpdate(rowItem: AgentGroup) {
     if (rowItem) {
-      const leader = users.find((user) => user.userName === rowItem.leaderName);
+      const leader = users.find((user) => user.username === rowItem.leaderName);
 
       if (!leader) {
         console.error("User not found for leaderName:", rowItem.leaderName);
@@ -103,7 +103,7 @@ export default function AgentGroupDetail() {
       // });
       // Build a map for quick lookup
       const userMap = new Map(
-        users.map((user) => [user.userName, user.userCode])
+        users.map((user) => [user.username, user.userCode])
       );
 
       // Map member names to codes
