@@ -1,3 +1,11 @@
+import { useState, useMemo, useEffect } from "react";
+
+// Component
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
+import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
+import AdminResetPasswordForm from "../auth/AdminResetPasswordForm";
+import { Badge } from "@/components/ui/badge";
+import Button from "@/components/ui/button/Button";
 import PaginationWithButton from "@/components/tables/datatables/datatabletwo/PaginationWithButton";
 import { TableCell } from "@/components/ui/table";
 import {
@@ -6,26 +14,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table/index";
+
+// Date fns
+import { format, parseISO } from "date-fns";
+
+// Icon
 import { TrashBinIcon } from "@/icons";
 import {
+  FolderUp,
   LockKeyhole,
   LockKeyholeOpen,
   PencilIcon,
   RotateCcwKey,
 } from "lucide-react";
-import { useState, useMemo } from "react";
-import { format, parseISO } from "date-fns";
-import { useAllUsers } from "../auth/useAllUsers";
-import { useModal } from "@/hook/useModal";
-import { ModalWithAnimation } from "@/components/ModalWithAnimation";
-import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
-import { useDeleteUser } from "./useDeleteUser";
+
+// Toast
 import toast from "react-hot-toast";
-import { Badge } from "@/components/ui/badge";
-import { useNavigate } from "react-router";
+
+// Type
 import type { User4 } from "@/types/user";
-import AdminResetPasswordForm from "../auth/AdminResetPasswordForm";
-import useUnlockUser from "../auth/useUnlockUser";
+
+// Hook
+import { useModal } from "@/hook/useModal";
+import { useNavigate } from "react-router";
+import { useAllUsers } from "./useAllUsers";
+import { useDeleteUser } from "./useDeleteUser";
+import { useUnlockUser } from "../auth/useUnlockUser";
+import { exportUsersCsv } from "@/services/apiUser";
 
 // const tableRowData = [
 //   {
@@ -413,14 +428,23 @@ type SortKey =
   | "createdAt";
 type SortOrder = "asc" | "desc";
 
-export default function UsersTable() {
+interface UsersTableProps {
+  filterStatus: string;
+}
+
+// type UserStatus = "all" | "active" | "inactive";
+// type UserStatus = "active" | "inactive";
+
+export default function UsersTable({ filterStatus }: UsersTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<SortKey>("username");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [searchTerm, setSearchTerm] = useState("");
-  const { users: tableRowData = [], isLoading: isLoadingAllUsers } =
-    useAllUsers();
+  // const { users: tableRowData = [], isLoading: isLoadingAllUsers } =
+  //   useAllActiveUsers();
+  // const [filterStatus, setFilterStatus] = useState();
+  const { users, isLoading: isLoadingAllUsers } = useAllUsers();
   const [itemToDelete, setItemToDelete] = useState<User4>();
   const { deleteUser } = useDeleteUser();
   const {
@@ -440,7 +464,10 @@ export default function UsersTable() {
     closeModal: closeDeleteModal,
   } = useModal();
 
-  console.log("tableRowData", tableRowData);
+  const activeUsers = users?.filter((user) => user.status === true) || [];
+  const inactiveUsers = users?.filter((user) => user.status === false) || [];
+
+  const tableRowData = filterStatus === "active" ? activeUsers : inactiveUsers;
 
   const filteredAndSortedData = useMemo(() => {
     return tableRowData
@@ -494,6 +521,11 @@ export default function UsersTable() {
     });
   }
 
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterStatus]);
+
   const handleUpdate = (user: User4) => {
     navigate("/users/update", { state: { id: user.id } });
   };
@@ -501,6 +533,25 @@ export default function UsersTable() {
   // function handleUpdateUserPassword(user: User4) {
   //   navigate("/admin/users/reset-password", { state: { user: user } });
   // }
+
+  async function handleExportUsersCsv() {
+    try {
+      const data = await exportUsersCsv();
+
+      const url = window.URL.createObjectURL(
+        new Blob([data], { type: "text/csv" })
+      );
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "users.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (e) {
+      console.error("Export failed:", e);
+    }
+  }
 
   if (isLoadingAllUsers) {
     return <div className="p-4 text-gray-500">Loading users...</div>;
@@ -549,31 +600,108 @@ export default function UsersTable() {
           <span className="text-gray-500 dark:text-gray-400"> entries </span>
         </div>
 
-        <div className="relative">
-          <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
-            <svg
-              className="fill-current"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="flex gap-3">
+          {/* <div className="hidden h-11 items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 lg:inline-flex dark:bg-gray-900">
+            <button
+              onClick={() => {
+                setFilterStatus("All");
+                setCurrentPage(1);
+              }}
+              className={`text-theme-sm h-10 rounded-md px-3 py-2 font-medium hover:text-gray-900 dark:hover:text-white ${
+                filterStatus === "All"
+                  ? "shadow-theme-xs text-gray-900 dark:text-white bg-white dark:bg-gray-800"
+                  : "text-gray-500 dark:text-gray-400"
+              }`}
             >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M3.04199 9.37363C3.04199 5.87693 5.87735 3.04199 9.37533 3.04199C12.8733 3.04199 15.7087 5.87693 15.7087 9.37363C15.7087 12.8703 12.8733 15.7053 9.37533 15.7053C5.87735 15.7053 3.04199 12.8703 3.04199 9.37363ZM9.37533 1.54199C5.04926 1.54199 1.54199 5.04817 1.54199 9.37363C1.54199 13.6991 5.04926 17.2053 9.37533 17.2053C11.2676 17.2053 13.0032 16.5344 14.3572 15.4176L17.1773 18.238C17.4702 18.5309 17.945 18.5309 18.2379 18.238C18.5308 17.9451 18.5309 17.4703 18.238 17.1773L15.4182 14.3573C16.5367 13.0033 17.2087 11.2669 17.2087 9.37363C17.2087 5.04817 13.7014 1.54199 9.37533 1.54199Z"
-                fill=""
+              Active
+            </button>
+            <button
+              onClick={() => {
+                setFilterStatus("Unpaid");
+                setCurrentPage(1);
+              }}
+              className={`text-theme-sm h-10 rounded-md px-3 py-2 font-medium hover:text-gray-900 dark:hover:text-white ${
+                filterStatus === "Unpaid"
+                  ? "shadow-theme-xs text-gray-900 dark:text-white bg-white dark:bg-gray-800"
+                  : "text-gray-500 dark:text-gray-400"
+              }`}
+            >
+              Inactive
+            </button>
+          </div> */}
+
+          <div className="relative">
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
+              <svg
+                className="fill-current"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M3.04199 9.37363C3.04199 5.87693 5.87735 3.04199 9.37533 3.04199C12.8733 3.04199 15.7087 5.87693 15.7087 9.37363C15.7087 12.8703 12.8733 15.7053 9.37533 15.7053C5.87735 15.7053 3.04199 12.8703 3.04199 9.37363ZM9.37533 1.54199C5.04926 1.54199 1.54199 5.04817 1.54199 9.37363C1.54199 13.6991 5.04926 17.2053 9.37533 17.2053C11.2676 17.2053 13.0032 16.5344 14.3572 15.4176L17.1773 18.238C17.4702 18.5309 17.945 18.5309 18.2379 18.238C18.5308 17.9451 18.5309 17.4703 18.238 17.1773L15.4182 14.3573C16.5367 13.0033 17.2087 11.2669 17.2087 9.37363C17.2087 5.04817 13.7014 1.54199 9.37533 1.54199Z"
+                  fill=""
+                />
+              </svg>
+            </span>
+            <div className="flex gap-2 items-center justify-center">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search..."
+                className="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-11 pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[300px]"
               />
-            </svg>
-          </span>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search..."
-            className="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-11 pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[300px]"
-          />
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              onClick={() => console.log("clicked")}
+              variant="outline"
+              size="sm"
+            >
+              Import
+              <svg
+                className="fill-current"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10.0018 14.083C9.7866 14.083 9.59255 13.9924 9.45578 13.8472L5.61586 10.0097C5.32288 9.71688 5.32272 9.242 5.61552 8.94902C5.90832 8.65603 6.3832 8.65588 6.67618 8.94868L9.25182 11.5227L9.25182 3.33301C9.25182 2.91879 9.5876 2.58301 10.0018 2.58301C10.416 2.58301 10.7518 2.91879 10.7518 3.33301L10.7518 11.5193L13.3242 8.94866C13.6172 8.65587 14.0921 8.65604 14.3849 8.94903C14.6777 9.24203 14.6775 9.7169 14.3845 10.0097L10.5761 13.8154C10.4385 13.979 10.2323 14.083 10.0018 14.083ZM4.0835 13.333C4.0835 12.9188 3.74771 12.583 3.3335 12.583C2.91928 12.583 2.5835 12.9188 2.5835 13.333V15.1663C2.5835 16.409 3.59086 17.4163 4.8335 17.4163H15.1676C16.4102 17.4163 17.4176 16.409 17.4176 15.1663V13.333C17.4176 12.9188 17.0818 12.583 16.6676 12.583C16.2533 12.583 15.9176 12.9188 15.9176 13.333V15.1663C15.9176 15.5806 15.5818 15.9163 15.1676 15.9163H4.8335C4.41928 15.9163 4.0835 15.5806 4.0835 15.1663V13.333Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </Button>
+            <Button onClick={handleExportUsersCsv} variant="outline" size="sm">
+              Export
+              {/* <svg
+                className="fill-current"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10.0018 14.083C9.7866 14.083 9.59255 13.9924 9.45578 13.8472L5.61586 10.0097C5.32288 9.71688 5.32272 9.242 5.61552 8.94902C5.90832 8.65603 6.3832 8.65588 6.67618 8.94868L9.25182 11.5227L9.25182 3.33301C9.25182 2.91879 9.5876 2.58301 10.0018 2.58301C10.416 2.58301 10.7518 2.91879 10.7518 3.33301L10.7518 11.5193L13.3242 8.94866C13.6172 8.65587 14.0921 8.65604 14.3849 8.94903C14.6777 9.24203 14.6775 9.7169 14.3845 10.0097L10.5761 13.8154C10.4385 13.979 10.2323 14.083 10.0018 14.083ZM4.0835 13.333C4.0835 12.9188 3.74771 12.583 3.3335 12.583C2.91928 12.583 2.5835 12.9188 2.5835 13.333V15.1663C2.5835 16.409 3.59086 17.4163 4.8335 17.4163H15.1676C16.4102 17.4163 17.4176 16.409 17.4176 15.1663V13.333C17.4176 12.9188 17.0818 12.583 16.6676 12.583C16.2533 12.583 15.9176 12.9188 15.9176 13.333V15.1663C15.9176 15.5806 15.5818 15.9163 15.1676 15.9163H4.8335C4.41928 15.9163 4.0835 15.5806 4.0835 15.1663V13.333Z"
+                  fill="currentColor"
+                />
+              </svg> */}
+              <FolderUp strokeWidth={2} size={19} />
+            </Button>
+          </div>
         </div>
       </div>
       {/*min-w-max  */}
@@ -656,7 +784,7 @@ export default function UsersTable() {
                 }
                 <TableCell className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]">
                   <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                    Action
+                    Actions
                   </p>
                 </TableCell>
               </TableRow>
@@ -664,32 +792,6 @@ export default function UsersTable() {
             <TableBody>
               {currentData.map((item, i) => (
                 <TableRow key={i + 1}>
-                  {/* <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
-                    {item.name}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.position}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.location}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.age}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.date}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.salary}
-                  </TableCell> */}
-                  {/* //   type SortKey =
-                  //     | "userName"
-                  //     | "userId"
-                  //     | "roleName"
-                  //     | "operatingId"
-                  //     | "status"
-                  //     | "createdAt"; */}
-                  {/* New cell based on user model/type */}
                   <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
                     {item.username}
                   </TableCell>
@@ -723,7 +825,6 @@ export default function UsersTable() {
                     <div className="flex justify-center items-center">
                       {!item.accountLocked ? (
                         // color="#ffc038" original
-
                         // dark #2f9e44
                         // dark #f08c00
                         <LockKeyholeOpen
@@ -747,7 +848,7 @@ export default function UsersTable() {
                     {/* HH:mm:ss */}
                   </TableCell>
                   <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
-                    <div className="flex items-center w-full gap-2">
+                    <div className="flex items-center w-full gap-4">
                       <button
                         onClick={() => {
                           openDeleteModal();
@@ -842,3 +943,39 @@ export default function UsersTable() {
     </div>
   );
 }
+
+// Should be inside table row
+{
+  /* <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                    {item.name}
+                  </TableCell>
+                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                    {item.position}
+                  </TableCell>
+                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                    {item.location}
+                  </TableCell>
+                  <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                    {item.age}
+                  </TableCell>
+                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                    {item.date}
+                  </TableCell>
+                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                    {item.salary}
+                  </TableCell> */
+}
+{
+  /* //   type SortKey =
+                  //     | "userName"
+                  //     | "userId"
+                  //     | "roleName"
+                  //     | "operatingId"
+                  //     | "status"
+                  //     | "createdAt"; */
+}
+{
+  /* New cell based on user model/type */
+}
+
+////////////////////////////////////////////////////////////////

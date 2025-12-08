@@ -6,6 +6,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+// import basicSsl from "@vitejs/plugin-basic-ssl";
+// import mkcert from "vite-plugin-mkcert";
+
 import svgr from "vite-plugin-svgr";
 import { visualizer } from "rollup-plugin-visualizer";
 
@@ -13,6 +16,8 @@ import { visualizer } from "rollup-plugin-visualizer";
 export default defineConfig({
   plugins: [
     react(),
+    // basicSsl(),
+    // mkcert(), // Add the mkcert plugin here
 
     // for Shadcn
     tailwindcss(),
@@ -39,4 +44,18 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+
+  // server: {
+  //   // https: true,
+  //   port: 5173,
+  // },
+
+  // server: {
+  //   "/api": {
+  //     target: "https://helpdesk-dev.fmis.gov.kh:448",
+  //     changeOrigin: true,
+  //     secure: true,
+  //     rewrite: (path) => path.replace(/^\/api/, "/api/v1"),
+  //   },
+  // },
 });

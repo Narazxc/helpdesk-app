@@ -453,6 +453,8 @@ import UpdateAssetTypeForm from "./UpdateAssetTypeForm";
 import type { AssetType } from "@/types/asset-type";
 import { useModal } from "@/hook/useModal";
 import { useDeleteAssetType } from "./useDeleteAssetType";
+import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
+import toast from "react-hot-toast";
 
 // const tableRowData = [
 //   {
@@ -560,6 +562,7 @@ export default function AssetTypeTable() {
   const { assetTypes } = useAssetTypes();
 
   const [selectedItem, setSelectedItem] = useState<AssetType>();
+  const [itemToDelete, setItemToDelete] = useState<AssetType>();
   const { deleteAssetType } = useDeleteAssetType();
 
   // Separate modal states
@@ -616,9 +619,23 @@ export default function AssetTypeTable() {
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const currentData = filteredAndSortedData.slice(startIndex, endIndex);
 
-  function handleDelete(assetType: AssetType) {
-    openDeleteModal();
-    setSelectedItem(assetType);
+  // function handleDelete(assetType: AssetType) {
+  //   openDeleteModal();
+  //   setSelectedItem(assetType);
+  // }
+
+  function handleDelete() {
+    if (!itemToDelete) return;
+
+    deleteAssetType(itemToDelete?.id.toString(), {
+      onSuccess: () => {
+        toast.success(
+          `Asset Type "${itemToDelete.name}" has been successfully deleted.`
+        );
+
+        closeDeleteModal();
+      },
+    });
   }
 
   function handleUpdate(assetType: AssetType) {
@@ -826,7 +843,10 @@ export default function AssetTypeTable() {
                         <TooltipTrigger>
                           {/* dark:hover:text-white/90 */}
                           <div
-                            onClick={() => handleDelete(item)}
+                            onClick={() => {
+                              openDeleteModal();
+                              setItemToDelete(item);
+                            }}
                             className="text-gray-500 hover:text-error-500 dark:hover:text-error-500 h-[25px] dark:text-gray-400"
                           >
                             <TrashBinIcon className="size-5" />
@@ -862,7 +882,27 @@ export default function AssetTypeTable() {
         </div>
       </div>
 
-      {selectedItem && (
+      {/* {itemToDelete && ( */}
+      <ModalWithAnimation
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        className="max-w-[584px] p-5 lg:p-7"
+      >
+        <DeleteConfirmationBox
+          headerText={`Are you sure?`}
+          // descriptionText={`Are you sure you want to delete user: ${itemToDelete?.username}`}
+          descriptionText={
+            <>
+              Are you sure you want to delete user: <b>{itemToDelete?.name}</b>
+            </>
+          }
+          onClose={closeDeleteModal}
+          onDelete={handleDelete}
+        />
+      </ModalWithAnimation>
+      {/* )} */}
+
+      {/* {selectedItem && (
         <ModalWithAnimation
           isOpen={isDeleteModalOpen}
           onClose={closeDeleteModal}
@@ -892,7 +932,7 @@ export default function AssetTypeTable() {
             </button>
           </div>
         </ModalWithAnimation>
-      )}
+      )} */}
 
       {selectedItem && (
         <ModalWithAnimation

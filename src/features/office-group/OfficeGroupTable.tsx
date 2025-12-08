@@ -11,7 +11,7 @@ import type { OfficeGroup, UpdateOfficeGroup } from "@/types/office-group";
 // Hook
 import { useDeleteOfficeGroup } from "./useDeleteOfficeGroup";
 import { useOfficeGroups } from "./useOfficeGroups";
-import { useAllUsers } from "../auth/useAllUsers";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 import { useModal } from "@/hook/useModal";
 
 // Component
@@ -260,7 +260,7 @@ interface SortState {
 
 function OfficeGroupTable() {
   const { officeGroups } = useOfficeGroups();
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const { deleteOfficeGroup } = useDeleteOfficeGroup();
 
   console.log("officeGroups", officeGroups);
@@ -284,7 +284,7 @@ function OfficeGroupTable() {
     asc: true,
   });
 
-  const [itemToDelete, setItemToDelete] = useState("");
+  const [itemToDelete, setItemToDelete] = useState<OfficeGroup>();
   const [itemToUpdate, setItemToUpdate] = useState<UpdateOfficeGroup | null>(
     null
   );
@@ -447,7 +447,9 @@ function OfficeGroupTable() {
   }
 
   function handleDelete() {
-    deleteOfficeGroup(itemToDelete, {
+    if (!itemToDelete) return;
+
+    deleteOfficeGroup(itemToDelete.id.toString(), {
       onSuccess: () => {
         toast.success("Office group deleted successfully");
         closeDeleteModal();
@@ -654,7 +656,7 @@ function OfficeGroupTable() {
                         <div
                           onClick={() => {
                             openDeleteModal();
-                            setItemToDelete(row.id.toString());
+                            setItemToDelete(row);
                           }}
                           className="text-gray-500 hover:text-error-500 dark:hover:text-error-500 h-[25px] dark:text-gray-400"
                         >
@@ -787,7 +789,13 @@ function OfficeGroupTable() {
       >
         <DeleteConfirmationBox
           headerText={`Are you sure?`}
-          descriptionText={`Are you sure you want to delete this item`}
+          // descriptionText={`Are you sure you want to delete this item`}
+          descriptionText={
+            <>
+              Are you sure you want to delete office group:{" "}
+              <b>{itemToDelete?.officeName}</b>
+            </>
+          }
           onClose={closeDeleteModal}
           onDelete={handleDelete}
         />

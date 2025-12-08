@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PaginationProps {
   totalPages: number;
@@ -14,6 +14,11 @@ export default function PaginationWithButton({
   onPageChange,
 }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(initialPage);
+
+  // Add this useEffect to sync internal state with prop changes
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [initialPage]);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;

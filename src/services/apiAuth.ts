@@ -1,8 +1,10 @@
 import type {
   AdminResetPassword,
+  ChangePassword,
   CurrentUser,
   LoginCredential,
   LoginResponse,
+  ResetPassword,
 } from "@/types/auth";
 import type { ApiResponse } from "@/types/api";
 import { api } from "./axios";
@@ -86,11 +88,13 @@ export async function login({ userId, password }: LoginCredential) {
 
 export async function logout() {
   try {
-    const res = await axiosInstance.post<ApiResponse<LoginResponse>>(
-      `${API_URL}/auth/logout`,
-      {},
-      { withCredentials: true }
-    );
+    // const res = await axiosInstance.post<ApiResponse<LoginResponse>>(
+    //   `${API_URL}/auth/logout`,
+    //   {},
+    //   { withCredentials: true }
+    // );
+
+    const res = await api.post(`${API_URL}/auth/logout`);
 
     console.log("in apiAuth | logout method", res.data.data);
 
@@ -177,6 +181,64 @@ export async function adminResetPassword(
 
     // Get object from array
     return res.data.data;
+  } catch (err) {
+    console.error("Something when wrong:", err);
+    throw err;
+  }
+}
+
+export async function forgotPassword(email: string) {
+  // <ApiResponse<AdminResetPassword>>
+  try {
+    const res = await api.post(`${API_URL}/auth/forgot-password`, {
+      email,
+      //  email: "sreymom.khen@fmis.gov.kh",
+      // email: "newuser@fmis.gov.kh",
+    });
+
+    console.log("in apiAuth | forgotPassword method", res.data);
+
+    // Get object from array
+    return res.data.data;
+  } catch (err) {
+    console.error("Something when wrong:", err);
+    throw err;
+  }
+}
+
+export async function resetPassword(resetPasswordData: ResetPassword) {
+  console.log("Data coming into resetPassword method", resetPasswordData);
+
+  try {
+    const res = await api.post(
+      `${API_URL}/auth/reset-password`,
+      resetPasswordData
+    );
+
+    console.log("in apiAuth | resetPassword method | Update complete");
+
+    return res.data.data;
+  } catch (err) {
+    console.error("Something when wrong:", err);
+    throw err;
+  }
+}
+
+export async function changePassword(changePasswordData: ChangePassword) {
+  // console.log("Data coming into resetPassword method", resetPasswordData);
+
+  console.log("incoming changePasswordData", changePasswordData);
+
+  try {
+    const res = await api.post(
+      `${API_URL}/auth/change-password`,
+      changePasswordData
+    );
+
+    console.log("in apiAuth | changePassword method", res.data);
+
+    return res.data.data;
+    // return "abc";
   } catch (err) {
     console.error("Something when wrong:", err);
     throw err;

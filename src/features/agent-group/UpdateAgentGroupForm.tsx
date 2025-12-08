@@ -1,6 +1,5 @@
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
-import { useAllUsers } from "../auth/useAllUsers";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import Label from "@/components/form/Label";
 import type { UpdateAgentGroup } from "@/types/agent-group";
@@ -42,6 +41,7 @@ import {
 } from "@/components/ui/shadcn-io/tags";
 import { useState } from "react";
 import { CommandItem } from "@/components/ui/command";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 
 interface UpdateAgentGroupFormProps {
   initialData: { id: string; newAgentGroupData: UpdateAgentGroup };
@@ -52,7 +52,7 @@ export default function UpdateAgentGroupForm({
   initialData,
   closeModal,
 }: UpdateAgentGroupFormProps) {
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const { groupLevels } = useGroupLevels();
   const { officeGroups } = useOfficeGroups();
   const { updateAgentGroup } = useUpdateAgentGroup();

@@ -85,6 +85,7 @@ export interface User4 {
   accountLocked: boolean; // added on 20251119
   createdAt: string;
   updatedAt: string;
+  // forcePasswordChange: boolean; // added on 20251203
 }
 
 // {

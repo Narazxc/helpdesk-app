@@ -40,6 +40,8 @@ import Users from "./pages/Users";
 import CreateUserPage2 from "./pages/archive/user/CreateUserPage2";
 import UpdateUserPage from "./pages/archive/user/UpdateUserPage";
 import AdminResetPassword from "./features/auth/AdminResetPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ResetPassword from "./pages/ResetPassword";
 // import UpdateUserPage from "./pages/archive/user/UpdateUserpage";
 
 const queryClient = new QueryClient({
@@ -67,7 +69,13 @@ function App() {
           <ScrollToTop />
           <Routes>
             {/* Dashboard Layout */}
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index path="/" element={<MyDashboardPage />} />
               {/* <Route path="users" element={<Users />} /> */}
               <Route path="users" element={<Users />} />
@@ -101,6 +109,7 @@ function App() {
             {/* <Route path="/signin" element={<Signin />} /> */}
             <Route path="/signin" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
 
           <Toaster

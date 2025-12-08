@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createAgentGroup as createAgentGroupApi } from "@/services/apiAgentGroup";
+import type { AxiosError } from "axios";
 // import type { AxiosError } from "axios";
 
 // Old error toast
@@ -24,28 +25,27 @@ export function useCreateAgentGroup() {
     },
 
     // Old error toast
-    // onError: (error: AxiosError<ApiErrorResponse>) => {
-    //   // Check if server error message exists
-    //   if (error.response?.data?.error || error.response?.data?.message) {
-    //     const serverMessage =
-    //       error.response.data.error ||
-    //       error.response.data.message ||
-    //       error.message;
+    onError: (error: AxiosError<any>) => {
+      // Check if server error message exists
+      if (error.response?.data?.error || error.response?.data?.message) {
+        const serverMessage =
+          error.response.data.error ||
+          error.response.data.message ||
+          error.message;
 
-    //     toast.error(serverMessage, {
-    //       position: "top-right",
-    //     });
-    //   } else {
-    //     // Fallback to generic error message
-    //     toast.error(error.message, {
-    //       position: "top-right",
-    //     });
+        toast.error(serverMessage);
+      } else {
+        // Fallback to generic error message
+        toast.error(error.message);
+      }
+    },
+
+    // onError: (err: AxiosError) => {
+    //   // Check if the error message exists, then show it
+    //   if (err?.response?.data?.error) {
+    //     toast.error(err.response.data.error);
     //   }
     // },
-
-    onError: () => {
-      toast.error("This user already chief office with another office group");
-    },
   });
 
   return { isCreating, createAgentGroup, error };

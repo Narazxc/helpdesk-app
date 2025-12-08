@@ -3,7 +3,20 @@ import type { ApiResponse } from "@/types/api";
 import type { CreateUser2, User, User4 } from "@/types/user";
 import { api } from "./axios";
 
-// Get all request types
+// Get all users
+export async function getAllUsers(): Promise<User4[]> {
+  try {
+    const res = await api.get<ApiResponse<User4[]>>(`${API_URL}/users`);
+
+    console.log("Users data: ", res.data.data);
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to fetch all users:", err);
+    throw err;
+  }
+}
+
+// Get all active users
 export async function getUsers(): Promise<User4[]> {
   try {
     const res = await api.get<ApiResponse<User4[]>>(`${API_URL}/users/active`);
@@ -11,7 +24,7 @@ export async function getUsers(): Promise<User4[]> {
     console.log("Users data: ", res.data.data);
     return res.data.data;
   } catch (err) {
-    console.error("Failed to fetch request types:", err);
+    console.error("Failed to active users:", err);
     throw err;
   }
 }
@@ -113,6 +126,37 @@ export async function getUserById(id: string): Promise<User4> {
     return res.data.data;
   } catch (error) {
     console.error("Failed to fetch category types:", error);
+    throw error;
+  }
+}
+
+// 20251203
+export async function exportUsersCsv(): Promise<Blob> {
+  try {
+    const res = await api.get(`${API_URL}/users/csv/export`, {
+      responseType: "blob",
+    });
+
+    console.log("CSV blob:", res.data); // this will log
+    return res.data; // return the blob
+  } catch (error) {
+    console.error("Failed to export user csv:", error);
+    throw error;
+  }
+}
+
+// 20251203
+export async function importCsv(): Promise<User4> {
+  try {
+    const res = await api.post<ApiResponse<User4>>(
+      `${API_URL}/users/csv/import`,
+      // need to add body
+      {}
+    );
+
+    return res.data.data;
+  } catch (error) {
+    console.error("Failed to import user: ", error);
     throw error;
   }
 }

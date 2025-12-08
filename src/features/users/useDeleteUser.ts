@@ -11,6 +11,10 @@ export function useDeleteUser() {
     mutationFn: deleteUserApi,
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: ["allUsers"],
+      });
+
+      queryClient.invalidateQueries({
         queryKey: ["users"],
       });
 

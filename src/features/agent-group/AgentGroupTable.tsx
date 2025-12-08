@@ -21,10 +21,10 @@ import { useAgentGroups } from "./useAgentGroups";
 import type { AgentGroup, UpdateAgentGroup } from "@/types/agent-group";
 import { useDeleteAgentGroup } from "./useDeleteAgentGroup";
 import toast from "react-hot-toast";
-import { useAllUsers } from "../auth/useAllUsers";
 import { useGroupLevels } from "./useGroupLevels";
 import { useOfficeGroups } from "../office-group/useOfficeGroups";
 import UpdateAgentGroupForm from "./UpdateAgentGroupForm";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 
 interface SortState {
   key: "agentName" | "leaderName" | "levelName" | "officeName"; // Fixed: Updated to match OfficeGroup properties
@@ -42,8 +42,8 @@ const AgentGroupTable: React.FC = () => {
   // useOfficeGroups
   //   const { officeGroups } = useOfficeGroups();
   const { agentGroups, isLoading: isLoadingAgentGroups } = useAgentGroups();
-  const [itemToDelete, setItemToDelete] = useState("");
-  const { users } = useAllUsers();
+  const [itemToDelete, setItemToDelete] = useState<AgentGroup>();
+  const { users } = useAllActiveUsers();
   const { groupLevels } = useGroupLevels();
   const { officeGroups } = useOfficeGroups();
   const [itemToUpdate, setItemToUpdate] = useState<{
@@ -245,7 +245,9 @@ const AgentGroupTable: React.FC = () => {
   function handleDelete() {
     // console.log("itemToDelete", itemToDelete);
 
-    deleteAgentGroup(itemToDelete, {
+    if (!itemToDelete) return;
+
+    deleteAgentGroup(itemToDelete.id.toString(), {
       onSuccess: () => {
         toast.success("Agent Group successfully deleted");
         closeDeleteModal();
@@ -579,7 +581,7 @@ const AgentGroupTable: React.FC = () => {
                         <div
                           onClick={() => {
                             openDeleteModal();
-                            setItemToDelete(row.id.toString());
+                            setItemToDelete(row);
                             console.log("ItemToDelete", itemToDelete);
                           }}
                           className="text-gray-500 hover:text-error-500 dark:hover:text-error-500 h-[25px] dark:text-gray-400"
@@ -725,7 +727,13 @@ const AgentGroupTable: React.FC = () => {
       >
         <DeleteConfirmationBox
           headerText={`Are you sure?`}
-          descriptionText={`Deleting agent group`}
+          // descriptionText={`Deleting agent group`}
+          descriptionText={
+            <>
+              Are you sure you want to delete agent group:{" "}
+              <b>{itemToDelete?.agentName}</b>
+            </>
+          }
           onClose={closeDeleteModal}
           onDelete={handleDelete}
         />

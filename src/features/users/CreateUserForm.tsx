@@ -22,6 +22,8 @@ import { useCreateUser } from "@/features/users/useCreateUser";
 import { useNavigate } from "react-router";
 import { useEntities } from "@/features/entities/useEntities";
 import { useRequestTypes } from "@/features/request-type/useRequestTypes";
+
+// Icon
 import { CircleCheck } from "lucide-react";
 import { EyeCloseIcon, EyeIcon } from "@/icons";
 // EyeIcon, EyeClosedIcon;
@@ -441,33 +443,35 @@ export default function CreateUserForm() {
                 Entity <span className="text-red-500"> *</span>
               </Label>
 
-              <Controller
-                name="businessCode" // This is the field name in your form data
-                control={control}
-                rules={{ required: "Please select a user" }} // Optional validation
-                render={({ field }) => (
-                  <GenericCombobox
-                    id="entity"
-                    items={entities}
-                    value={field.value} // Use field.value instead of selectedUserId
-                    onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
-                    getDisplayValue={(entity) =>
-                      `${entity.operatingUnit} - ${entity.enLongName}`
-                    }
-                    getItemValue={(entity) => entity.businessCode}
-                    getItemKey={(entity) => entity.businessCode}
-                    placeholder="Select an Entity..."
-                    searchPlaceholder="Search users..."
-                    emptyMessage="No users found."
-                    // error={fieldState.error?.message} // Pass validation errors if your component supports it
-                  />
+              <div>
+                <Controller
+                  name="businessCode" // This is the field name in your form data
+                  control={control}
+                  rules={{ required: "Please select an Entity" }} // Optional validation
+                  render={({ field }) => (
+                    <GenericCombobox
+                      id="entity"
+                      items={entities}
+                      value={field.value} // Use field.value instead of selectedUserId
+                      onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
+                      getDisplayValue={(entity) =>
+                        `${entity.operatingUnit} - ${entity.enLongName}`
+                      }
+                      getItemValue={(entity) => entity.businessCode}
+                      getItemKey={(entity) => entity.businessCode}
+                      placeholder="Select an Entity..."
+                      searchPlaceholder="Search users..."
+                      emptyMessage="No users found."
+                      // error={fieldState.error?.message} // Pass validation errors if your component supports it
+                    />
+                  )}
+                />
+                {errors.businessCode && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.businessCode.message}
+                  </span>
                 )}
-              />
-              {errors.businessCode && (
-                <span className="text-red-500 text-sm mt-1">
-                  {errors.businessCode.message}
-                </span>
-              )}
+              </div>
             </div>
           </div>
         </div>

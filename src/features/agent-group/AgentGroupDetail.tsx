@@ -11,9 +11,9 @@ import { useDeleteAgentGroup } from "./useDeleteAgentGroup";
 import UpdateAgentGroupForm from "./UpdateAgentGroupForm";
 import type { AgentGroup, UpdateAgentGroup } from "@/types/agent-group";
 import { useState } from "react";
-import { useAllUsers } from "../auth/useAllUsers";
 import { useOfficeGroups } from "../office-group/useOfficeGroups";
 import { useGroupLevels } from "./useGroupLevels";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 
 export default function AgentGroupDetail() {
   const { id } = useParams();
@@ -21,7 +21,7 @@ export default function AgentGroupDetail() {
   const { agentGroup } = useAgentGroupById(id || "");
 
   // data for compare
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const { officeGroups } = useOfficeGroups();
   const { groupLevels } = useGroupLevels();
 

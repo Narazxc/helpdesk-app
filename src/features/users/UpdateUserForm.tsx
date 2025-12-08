@@ -174,7 +174,7 @@ export default function UpdateUserForm() {
     updateUser(updateUserData, {
       onSuccess: () => {
         navigate("/users");
-        toast.success("User created successfully."); // Shows on new page
+        toast.success("User updated successfully."); // Shows on new page
       },
       onError: (error) => {
         console.log(error);

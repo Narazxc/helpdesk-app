@@ -11,6 +11,7 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   tokenType: string;
+  forcePasswordChange: string;
 
   //   userId: "super.admin";
   //   username: "Super Admin";
@@ -22,7 +23,7 @@ export interface LoginResponse {
 }
 
 export interface CurrentUser {
-  id: number;
+  id?: number;
   userId: string;
   username: string;
   email: string;
@@ -41,3 +42,15 @@ export interface AdminResetPassword {
 //       "roles": [
 //           "Test"
 //       ]
+
+export interface ResetPassword {
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}

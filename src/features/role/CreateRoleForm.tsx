@@ -410,7 +410,7 @@ export default function CreateRoleForm() {
               <div>
                 <h3 className="text-color text-xl font-bold">Permissions</h3>
                 <p className="text-sm text-gray-500">
-                  Select the items you want to display in the sidebar.
+                  Select the permission you want to assign in the list below.
                 </p>
               </div>
             </div>

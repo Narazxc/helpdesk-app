@@ -1,7 +1,7 @@
 import CustomizedInput from "@/components/form/input/CustomizedInput";
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
-import { useAllUsers } from "../auth/useAllUsers";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 import { useCreateOfficeGroup } from "./useCreateOfficeGroup";
 import type { CreateOfficeGroup } from "@/types/office-group";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
@@ -76,7 +76,7 @@ export default function CreateOfficeGroupForm({
 }: CreateOfficeGroupFormProps) {
   // Create state for the selected user ID
   // const [selectedUserId, setSelectedUserId] = useState<string>("");
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   console.log("in transaction list ", users);
   const {
     control,

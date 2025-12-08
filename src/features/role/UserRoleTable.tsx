@@ -528,10 +528,16 @@ function UserRoleTable() {
       >
         <DeleteConfirmationBox
           headerText={`Are you sure?`}
+          // descriptionText={
+          //   itemToDelete
+          //     ? `Are you sure you want to delete role: ${itemToDelete.roleName}`
+          //     : "Are you sure you want to delete this role?"
+          // }
           descriptionText={
-            itemToDelete
-              ? `Are you sure you want to delete role: ${itemToDelete.roleName}`
-              : "Are you sure you want to delete this role?"
+            <>
+              Are you sure you want to delete role:{" "}
+              <b>{itemToDelete?.roleName}</b>
+            </>
           }
           onClose={closeDeleteModal}
           onDelete={handleDelete}

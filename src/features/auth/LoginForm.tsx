@@ -1,13 +1,29 @@
+// Logo
+import fmisHelpdeskLogo from "/images/logo/FMIS-Helpdesk_2.webp";
+
+// Library to combine style
 import { cn } from "@/lib/utils";
+
+// Component
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import fmisHelpdeskLogo from "/images/logo/FMIS-Helpdesk_2.webp";
+import { Spinner } from "@/components/ui/spinner";
+
+// React router
 import { Link, useNavigate } from "react-router";
+
+// Hook
+import { useState } from "react";
 import { useLogin } from "./useLogin";
-import type { LoginCredential } from "@/types/auth";
 import { useForm } from "react-hook-form";
+
+// Type
+import type { LoginCredential } from "@/types/auth";
+
+// Icon
+import { EyeCloseIcon, EyeIcon } from "@/icons";
 
 export function LoginForm({
   className,
@@ -15,32 +31,28 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate();
   const { login, isLoggingIn } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit } = useForm<LoginCredential>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginCredential>({
     defaultValues: {
       userId: "super.admin",
       password: "Fmis@admin2025#!",
     },
   });
 
-  // const loginCredentials = {
-  //   userId: "super.admin",
-  //   password: "Fmis@admin2025#!",
-  // };
-
   if (isLoggingIn) {
     <div>loading...</div>;
   }
-
-  // const loginCredential: LoginCredential = {
-  //   userId: "super.admin",
-  //   password: "Fmis@admin2025#!",
-  // };
 
   const onSubmit = (data: LoginCredential) => {
     login(data, {
       onSuccess: () => {
         navigate("/");
+        // console.log("forcePasswordChange", returnedData.forcePasswordChange);
       },
     });
   };
@@ -104,7 +116,7 @@ export function LoginForm({
                     })}
                   />
                 </div>
-                <div className="grid gap-3">
+                {/* <div className="grid gap-3">
                   <Label htmlFor="password">Password</Label>
 
                   <Input
@@ -113,11 +125,47 @@ export function LoginForm({
                     type="password"
                     autoComplete="off"
                     placeholder="Password"
-                    required
+                    // required
                     {...register("password", {
                       required: "Password is required",
                     })}
                   />
+                </div> */}
+
+                <div className="grid gap-3">
+                  <Label htmlFor="password">Password</Label>
+
+                  <div className="relative">
+                    <Input
+                      className="h-10"
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="off"
+                      placeholder="Password"
+                      required
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                    >
+                      {showPassword ? (
+                        <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      ) : (
+                        <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                      )}
+                    </button>
+                  </div>
+
+                  {errors.password && (
+                    <span className="text-red-500 text-sm mt-1 block">
+                      {errors.password.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="text-left mt-4">
@@ -130,10 +178,18 @@ export function LoginForm({
               </div>
               <Button
                 // onClick={() => handleLogin(loginCredential)}
+                disabled={isLoggingIn}
                 type="submit"
-                className="w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
+                className=" w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
               >
-                {isLoggingIn ? <span>Loading...</span> : <span>Login</span>}
+                {isLoggingIn ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Spinner />
+                    Login
+                  </span>
+                ) : (
+                  <span>Login</span>
+                )}
               </Button>
 
               {/* {errorMessage && (

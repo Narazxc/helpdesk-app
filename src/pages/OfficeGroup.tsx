@@ -8,9 +8,9 @@ import { Pencil, Trash2 } from "lucide-react";
 // Hook
 import { useState } from "react";
 import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
-import { useAllUsers } from "@/features/auth/useAllUsers";
 import { useDeleteOfficeGroup } from "@/features/office-group/useDeleteOfficeGroup";
 import { useOfficeGroupById } from "@/features/office-group/useOfficeGroup";
+import { useAllActiveUsers } from "@/features/auth/useAllActiveUsers";
 import { useModal } from "@/hook/useModal";
 
 // import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
@@ -24,7 +24,7 @@ import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 export default function OfficeGroup() {
   const { id } = useParams();
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const { officeGroup, isLoading: isOfficeGroupLoading } = useOfficeGroupById(
     id?.toString() || ""
   );
@@ -219,7 +219,13 @@ export default function OfficeGroup() {
           >
             <DeleteConfirmationBox
               headerText={`Are you sure?`}
-              descriptionText={`Are you sure you want to delete this item`}
+              // descriptionText={`Are you sure you want to delete this Office Group: `}
+              descriptionText={
+                <>
+                  Are you sure you want to delete this office group:{" "}
+                  <b>{officeGroup?.officeName}</b>
+                </>
+              }
               onClose={closeDeleteModal}
               onDelete={handleDelete}
             />

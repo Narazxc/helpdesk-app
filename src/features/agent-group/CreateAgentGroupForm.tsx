@@ -1,6 +1,5 @@
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
-import { useAllUsers } from "../auth/useAllUsers";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import Label from "@/components/form/Label";
 import type { CreateAgentGroup, CreateAgentGroup2 } from "@/types/agent-group";
@@ -29,6 +28,7 @@ import {
   TagsTrigger,
   TagsValue,
 } from "@/components/ui/shadcn-io/tags";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 
 interface CreateAgentGroupFormProps {
   closeModal: () => void;
@@ -93,7 +93,7 @@ interface CreateAgentGroupFormProps {
 export default function CreateAgentGroupForm({
   closeModal,
 }: CreateAgentGroupFormProps) {
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const { groupLevels } = useGroupLevels();
   const { officeGroups } = useOfficeGroups();
   const { createAgentGroup } = useCreateAgentGroup();

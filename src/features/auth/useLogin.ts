@@ -4,11 +4,12 @@
 // import toast from "react-hot-toast";
 
 import type { LoginCredential } from "@/types/auth";
-import { useMutation } from "@tanstack/react-query";
-import { login as loginApi } from "@/services/apiAuth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { login as loginApi, me } from "@/services/apiAuth";
 import toast from "react-hot-toast";
 import { tokenManager } from "./tokenManager";
 import { isAxiosError } from "axios";
+import type { CurrentUser } from "@/types/auth";
 
 // export function useLogin() {
 //   const queryClient = useQueryClient();
@@ -30,26 +31,54 @@ import { isAxiosError } from "axios";
 // }
 
 export function useLogin() {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { mutate: login, isPending: isLoggingIn } = useMutation({
     mutationFn: ({ userId, password }: LoginCredential) =>
       loginApi({ userId, password }),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log("useLogin Hook: ", data);
       tokenManager.setAccessToken(data.accessToken);
-      // queryClient.setQueryData(["currentUser"], data.user);
+
+      // const currentUser: CurrentUser = {
+      //   data.username;
+      // }
+      // queryClient.setQueryData(["currentUser"],   );
+
+      // Construct CurrentUser from login response
+      const currentUser: CurrentUser = {
+        userId: data.userId,
+        username: data.username,
+        email: data.email,
+        roles: data.roles,
+        // id is optional; not present in /login
+      };
+
+      // // Optionally, fetch /me for full info (id)
+      try {
+        const meData = await me();
+        currentUser.id = meData.id;
+      } catch (error) {
+        console.log("Failed to fetch", error);
+      }
+
+      // Save currentUser in React Query cache
+      queryClient.setQueryData(["currentUser"], currentUser);
     },
+
     onError: (err) => {
       console.log("login error: ", err);
+
       if (
         isAxiosError(err) &&
         err.response?.status === 401 &&
         err.response?.data?.message === "Invalid credentials"
       ) {
         toast.error("Invalid login credentials.");
+      } else if (isAxiosError(err) && err.response?.data?.message) {
+        toast.error(err.response.data.message);
       } else {
-        toast.error("An error occurred. Please try again later.");
+        toast.error("An unexpected error occurred.");
       }
     },
   });

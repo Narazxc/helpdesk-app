@@ -2,7 +2,7 @@ import CustomizedInput from "@/components/form/input/CustomizedInput";
 import { GenericCombobox } from "@/components/GenericCombobox";
 import Button from "@/components/ui/button/Button";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import { useAllUsers } from "../auth/useAllUsers";
+import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 import type {
   CreateOfficeGroup,
   UpdateOfficeGroup,
@@ -21,7 +21,7 @@ export default function UpdateOfficeGroupForm({
   officeGroupData,
   closeModal,
 }: UpdateOfficeGroupFormProp) {
-  const { users } = useAllUsers();
+  const { users } = useAllActiveUsers();
   const {
     control,
     register,

@@ -2,7 +2,7 @@ import { unlockUser as unlockUserApi } from "@/services/apiAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-export default function useUnlockUser() {
+export function useUnlockUser() {
   const queryClient = useQueryClient();
 
   const { mutate: unlockUser, isPending: isLoading } = useMutation({

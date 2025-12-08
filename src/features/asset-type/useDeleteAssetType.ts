@@ -10,7 +10,7 @@ export function useDeleteAssetType() {
   const { isPending: isDeleting, mutate: deleteAssetType } = useMutation({
     mutationFn: deleteAssetTypeApi,
     onSuccess: () => {
-      toast.success("Asset Type successfully deleted");
+      // toast.success("Asset Type successfully deleted");
 
       queryClient.invalidateQueries({
         queryKey: ["assetTypes"],

@@ -14,7 +14,8 @@ export const useLogout = () => {
     onSuccess: () => {
       tokenManager.clearAccessToken();
       queryClient.setQueryData(["currentUser"], null);
-      queryClient.clear(); // Clear all cached queries
+
+      // queryClient.clear(); // Clear all cached queries
     },
     onError: (err) => {
       console.log(err);
