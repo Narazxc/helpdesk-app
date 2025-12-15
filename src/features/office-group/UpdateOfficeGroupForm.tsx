@@ -37,10 +37,6 @@ export default function UpdateOfficeGroupForm({
 
   const { updateOfficeGroup } = useUpdateOfficeGroup();
 
-  console.log("office Group data", officeGroupData);
-
-  //   const { updateOfficeGroup } = useUpdateOfficeGroup();
-
   const onSubmit: SubmitHandler<CreateOfficeGroup> = (data) => {
     const updateData: UpdateOfficeGroup = {
       id: officeGroupData.id,
@@ -60,7 +56,6 @@ export default function UpdateOfficeGroupForm({
         // Handle error (show toast, etc.)
       },
     });
-    // console.log("updateData", updateData);
 
     reset();
     closeModal();

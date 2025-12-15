@@ -8,6 +8,8 @@ import { useState } from "react";
 import { EyeCloseIcon, EyeIcon } from "@/icons";
 import type { User4 } from "@/types/user";
 import { useAdminResetPassword } from "./useAdminResetPassword";
+import toast from "react-hot-toast";
+import { isAxiosError } from "axios";
 
 interface AdminResetPasswordForm {
   user: User4 | undefined;
@@ -23,6 +25,7 @@ export default function AdminResetPasswordForm({
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<AdminResetPassword>();
   const {
     adminResetPassword,
@@ -51,7 +54,24 @@ export default function AdminResetPasswordForm({
       confirmPassword: data.confirmPassword,
     };
 
-    adminResetPassword({ userId, passwords });
+    adminResetPassword(
+      { userId, passwords },
+      {
+        onSuccess: () => {},
+
+        onError: (err) => {
+          let message = "An error occurred";
+
+          if (isAxiosError(err) && err.response?.data?.message) {
+            message = err.response.data.message; // safe now
+          } else if (err instanceof Error) {
+            message = err.message;
+          }
+
+          toast.error(message);
+        },
+      }
+    );
 
     reset(); // Reset the form
     closeModal();
@@ -135,6 +155,8 @@ export default function AdminResetPasswordForm({
                 } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
                 {...register("confirmPassword", {
                   required: "Confirm password is required.",
+                  validate: (value) =>
+                    value === watch("newPassword") || "Passwords do not match",
                 })}
               />
 

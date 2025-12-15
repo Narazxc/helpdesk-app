@@ -146,12 +146,19 @@ export async function exportUsersCsv(): Promise<Blob> {
 }
 
 // 20251203
-export async function importCsv(): Promise<User4> {
+// updated on 20251212
+export async function importUsersCsv(file: File): Promise<User4> {
+  console.log(file);
   try {
-    const res = await api.post<ApiResponse<User4>>(
+    const res = await api.post(
       `${API_URL}/users/csv/import`,
+      {},
       // need to add body
-      {}
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
 
     return res.data.data;

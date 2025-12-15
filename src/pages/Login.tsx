@@ -1,14 +1,11 @@
 import PageMeta from "@/components/common/PageMeta";
 import { LoginForm } from "@/features/auth/LoginForm";
-import { tokenManager } from "@/features/auth/tokenManager";
 
 export default function Login() {
-  console.log("Token", tokenManager.getAccessToken());
-  tokenManager.clearAccessToken();
-  console.log("After clear", tokenManager.getAccessToken());
-
-  // const { user } = useCurrentUser();
-  // console.log("currentUser", user);
+  // Test wether access token is cleared properly after logout
+  // console.log("Token", tokenManager.getAccessToken());
+  // tokenManager.clearAccessToken();
+  // console.log("After clear", tokenManager.getAccessToken());
 
   return (
     // bg-muted

@@ -18,15 +18,6 @@ const axiosInstance = axios.create({
 });
 
 export async function login({ userId, password }: LoginCredential) {
-  //   const { data, error } = await supabase.auth.signInWithPassword({
-  //     email,
-  //     password,
-  //   });
-
-  //   if (error) throw new Error(error.message);
-
-  //   return data;
-
   try {
     const res = await axiosInstance.post<ApiResponse<LoginResponse>>(
       `${API_URL}/auth/login`,
@@ -35,13 +26,10 @@ export async function login({ userId, password }: LoginCredential) {
         password,
       },
       { withCredentials: true }
-      // {
-      //   userId: "vanny.phoung",
-      //   password: "Fmis@2024",
-      // }
     );
 
-    console.log("in apiAuth | login method", res.data.data);
+    // Test whether request is successful, and did return data
+    // console.log("in apiAuth | login method", res.data.data);
 
     // Get object from array
     return res.data.data;

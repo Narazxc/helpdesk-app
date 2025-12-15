@@ -5,7 +5,7 @@ import { Label } from "@radix-ui/react-label";
 import { Spinner } from "@/components/ui/spinner";
 
 // React router
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 // React hook form
 import { useForm, useWatch } from "react-hook-form";
@@ -37,6 +37,7 @@ export default function ChangePasswordForm() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
   const { changePassword, isLoading: isChangingPassword } = useChangePassword();
 
@@ -54,10 +55,9 @@ export default function ChangePasswordForm() {
     changePassword(changePasswordData, {
       onSuccess: () => {
         toast.success("Password reset successfully");
-      },
+        localStorage.removeItem("cpw");
 
-      onError: (err) => {
-        toast.error(err.message);
+        navigate("/", { replace: true });
       },
 
       // // temp testing

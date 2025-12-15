@@ -7,6 +7,7 @@ export async function getRoles(): Promise<Role[]> {
   try {
     const res = await api.get<ApiResponse<Role[]>>(`${API_URL}/roles/active`);
 
+    console.log("roles", res.data.data);
     return res.data.data;
   } catch (err) {
     console.error("Failed to fetch posts:", err);

@@ -263,8 +263,6 @@ function OfficeGroupTable() {
   const { users } = useAllActiveUsers();
   const { deleteOfficeGroup } = useDeleteOfficeGroup();
 
-  console.log("officeGroups", officeGroups);
-
   const {
     isOpen: isEditModalOpen,
     openModal: openEditModal,
@@ -440,7 +438,6 @@ function OfficeGroupTable() {
       };
 
       setItemToUpdate(updateData);
-      console.log("updateData", updateData);
     }
 
     openEditModal();

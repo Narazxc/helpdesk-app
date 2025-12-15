@@ -36,10 +36,6 @@ function UserRoleTable() {
   const { deleteRole } = useDeleteRole();
   const [itemToDelete, setItemToDelete] = useState<Role | null>(null);
 
-  console.log("roles", roles);
-
-  // console.log("roles", roles);
-
   const {
     isOpen: isEditModalOpen,
     // openModal: openEditModal,

@@ -108,8 +108,8 @@ api.interceptors.response.use(
         // Refresh failed - clear token and redirect to login
         tokenManager.clearAccessToken();
 
-        // // Redirect to login page
-        // window.location.href = "/signin";
+        // Redirect to login page
+        window.location.href = "/signin";
 
         return Promise.reject(refreshError);
       }

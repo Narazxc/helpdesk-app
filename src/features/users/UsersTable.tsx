@@ -41,6 +41,12 @@ import { useAllUsers } from "./useAllUsers";
 import { useDeleteUser } from "./useDeleteUser";
 import { useUnlockUser } from "../auth/useUnlockUser";
 import { exportUsersCsv } from "@/services/apiUser";
+import FileDropZone2 from "@/components/experimental/FileDropZone2";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // const tableRowData = [
 //   {
@@ -457,11 +463,32 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
     openModal: openUpdatePasswordModal,
     closeModal: closeUpdatePasswordModal,
   } = useModal();
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileImport = (file: File) => {
+    // This function receives each file that's added
+    console.log("File received:", file);
+
+    // You can process the file here
+    // For example, upload it to a server, read it, etc.
+    setIsUploading(true);
+
+    // Simulate upload or processing
+    setTimeout(() => {
+      setIsUploading(false);
+    }, 2000);
+  };
 
   const {
     isOpen: isDeleteModalOpen,
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
+  } = useModal();
+
+  const {
+    isOpen: isOpenImportModal,
+    openModal: openImportModal,
+    closeModal: closeImportModal,
   } = useModal();
 
   const activeUsers = users?.filter((user) => user.status === true) || [];
@@ -661,7 +688,10 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
 
           <div className="flex gap-2">
             <Button
-              onClick={() => console.log("clicked")}
+              onClick={() => {
+                console.log("clicked");
+                openImportModal();
+              }}
               variant="outline"
               size="sm"
             >
@@ -849,34 +879,50 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
                   </TableCell>
                   <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
                     <div className="flex items-center w-full gap-4">
-                      <button
-                        onClick={() => {
-                          openDeleteModal();
-                          setItemToDelete(item);
-                        }}
-                        className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
-                      >
-                        <TrashBinIcon className="size-5" />
-                      </button>
-                      <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                        <PencilIcon
-                          // onClick={() => navigate("/users/update")}
-                          onClick={() => handleUpdate(item)}
-                          className="size-5"
-                        />
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            onClick={() => {
+                              openDeleteModal();
+                              setItemToDelete(item);
+                            }}
+                            className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+                          >
+                            <TrashBinIcon className="size-5" />
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>Delete</TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                            <PencilIcon
+                              // onClick={() => navigate("/users/update")}
+                              onClick={() => handleUpdate(item)}
+                              className="size-5"
+                            />
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>Edit</TooltipContent>
+                      </Tooltip>
 
                       {/* Admin feature */}
-                      <button className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                        <RotateCcwKey
-                          // onClick={() => handleUpdateUserPassword(item)}
-                          onClick={() => {
-                            setItemToDelete(item);
-                            openUpdatePasswordModal();
-                          }}
-                          className="size-5"
-                        />
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                            <RotateCcwKey
+                              // onClick={() => handleUpdateUserPassword(item)}
+                              onClick={() => {
+                                setItemToDelete(item);
+                                openUpdatePasswordModal();
+                              }}
+                              className="size-5"
+                            />
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>Reset Password</TooltipContent>
+                      </Tooltip>
 
                       {/*  */}
                     </div>
@@ -938,6 +984,18 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
           }
           onClose={closeDeleteModal}
           onDelete={handleDelete}
+        />
+      </ModalWithAnimation>
+
+      <ModalWithAnimation
+        isOpen={isOpenImportModal}
+        onClose={closeImportModal}
+        className="max-w-[584px] p-5 lg:p-7"
+      >
+        <FileDropZone2
+          onImport={handleFileImport}
+          isUploading={isUploading}
+          // onImport={files}
         />
       </ModalWithAnimation>
     </div>

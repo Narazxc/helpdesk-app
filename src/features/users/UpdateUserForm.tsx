@@ -40,8 +40,6 @@ export default function UpdateUserForm() {
   const { updateUser } = useUpdateUser();
   const { entities } = useEntities();
 
-  console.log("getUserById", user);
-
   // const {
   //   control,
   //   register,
@@ -82,7 +80,7 @@ export default function UpdateUserForm() {
     );
   };
 
-  console.log(checkedRoles);
+  // console.log(checkedRoles);
 
   const { requestTypes, isLoading: isLoadingRequestTypes } = useRequestTypes();
   const [checkedRequestTypes, setCheckRequestTypes] = useState<string[]>([]);
@@ -93,7 +91,7 @@ export default function UpdateUserForm() {
     );
   };
 
-  console.log(checkedRequestTypes);
+  // console.log(checkedRequestTypes);
 
   // useEffect(() => {
   //   if (user) {
@@ -193,107 +191,108 @@ export default function UpdateUserForm() {
             <h4 className="pb-4 text-lg font-semibold text-gray-800 border-b border-gray-200 dark:border-gray-800 dark:text-white/90">
               Personal Info
             </h4>
-            <div className="flex flex-col gap-4 lg:gap-3.5 max-w-[40rem]">
-              <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="userName"
-                  className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
-                >
-                  Username <span className="text-red-500">*</span>
-                </Label>
+          </div>
+          <div className="flex flex-col gap-4 lg:gap-3.5 max-w-[40rem]">
+            <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="userName"
+                className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
+              >
+                Username <span className="text-red-500">*</span>
+              </Label>
 
-                <div>
-                  <CustomizedInput
-                    type="text"
-                    error={!!errors.username}
-                    placeholder="Enter Username"
-                    id="userName"
-                    className={`px-3 py-2 border rounded-md focus:outline-none ${
-                      errors.username
-                        ? "border-red-500"
-                        : "border-gray-300 focus:ring-blue-500"
-                    } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-                    {...register("username", {
-                      required: "Username is required",
-                    })}
-                  />
-                  {errors.username && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errors.username.message}
-                    </span>
-                  )}
-                </div>
+              <div>
+                <CustomizedInput
+                  type="text"
+                  error={!!errors.username}
+                  placeholder="Enter Username"
+                  id="userName"
+                  className={`px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.username
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+                  {...register("username", {
+                    required: "Username is required",
+                  })}
+                />
+                {errors.username && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.username.message}
+                  </span>
+                )}
               </div>
+            </div>
 
-              {/* Row 1 */}
-              <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="userId"
-                  className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
-                >
-                  User ID <span className="text-red-500">*</span>
-                </Label>
+            {/* Row 1 */}
+            <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="userId"
+                className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+              >
+                User ID <span className="text-red-500">*</span>
+              </Label>
 
-                <div>
-                  <CustomizedInput
-                    type="text"
-                    error={!!errors.userId}
-                    placeholder="Enter User ID"
-                    id="userId"
-                    className={`px-3 py-2 border rounded-md focus:outline-none ${
-                      errors.userId
-                        ? "border-red-500"
-                        : "border-gray-300 focus:ring-blue-500"
-                    } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-                    {...register("userId", {
-                      required: "User ID is required",
-                    })}
-                  />
-                  {errors.userId && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errors.userId.message}
-                    </span>
-                  )}
-                </div>
+              <div>
+                <CustomizedInput
+                  type="text"
+                  error={!!errors.userId}
+                  placeholder="Enter User ID"
+                  id="userId"
+                  className={`px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.userId
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+                  {...register("userId", {
+                    required: "User ID is required",
+                  })}
+                />
+                {errors.userId && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.userId.message}
+                  </span>
+                )}
               </div>
+            </div>
 
-              <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="telegramId"
-                  className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
-                >
-                  Telegram ID
-                </Label>
+            <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="telegramId"
+                className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+              >
+                Telegram ID
+              </Label>
 
-                <div>
-                  <CustomizedInput
-                    type="text"
-                    error={!!errors.telegramId}
-                    placeholder="Enter Telegram ID"
-                    id="telegramId"
-                    className={`px-3 py-2 border rounded-md focus:outline-none ${
-                      errors.telegramId
-                        ? "border-red-500"
-                        : "border-gray-300 focus:ring-blue-500"
-                    } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-                    {...register(
-                      "telegramId"
-                      // Remove required
-                      //, {
-                      //   required: "Telegram ID is required",
-                      // }
-                    )}
-                  />
-                  {errors.telegramId && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errors.telegramId.message}
-                    </span>
+              <div>
+                <CustomizedInput
+                  type="text"
+                  error={!!errors.telegramId}
+                  placeholder="Enter Telegram ID"
+                  id="telegramId"
+                  className={`px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.telegramId
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+                  {...register(
+                    "telegramId"
+                    // Remove required
+                    //, {
+                    //   required: "Telegram ID is required",
+                    // }
                   )}
-                </div>
+                />
+                {errors.telegramId && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.telegramId.message}
+                  </span>
+                )}
               </div>
+            </div>
 
-              {/* Row 2 */}
-              {/* <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+            {/* Row 2 */}
+            {/* <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
                 <Label
                   htmlFor="password"
                   className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
@@ -324,137 +323,136 @@ export default function UpdateUserForm() {
                 </div>
               </div> */}
 
-              {/* Row 3 */}
-              <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="phoneNumber"
-                  className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
-                >
-                  Phone Number
-                </Label>
+            {/* Row 3 */}
+            <div className="grid  lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="phoneNumber"
+                className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+              >
+                Phone Number
+              </Label>
 
-                <div>
-                  <CustomizedInput
-                    type="number"
-                    error={!!errors.phoneNumber}
-                    placeholder="Enter Phone Number"
-                    id="phoneNumber"
-                    className={`px-3 py-2 border rounded-md focus:outline-none ${
-                      errors.phoneNumber
-                        ? "border-red-500"
-                        : "border-gray-300 focus:ring-blue-500"
-                    } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-                    {...register("phoneNumber", {
-                      // required: "Phone Number is required",
-                    })}
-                  />
-                  {errors.phoneNumber && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errors.phoneNumber.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Row 4 */}
-              <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
-                >
-                  Email <span className="text-red-500">*</span>
-                </Label>
-
-                <div>
-                  <CustomizedInput
-                    type="text"
-                    error={!!errors.email}
-                    placeholder="Enter Email"
-                    id="email"
-                    className={`px-3 py-2 border rounded-md focus:outline-none ${
-                      errors.email
-                        ? "border-red-500"
-                        : "border-gray-300 focus:ring-blue-500"
-                    } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-                    {...register("email", {
-                      required: "Email is required",
-                      validate: {
-                        isAllowedDomain: (value) => {
-                          // Basic email format check first
-                          if (!value.includes("@"))
-                            return "Invalid email format";
-
-                          const parts = value.split("@");
-                          if (parts.length !== 2) return "Invalid email format";
-
-                          const domain = parts[1].toLowerCase();
-                          return (
-                            domain.endsWith("fmis.gov.kh") ||
-                            "Email must be a fmis.gov.kh address"
-                          );
-                        },
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Row 5 */}
-              <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
-                <Label
-                  htmlFor="entity"
-                  className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
-                >
-                  Entity <span className="text-red-500">*</span>
-                </Label>
-
-                <Controller
-                  name="businessCode" // This is the field name in your form data
-                  control={control}
-                  rules={{ required: "Please select a user" }} // Optional validation
-                  render={({ field }) => (
-                    // <GenericCombobox
-                    //   id="entity"
-                    //   items={entities}
-                    //   value={field.value} // Use field.value instead of selectedUserId
-                    //   onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
-                    //   getDisplayValue={(entity) =>
-                    //     `${entity.operatingUnit} - ${entity.enLongName}`
-                    //   }
-                    //   getItemValue={(entity) => entity.businessCode}
-                    //   getItemKey={(entity) => entity.businessCode}
-                    //   placeholder="Select an Entity..."
-                    //   searchPlaceholder="Search users..."
-                    //   emptyMessage="No users found."
-                    //   // error={fieldState.error?.message} // Pass validation errors if your component supports it
-                    // />
-                    <GenericCombobox
-                      id="entity"
-                      items={entities}
-                      value={field.value} // ID string
-                      onChange={field.onChange} // set ID directly
-                      getDisplayValue={(entity) =>
-                        `${entity.operatingUnit} - ${entity.enLongName}`
-                      }
-                      getItemValue={(entity) => entity.businessCode} // the ID
-                      getItemKey={(entity) => entity.businessCode}
-                      placeholder="Select an Entity..."
-                    />
-                  )}
+              <div>
+                <CustomizedInput
+                  type="number"
+                  error={!!errors.phoneNumber}
+                  placeholder="Enter Phone Number"
+                  id="phoneNumber"
+                  className={`px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.phoneNumber
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+                  {...register("phoneNumber", {
+                    // required: "Phone Number is required",
+                  })}
                 />
-                {errors.businessCode && (
+                {errors.phoneNumber && (
                   <span className="text-red-500 text-sm mt-1">
-                    {errors.businessCode.message}
+                    {errors.phoneNumber.message}
                   </span>
                 )}
               </div>
             </div>
+
+            {/* Row 4 */}
+            <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+              >
+                Email <span className="text-red-500">*</span>
+              </Label>
+
+              <div>
+                <CustomizedInput
+                  type="text"
+                  error={!!errors.email}
+                  placeholder="Enter Email"
+                  id="email"
+                  className={`px-3 py-2 border rounded-md focus:outline-none ${
+                    errors.email
+                      ? "border-red-500"
+                      : "border-gray-300 focus:ring-blue-500"
+                  } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
+                  {...register("email", {
+                    required: "Email is required",
+                    validate: {
+                      isAllowedDomain: (value) => {
+                        // Basic email format check first
+                        if (!value.includes("@")) return "Invalid email format";
+
+                        const parts = value.split("@");
+                        if (parts.length !== 2) return "Invalid email format";
+
+                        const domain = parts[1].toLowerCase();
+                        return (
+                          domain.endsWith("fmis.gov.kh") ||
+                          "Email must be a fmis.gov.kh address"
+                        );
+                      },
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.email.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Row 5 */}
+            <div className="grid lg:grid-cols-[10rem_1fr] items-center gap-[0.1rem]">
+              <Label
+                htmlFor="entity"
+                className="text-sm font-medium mb-0.5 text-gray-700 dark:text-gray-100"
+              >
+                Entity <span className="text-red-500">*</span>
+              </Label>
+
+              <Controller
+                name="businessCode" // This is the field name in your form data
+                control={control}
+                rules={{ required: "Please select a user" }} // Optional validation
+                render={({ field }) => (
+                  // <GenericCombobox
+                  //   id="entity"
+                  //   items={entities}
+                  //   value={field.value} // Use field.value instead of selectedUserId
+                  //   onChange={field.onChange} // Use field.onChange instead of setSelectedUserId
+                  //   getDisplayValue={(entity) =>
+                  //     `${entity.operatingUnit} - ${entity.enLongName}`
+                  //   }
+                  //   getItemValue={(entity) => entity.businessCode}
+                  //   getItemKey={(entity) => entity.businessCode}
+                  //   placeholder="Select an Entity..."
+                  //   searchPlaceholder="Search users..."
+                  //   emptyMessage="No users found."
+                  //   // error={fieldState.error?.message} // Pass validation errors if your component supports it
+                  // />
+                  <GenericCombobox
+                    id="entity"
+                    items={entities}
+                    value={field.value} // ID string
+                    onChange={field.onChange} // set ID directly
+                    getDisplayValue={(entity) =>
+                      `${entity.operatingUnit} - ${entity.enLongName}`
+                    }
+                    getItemValue={(entity) => entity.businessCode} // the ID
+                    getItemKey={(entity) => entity.businessCode}
+                    placeholder="Select an Entity..."
+                  />
+                )}
+              />
+              {errors.businessCode && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.businessCode.message}
+                </span>
+              )}
+            </div>
           </div>
+          {/* </div> */}
 
           {/* Address section */}
           {/* Assign Role */}

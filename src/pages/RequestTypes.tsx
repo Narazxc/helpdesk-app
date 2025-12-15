@@ -15,8 +15,6 @@ export default function RequestTypes() {
   const { requestTypes, isLoading: isLoadingRequestTypes } = useRequestTypes();
   const { isOpen, openModal, closeModal } = useModal();
 
-  console.log("requestType", requestTypes);
-
   return (
     <div>
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">

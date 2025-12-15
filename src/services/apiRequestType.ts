@@ -37,7 +37,7 @@ export async function getRequestTypes(): Promise<RequestType[]> {
       `${API_URL}/request-types/active`
     );
 
-    console.log("getRequestTypes: ", res.data.data);
+    console.log("request type", res.data.data);
 
     return res.data.data;
   } catch (err) {

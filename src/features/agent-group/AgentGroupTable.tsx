@@ -240,7 +240,7 @@ const AgentGroupTable: React.FC = () => {
     openEditModal();
   }
 
-  console.log("itemToUpdate", itemToUpdate);
+  // console.log("itemToUpdate", itemToUpdate);
 
   function handleDelete() {
     // console.log("itemToDelete", itemToDelete);

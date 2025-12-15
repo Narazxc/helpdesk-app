@@ -41,7 +41,7 @@ export function useAdminResetPassword() {
 
     //   toast.error(`Category Type "${categoryTypeName}" already exist`);
     //   console.error(
-    //     "Error creating category type:",
+    //     "Error resetting user password: ",
     //     error.response?.data || error.message
     //   );
     // },

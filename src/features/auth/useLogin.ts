@@ -3,7 +3,7 @@
 // import { useNavigate } from "react-router-dom";
 // import toast from "react-hot-toast";
 
-import type { LoginCredential } from "@/types/auth";
+import type { LoginCredential, LoginResponse } from "@/types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login as loginApi, me } from "@/services/apiAuth";
 import toast from "react-hot-toast";
@@ -38,6 +38,10 @@ export function useLogin() {
       loginApi({ userId, password }),
     onSuccess: async (data) => {
       console.log("useLogin Hook: ", data);
+
+      // ✅ Store full login data FIRST (includes forceResetPassword flag)
+      queryClient.setQueryData<LoginResponse>(["auth"], data);
+      localStorage.setItem("cpw", JSON.stringify(data.forcePasswordChange)); // Add this
       tokenManager.setAccessToken(data.accessToken);
 
       // const currentUser: CurrentUser = {
@@ -51,6 +55,7 @@ export function useLogin() {
         username: data.username,
         email: data.email,
         roles: data.roles,
+        forcePasswordChange: data.forcePasswordChange,
         // id is optional; not present in /login
       };
 

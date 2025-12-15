@@ -45,7 +45,6 @@ export default function ForgotPasswordForm() {
     });
   };
 
-  console.log("showCheckEmailComponent", showCheckEmailComponent);
   // return (
   //   <div className="w-[27rem] px-5 h-[25rem] rounded-md border bg-white border-gray-100 shadow-sm">
   //     <h1 className="text-2xl font-semibold mb-2 mt-8">
@@ -98,7 +97,7 @@ export default function ForgotPasswordForm() {
 
   return (
     <>
-      {!showCheckEmailComponent ? (
+      {!showCheckEmailComponent && (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full flex items-center justify-center"
@@ -175,7 +174,6 @@ export default function ForgotPasswordForm() {
               <p className="text-sm text-right text-gray-500 dark:text-[#f9fafc]">
                 Remember Password?{" "}
                 <Link
-                  onClick={() => setShowCheckEmailComponent(true)}
                   className="text-black hover:underline dark:text-[#f9fafc]"
                   to="/signin"
                 >
@@ -185,11 +183,9 @@ export default function ForgotPasswordForm() {
             </div>
           </div>
         </form>
-      ) : (
-        <CheckEmail email={userEmail} />
-        // <ResetPasswordForm />
-        // <ChangePasswordForm />
       )}
+
+      {showCheckEmailComponent && <CheckEmail email={userEmail} />}
     </>
   );
 }

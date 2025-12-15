@@ -42,16 +42,18 @@ import UpdateUserPage from "./pages/archive/user/UpdateUserPage";
 import AdminResetPassword from "./features/auth/AdminResetPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./pages/ResetPassword";
+import Audit from "./pages/Audit";
+import ChangePassword from "./pages/ChangePassword";
 // import UpdateUserPage from "./pages/archive/user/UpdateUserpage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     // Before 20251027
-    queries: {
-      // staleTime: 60 * 1000, //1 minute be for another re-fetch
-      // staleTime: 2000,
-      staleTime: 0,
-    },
+    // queries: {
+    //   // staleTime: 60 * 1000, //1 minute be for another re-fetch
+    //   // staleTime: 2000,
+    //   // staleTime: 0,
+    // },
     // On 20251027
     // queries: {
     //   staleTime: 60 * 1000, // 1 minute
@@ -67,6 +69,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router>
           <ScrollToTop />
+
           <Routes>
             {/* Dashboard Layout */}
             <Route
@@ -99,17 +102,44 @@ function App() {
               <Route path="asset-types" element={<AssetTypes />} />
               <Route path="asset-types/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
+              <Route path="audit" element={<Audit />} />
+
               <Route
                 path="admin/users/reset-password"
                 element={<AdminResetPassword />}
               />
+
+              {/* <Route path="change-password" element={<ChangePassword />} /> */}
+
+              {/* <Route path="change-password" element={<ChangePassword />} /> */}
             </Route>
 
             {/* Auth Layout */}
             {/* <Route path="/signin" element={<Signin />} /> */}
-            <Route path="/signin" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="signin" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+
+            {/* Change password - must be authenticated to access */}
+            {/* <Route
+              path="change-password"
+              element={
+                <ProtectedRoute>
+                  <ChangePassword />
+                </ProtectedRoute>
+              }
+            /> */}
+
+            {/* <Route
+              path="change-password"
+              element={
+                <ProtectedRoute>
+                  <ChangePassword />
+                </ProtectedRoute>
+              }
+            /> */}
+
+            <Route path="change-password" element={<ChangePassword />} />
           </Routes>
 
           <Toaster

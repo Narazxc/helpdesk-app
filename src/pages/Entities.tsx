@@ -13,8 +13,6 @@ import { Link } from "react-router";
 export default function Entities() {
   const { entities, isLoading } = useEntities();
 
-  console.log("In entity page", entities);
-
   // const entityTypeColumn: ColumnConfig<Entity>[] = [
   //   {
   //     key: "businessId",

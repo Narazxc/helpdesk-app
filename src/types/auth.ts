@@ -11,7 +11,7 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   tokenType: string;
-  forcePasswordChange: string;
+  forcePasswordChange: boolean;
 
   //   userId: "super.admin";
   //   username: "Super Admin";
@@ -28,6 +28,7 @@ export interface CurrentUser {
   username: string;
   email: string;
   roles: string[];
+  forcePasswordChange: boolean;
 }
 
 export interface AdminResetPassword {

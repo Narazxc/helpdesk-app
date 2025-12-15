@@ -22,7 +22,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import PageMeta from "@/components/common/PageMeta";
 import { Spinner } from "@/components/ui/spinner";
 import TextArea from "@/components/form/input/TextArea";
-import { CircleAlert } from "lucide-react";
+import { ArrowLeft, CircleAlert } from "lucide-react";
 
 type CategorizedPermissions = {
   T: Permission[];
@@ -272,9 +272,40 @@ export default function CreateRoleForm() {
         title="Create Role"
         description="This is React.js E-commerce Single Transaction  page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
+      {/* <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+        <div className="flex items-center gap-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="hover:cursor-pointer hover:text-gray-600 transition-colors duration-150"
+          />
+          <h1 className="text-2xl text-color font-bold">Create New User</h1>
+        </div>
+        <nav>
+          <ol className="flex flex-wrap items-center gap-1.5">
+            <li>
+              <Link
+                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-brand-400"
+                to="/"
+              >
+                Home
+              </Link>
+            </li>
+            <li className="flex items-center gap-1.5 text-sm text-gray-800 dark:text-white/90">
+              /<span className="page-title-text">Create User</span>
+            </li>
+          </ol>
+        </nav>
+      </div> */}
 
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-        <h1 className="text-2xl text-color font-bold">Create New Role</h1>
+        <div className="flex items-center gap-3">
+          <ArrowLeft
+            onClick={() => navigate(-1)}
+            className="hover:cursor-pointer hover:text-gray-600 transition-colors duration-150"
+          />
+          <h1 className="text-2xl text-color font-bold">Create New Role</h1>
+          {/* <h1 className="text-2xl text-color font-bold">Create New User</h1> */}
+        </div>
         <nav>
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>

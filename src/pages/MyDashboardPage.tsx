@@ -1,11 +1,11 @@
 // import Analytics from "../../pages/dashboard/Analytics";s
 import MyDashboard from "@/components/dashboard/MyDashboard";
-import { tokenManager } from "@/features/auth/tokenManager";
-import { useCurrentUser } from "@/features/auth/useCurrentUser";
+// import { tokenManager } from "@/features/auth/tokenManager";
+// import { useCurrentUser } from "@/features/auth/useCurrentUser";
 // import useResetPassword from "@/features/auth/useResetPassword";
 // import type { ResetPassword } from "@/types/auth";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
+// import { useEffect } from "react";
+// import { useNavigate } from "react-router";
 // import Analytics from "./archive/dashboard/Analytics";
 
 // import useRefreshToken from "@/features/auth/useRefreshToken";
@@ -13,7 +13,6 @@ import { useNavigate } from "react-router";
 
 export default function MyDashboardPage() {
   // const { user } = useCurrentUser();
-  const navigate = useNavigate();
   // const { resetPassword } = useResetPassword();
 
   // const { getRefreshToken, isLoading } = useRefreshToken();
@@ -27,14 +26,16 @@ export default function MyDashboardPage() {
 
   ///////////////////////
 
-  const { user } = useCurrentUser();
-  console.log("current user", user);
+  //aaaaa
+  // const { user } = useCurrentUser();
+  // console.log("current user", user);
 
-  useEffect(() => {
-    if (!tokenManager.getAccessToken()) {
-      navigate("/signin");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!tokenManager.getAccessToken()) {
+  //     navigate("/signin");
+  //   }
+  // }, []);
+  //aaaaa
 
   // console.log("CurrentUser in dashboard", user);
 

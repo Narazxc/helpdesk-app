@@ -77,7 +77,6 @@ export default function CreateOfficeGroupForm({
   // Create state for the selected user ID
   // const [selectedUserId, setSelectedUserId] = useState<string>("");
   const { users } = useAllActiveUsers();
-  console.log("in transaction list ", users);
   const {
     control,
     register,
