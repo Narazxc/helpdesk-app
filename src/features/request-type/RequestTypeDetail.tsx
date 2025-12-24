@@ -14,11 +14,11 @@ import { useCategoryByRequestTypeCode } from "../category-type/useCategoryByRequ
 import UpdateRequestTypeForm from "./UpdateRequestTypeForm";
 import { Skeleton } from "@/components/ui/skeleton";
 import TypeDataTable from "./TypeDataTable";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 // Type
 import type { CategoryType } from "@/types/category-type";
 import type { ColumnConfig } from "./TypeDataTable";
-import { ModalWithAnimation } from "@/components/ModalWithAnimation";
 
 export default function RequestTypeDetail() {
   const { id } = useParams();
@@ -252,7 +252,6 @@ export default function RequestTypeDetail() {
                   </button>
                   <button
                     onClick={() => {
-                      // deleteRequestType(requestType.id.toString());
                       deleteRequestType(requestType.requestTypeCode.toString());
                     }}
                     className="flex w-full items-center justify-center bg-red-500 text-gray-200 hover:text-gray-800 hover:bg-gray-50 gap-2 rounded-full border border-gray-300 px-3 py-2 text-sm font-medium shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"

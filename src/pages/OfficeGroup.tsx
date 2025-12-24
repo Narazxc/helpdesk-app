@@ -1,10 +1,3 @@
-// React router
-import { Link, useParams } from "react-router";
-
-// Type
-import type { OfficeGroup, UpdateOfficeGroup } from "@/types/office-group";
-import { Pencil, Trash2 } from "lucide-react";
-
 // Hook
 import { useState } from "react";
 import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
@@ -13,10 +6,17 @@ import { useOfficeGroupById } from "@/features/office-group/useOfficeGroup";
 import { useAllActiveUsers } from "@/features/auth/useAllActiveUsers";
 import { useModal } from "@/hook/useModal";
 
-// import { useAgentGroupsByOfficeGroupCode } from "@/features/agent-group/useAgentGroupsByOfficeGroupCode";
+// React router
+import { Link, useParams } from "react-router";
+
+// Type
+import type { OfficeGroup, UpdateOfficeGroup } from "@/types/office-group";
+
+// Icon
+import { Pencil, Trash2 } from "lucide-react";
 
 // Component
-import DeliveryActivityTable from "@/features/office-group/AgentGroupTable";
+import AgentGroupTable from "@/features/office-group/AgentGroupTable";
 import UpdateOfficeGroupForm from "@/features/office-group/UpdateOfficeGroupForm";
 import PageMeta from "@/components/common/PageMeta";
 import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
@@ -57,32 +57,6 @@ export default function OfficeGroup() {
       });
     }
   }
-
-  // function handleUpdate() {
-  //   if (officeGroup) {
-  //     const user = users.find(
-  //       (user) => user.userName === officeGroup.chiefOfficeName
-  //     );
-
-  //     if (!user) {
-  //       console.error(
-  //         "User not found for chiefOfficeName:",
-  //         officeGroup.chiefOfficeName
-  //       );
-  //       return; // Exit early if user is not found
-  //     }
-
-  //     const updateData: UpdateOfficeGroup = {
-  //       id: officeGroup.id.toString(),
-  //       newOfficeGroupData: {
-  //         officeName: officeGroup.officeName,
-  //         userCode: user.userCode,
-  //       },
-  //     };
-
-  //     setUpdateData(updateData);
-  //   }
-  // }
 
   function handleUpdate() {
     if (officeGroup) {
@@ -232,20 +206,10 @@ export default function OfficeGroup() {
           </ModalWithAnimation>
         </div>
 
-        {/* {isOfficeGroupLoading || isAgentGroupsLoading ? (
-          <div>Loading...</div>
-        ) : agentGroupsByOfficeGroupCode?.length > 0 ? (
-          <DeliveryActivityTable
-            agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode ?? []}
-          />
-        ) : (
-          <div>No agent groups found</div>
-        )} */}
-
         {isOfficeGroupLoading || isAgentGroupsLoading ? (
           <div>Loading...</div>
         ) : (
-          <DeliveryActivityTable
+          <AgentGroupTable
             agentGroupsByOfficeGroupCode={agentGroupsByOfficeGroupCode ?? []}
           />
         )}

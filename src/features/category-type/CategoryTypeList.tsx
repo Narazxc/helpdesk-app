@@ -1,10 +1,6 @@
 // Icon
 import { Link } from "react-router";
-import {
-  FolderOpenDot,
-  // Old Icon
-  // Computer
-} from "lucide-react";
+import { FolderOpenDot } from "lucide-react";
 
 // Component
 import RequestTypeListSkeleton from "../request-type/RequestTypeListSkeleton";
@@ -22,7 +18,7 @@ export default function CategoryTypeList() {
   return (
     <ul className="grid md:grid-cols-4 place-content-center gap-x-8 gap-y-8 sm:grid-cols-2 grid-cols-1">
       {categoryTypes.map((categoryType) => {
-        // Count how many categories belong to this requestType
+        // Count how many categories belong to this requestType (loop count on the frontend)
         const assetCount = assetTypes.filter(
           (asset) => asset.categoryTypeCode === categoryType.categoryTypeCode
         ).length;
@@ -35,11 +31,6 @@ export default function CategoryTypeList() {
             <Link to={`/category-types/${categoryType.id}`}>
               <div>
                 <div className="mb-3 flex items-center justify-center">
-                  {/* <Computer
-                    size={48}
-                    strokeWidth={1.2}
-                    className="group-hover:stroke-white dark:stroke-gray-100/90"
-                  /> */}
                   <FolderOpenDot
                     size={48}
                     strokeWidth={1.2}

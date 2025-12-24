@@ -1,81 +1,26 @@
+// Component
 import CustomizedInput from "@/components/form/input/CustomizedInput";
 import Button from "@/components/ui/button/Button";
 import { GenericCombobox } from "@/components/GenericCombobox";
+import Label from "@/components/form/Label";
+
+// Hook
 import { useAllActiveUsers } from "../auth/useAllActiveUsers";
 import { useCreateOfficeGroup } from "./useCreateOfficeGroup";
+
+// Type
 import type { CreateOfficeGroup } from "@/types/office-group";
+
+// React-hook-form
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
-import Label from "@/components/form/Label";
 
 interface CreateOfficeGroupFormProps {
   closeModal: () => void;
 }
 
-// Dummy users data
-
-// interface User {
-//   id: number;
-//   name: string;
-//   email: string;
-// }
-// export const users: User[] = [
-//   {
-//     id: 1,
-//     name: "Sarah Johnson",
-//     email: "sarah.johnson@company.com",
-//   },
-//   {
-//     id: 2,
-//     name: "Michael Chen",
-//     email: "michael.chen@company.com",
-//   },
-//   {
-//     id: 3,
-//     name: "Emily Rodriguez",
-//     email: "emily.rodriguez@company.com",
-//   },
-//   {
-//     id: 4,
-//     name: "David Thompson",
-//     email: "david.thompson@company.com",
-//   },
-//   {
-//     id: 5,
-//     name: "Jessica Kim",
-//     email: "jessica.kim@company.com",
-//   },
-//   {
-//     id: 6,
-//     name: "Robert Williams",
-//     email: "robert.williams@company.com",
-//   },
-//   {
-//     id: 7,
-//     name: "Amanda Foster",
-//     email: "amanda.foster@company.com",
-//   },
-//   {
-//     id: 8,
-//     name: "James Anderson",
-//     email: "james.anderson@company.com",
-//   },
-//   {
-//     id: 9,
-//     name: "Lisa Parker",
-//     email: "lisa.parker@company.com",
-//   },
-//   {
-//     id: 10,
-//     name: "Christopher Lee",
-//     email: "christopher.lee@company.com",
-//   },
-// ];
-
 export default function CreateOfficeGroupForm({
   closeModal,
 }: CreateOfficeGroupFormProps) {
-  // Create state for the selected user ID
-  // const [selectedUserId, setSelectedUserId] = useState<string>("");
   const { users } = useAllActiveUsers();
   const {
     control,
@@ -96,18 +41,11 @@ export default function CreateOfficeGroupForm({
       userCode: data.userCode,
     };
 
-    // console.log("officeGroupData", officeGroupData);
-
     createOfficeGroup(officeGroupData);
 
     reset(); // Reset the form
     closeModal();
   };
-
-  // // Optional: Get the selected user object
-  // const selectedUser = users.find(
-  //   (user) => user.id.toString() === selectedUserId
-  // );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

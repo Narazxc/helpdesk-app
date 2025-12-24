@@ -25,234 +25,6 @@ import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
 import UpdateOfficeGroupForm from "./UpdateOfficeGroupForm";
 import toast from "react-hot-toast";
 
-// const officeGroups: OfficeGroup[] = [
-//   {
-//     id: 1,
-//     officeName: "OAA",
-//     chiefOfficeName: "John Smith",
-//     createdAt: "2025-01-15T10:30:00Z",
-//     updatedAt: "2025-03-10T14:45:00Z",
-//     status: true,
-//     createdBy: "admin",
-//     updatedBy: "manager",
-//   },
-//   {
-//     id: 2,
-//     officeName: "OPGS",
-//     chiefOfficeName: "Emma Brown",
-//     createdAt: "2025-01-18T09:15:00Z",
-//     updatedAt: "2025-03-12T11:25:00Z",
-//     status: true,
-//     createdBy: "admin",
-//     updatedBy: "emma",
-//   },
-//   {
-//     id: 3,
-//     officeName: "OQM",
-//     chiefOfficeName: "David Johnson",
-//     createdAt: "2025-02-01T12:00:00Z",
-//     updatedAt: "2025-03-15T09:35:00Z",
-//     status: false,
-//     createdBy: "john",
-//     updatedBy: "david",
-//   },
-//   {
-//     id: 4,
-//     officeName: "OHD",
-//     chiefOfficeName: "Sophia Carter",
-//     createdAt: "2025-02-05T08:20:00Z",
-//     updatedAt: "2025-03-18T13:55:00Z",
-//     status: true,
-//     createdBy: "admin",
-//     updatedBy: "sophia",
-//   },
-//   {
-//     id: 5,
-//     officeName: "OFA",
-//     chiefOfficeName: "Michael Davis",
-//     createdAt: "2025-02-10T14:10:00Z",
-//     updatedAt: "2025-03-20T10:40:00Z",
-//     status: true,
-//     createdBy: "michael",
-//     updatedBy: "manager",
-//   },
-//   {
-//     id: 6,
-//     officeName: "OIM",
-//     chiefOfficeName: "Isabella Moore",
-//     createdAt: "2025-02-15T15:30:00Z",
-//     updatedAt: "2025-03-22T16:05:00Z",
-//     status: false,
-//     createdBy: "admin",
-//     updatedBy: "isabella",
-//   },
-//   {
-//     id: 7,
-//     officeName: "OCM",
-//     chiefOfficeName: "William Harris",
-//     createdAt: "2025-02-18T07:25:00Z",
-//     updatedAt: "2025-03-24T09:50:00Z",
-//     status: true,
-//     createdBy: "william",
-//     updatedBy: "admin",
-//   },
-//   {
-//     id: 8,
-//     officeName: "OII",
-//     chiefOfficeName: "Olivia Walker",
-//     createdAt: "2025-02-20T11:45:00Z",
-//     updatedAt: "2025-03-26T12:35:00Z",
-//     status: true,
-//     createdBy: "admin",
-//     updatedBy: "olivia",
-//   },
-//   {
-//     id: 9,
-//     officeName: "OIS",
-//     chiefOfficeName: "James Wilson",
-//     createdAt: "2025-02-25T09:40:00Z",
-//     updatedAt: "2025-03-28T10:15:00Z",
-//     status: false,
-//     createdBy: "james",
-//     updatedBy: "admin",
-//   },
-//   {
-//     id: 10,
-//     officeName: "OSD",
-//     chiefOfficeName: "Mia Thompson",
-//     createdAt: "2025-03-01T13:55:00Z",
-//     updatedAt: "2025-03-30T14:20:00Z",
-//     status: true,
-//     createdBy: "mia",
-//     updatedBy: "manager",
-//   },
-// ];
-
-// interface Transaction {
-//   id: number;
-//   orderId: string;
-//   customer: string;
-//   email: string;
-//   amount: number;
-//   amountDisplay: string;
-//   status: "Completed" | "Pending" | "Failed";
-//   dueDate: string;
-//   officeName?: string;
-// }
-
-// const initialTransactions: Transaction[] = [
-//   {
-//     id: 1,
-//     orderId: "#323534",
-//     customer: "Lindsey Curtis",
-//     email: "lindsey@example.com",
-//     amount: 699,
-//     amountDisplay: "$699",
-//     status: "Completed",
-//     dueDate: "12 Feb, 2027",
-//     officeName: "OAA",
-//   },
-//   {
-//     id: 2,
-//     orderId: "#323535",
-//     customer: "Kaiya George",
-//     email: "kaiya@example.com",
-//     amount: 1579,
-//     amountDisplay: "$1,579",
-//     status: "Failed",
-//     dueDate: "13 Mar, 2027",
-//     officeName: "OPGS",
-//   },
-//   {
-//     id: 3,
-//     orderId: "#323536",
-//     customer: "Zain Geidt",
-//     email: "zain787@example.com",
-//     amount: 1039,
-//     amountDisplay: "$1,039",
-//     status: "Pending",
-//     dueDate: "19 Mar, 2027",
-//     officeName: "OQM",
-//   },
-//   {
-//     id: 4,
-//     orderId: "#323537",
-//     customer: "Abram Schleifer",
-//     email: "abram@example.com",
-//     amount: 43999,
-//     amountDisplay: "$43,999",
-//     status: "Completed",
-//     dueDate: "25 Apr, 2027",
-//     officeName: "OHD",
-//   },
-//   {
-//     id: 5,
-//     orderId: "#323538",
-//     customer: "Carla George",
-//     email: "carla65@example.com",
-//     amount: 919,
-//     amountDisplay: "$919",
-//     status: "Completed",
-//     dueDate: "11 May, 2027",
-//     officeName: "OFA",
-//   },
-//   {
-//     id: 6,
-//     orderId: "#323539",
-//     customer: "Emery Culhane",
-//     email: "emery09@example.com",
-//     amount: 839,
-//     amountDisplay: "$839",
-//     status: "Completed",
-//     dueDate: "29 Jun, 2027",
-//     officeName: "OIM",
-//   },
-//   {
-//     id: 7,
-//     orderId: "#323540",
-//     customer: "Livia Donin",
-//     email: "livia343@example.com",
-//     amount: 1769,
-//     amountDisplay: "$1,769",
-//     status: "Failed",
-//     dueDate: "22 Jul, 2027",
-//     officeName: "OCM",
-//   },
-//   {
-//     id: 8,
-//     orderId: "#323541",
-//     customer: "Miracle Bator",
-//     email: "miracle@example.com",
-//     amount: 7349,
-//     amountDisplay: "$7,349",
-//     status: "Completed",
-//     dueDate: "05 Aug, 2027",
-//     officeName: "OII",
-//   },
-//   {
-//     id: 9,
-//     orderId: "#323542",
-//     customer: "Lincoln Herwitz",
-//     email: "lincoln@example.com",
-//     amount: 849,
-//     amountDisplay: "$849",
-//     status: "Completed",
-//     dueDate: "09 Sep, 2027",
-//     officeName: "OIS",
-//   },
-//   {
-//     id: 10,
-//     orderId: "#323543",
-//     customer: "Ekstrom Bothman",
-//     email: "ekstrom@example.com",
-//     amount: 679,
-//     amountDisplay: "$679",
-//     status: "Completed",
-//     dueDate: "15 Nov, 2027",
-//     officeName: "OSD",
-//   },
-// ];
-
 interface SortState {
   key: "chiefOfficeName" | "officeName"; // Fixed: Updated to match OfficeGroup properties
   asc: boolean;
@@ -404,43 +176,73 @@ function OfficeGroupTable() {
   //   openEditModal();
   // }
 
+  // Correct logic
+  // function handleUpdate(rowItem: OfficeGroup) {
+  //   if (rowItem) {
+  //     const user = users.find(
+  //       (user) => user.username === rowItem.chiefOfficeName
+  //     );
+
+  //     if (!user) {
+  //       console.error(
+  //         "User not found for chiefOfficeName:",
+  //         rowItem.chiefOfficeName
+  //       );
+
+  //       const updateData: UpdateOfficeGroup = {
+  //         id: rowItem.id.toString(),
+  //         newOfficeGroupData: {
+  //           officeName: rowItem.officeName,
+  //           userCode: "", // Default value when user not found
+  //         },
+  //       };
+
+  //       setItemToUpdate(updateData);
+  //       openEditModal();
+  //       return; // Exit after handling the not-found case
+  //     }
+
+  //     const updateData: UpdateOfficeGroup = {
+  //       id: rowItem.id.toString(),
+  //       newOfficeGroupData: {
+  //         officeName: rowItem.officeName,
+  //         userCode: user.userCode, // user is guaranteed to exist here
+  //       },
+  //     };
+
+  //     setItemToUpdate(updateData);
+  //   }
+
+  //   openEditModal();
+  // }
+
+  // 20251216 new logic
   function handleUpdate(rowItem: OfficeGroup) {
-    if (rowItem) {
-      const user = users.find(
-        (user) => user.username === rowItem.chiefOfficeName
-      );
-
-      if (!user) {
-        console.error(
-          "User not found for chiefOfficeName:",
-          rowItem.chiefOfficeName
-        );
-
-        const updateData: UpdateOfficeGroup = {
-          id: rowItem.id.toString(),
-          newOfficeGroupData: {
-            officeName: rowItem.officeName,
-            userCode: "", // Default value when user not found
-          },
-        };
-
-        setItemToUpdate(updateData);
-        openEditModal();
-        return; // Exit after handling the not-found case
-      }
-
-      const updateData: UpdateOfficeGroup = {
-        id: rowItem.id.toString(),
-        newOfficeGroupData: {
-          officeName: rowItem.officeName,
-          userCode: user.userCode, // user is guaranteed to exist here
-        },
-      };
-
-      setItemToUpdate(updateData);
+    if (!rowItem) {
+      console.error("No row item provided");
+      return;
     }
 
-    openEditModal();
+    const user = users.find(
+      (user) => user.username === rowItem.chiefOfficeName
+    );
+
+    if (!user) {
+      console.error(
+        "User not found for chiefOfficeName:",
+        rowItem.chiefOfficeName
+      );
+    }
+
+    const updateData: UpdateOfficeGroup = {
+      id: rowItem.id.toString(),
+      newOfficeGroupData: {
+        officeName: rowItem.officeName,
+        userCode: user?.userCode || "", // Use optional chaining with fallback
+      },
+    };
+
+    setItemToUpdate(updateData);
   }
 
   function handleDelete() {
@@ -457,6 +259,7 @@ function OfficeGroupTable() {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
       <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4 dark:border-gray-800">
+        {/* Table title */}
         {/* <div>
           <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
             Transactions
@@ -636,6 +439,7 @@ function OfficeGroupTable() {
                       <TooltipTrigger>
                         <div
                           onClick={() => {
+                            openEditModal();
                             handleUpdate(row);
                           }}
                           className="text-gray-500 h-[25px] hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90"

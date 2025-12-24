@@ -88,6 +88,27 @@ export interface User4 {
   // forcePasswordChange: boolean; // added on 20251203
 }
 
+// new user type (20251217)
+export interface User4 {
+  id: number;
+  userCode: string;
+  username: string;
+  userId: string;
+  telegramId: string;
+  phoneNumber: string;
+  email: string;
+  // operatingId: number;
+  operatingId: string;
+  roleName: string[];
+  requestTypeName: string[];
+  status: boolean;
+  accountLocked: boolean; // added on 20251119
+  createdAt: string;
+  updatedAt: string;
+  inactiveDate: string;
+  // forcePasswordChange: boolean; // added on 20251203
+}
+
 // {
 // "id": 1,
 // "userCode": "USR_20251006_11645b3a",

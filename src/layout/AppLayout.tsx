@@ -61,6 +61,10 @@ const LayoutContent: React.FC = () => {
   const isDashboard = location.pathname === "/";
   const isEntities = location.pathname === "/entity";
   const isUsersPage = location.pathname === "/users";
+  const isUserProfile = location.pathname === "/profile";
+
+  const isUserProfileChangePassword =
+    location.pathname === "/account-settings/change-password";
 
   function handleToggleSidebarLogo() {
     console.log("isToggleLogo state", isToggleLogo);
@@ -83,7 +87,11 @@ const LayoutContent: React.FC = () => {
         <AppHeader onToggleSidebarLogo={handleToggleSidebarLogo} />
         <div
           className={
-            isDashboard || isEntities || isUsersPage
+            isDashboard ||
+            isEntities ||
+            isUsersPage ||
+            isUserProfile ||
+            isUserProfileChangePassword
               ? "p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6"
               : "p-4 mx-auto max-w-[78rem] md:p-6"
           }

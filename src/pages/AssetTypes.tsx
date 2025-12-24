@@ -3,18 +3,11 @@ import { Link } from "react-router";
 
 // Component
 import CreateAssetTypeForm from "@/features/asset-type/CreateAssetTypeForm";
-// import AssetTypeList from "@/features/asset-type/AssetTypeList";
 import { ModalWithAnimation } from "@/components/ModalWithAnimation";
-// import TypeDataTable from "@/features/request-type/TypeDataTable";
+import AssetTypeTable from "@/features/asset-type/AssetTypeTable";
 
 // Hook
-// import { useAssetTypes } from "@/features/asset-type/useAssetTypes";
 import { useModal } from "@/hook/useModal";
-
-// Type
-// import type { AssetType } from "@/types/asset-type";
-// import type { ColumnConfig } from "@/features/request-type/TypeDataTable";
-import AssetTypeTable from "@/features/asset-type/AssetTypeTable";
 
 export default function AssetTypes() {
   const { isOpen, closeModal, openModal } = useModal();
@@ -58,12 +51,10 @@ export default function AssetTypes() {
       </div>
       <button
         onClick={openModal}
-        // bg-[#4263eb]
         className="bg-[#4264eb] hover:bg-[#5b78ed] border-[2px] flex flex-col justify-center h-9 transition-colors duration-150 hover:border-[#4b6cee] border-[#a0afee] mb-4 text-sm dark:text-white text-white px-4 py-2 rounded-md"
       >
         Add New
       </button>
-      {/* <AssetTypeList /> */}
       {/* border-blue-400 */}
       <div className="border-1 dark:bg-gray-900 dark:border-gray-800 p-6 rounded-md bg-white shadow-md">
         <AssetTypeTable />

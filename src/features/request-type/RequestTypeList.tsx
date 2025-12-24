@@ -5,11 +5,7 @@ import type { RequestType } from "@/types/request-type";
 import { Link } from "react-router";
 
 // Icon
-import {
-  FolderOpen,
-  // Old icon
-  // Mail,
-} from "lucide-react";
+import { FolderOpen } from "lucide-react";
 
 // Hook
 import { useCategoryTypes } from "../category-type/useCategoryTypes";
@@ -28,7 +24,7 @@ export default function RequestTypeList({
   return (
     <ul className="grid md:grid-cols-4 place-content-center gap-x-8 gap-y-8 sm:grid-cols-2 grid-cols-1">
       {requestTypes.map((requestType) => {
-        // Count how many categories belong to this requestType
+        // Count how many categories belong to this requestType (loop count on frontend)
         const categoryCount = categoryTypes.filter(
           (cat) => cat.requestTypeCode === requestType.requestTypeCode
         ).length;
@@ -36,17 +32,11 @@ export default function RequestTypeList({
         return (
           <li
             key={requestType.requestTypeCode}
-            //
             className="dark:border-gray-700 transition-[border-color] duration-300 hover:dark:border-gray-100/60 dark:bg-[#171e2e] dark:text-white/90 bg-white group hover:bg-[#1864ab] lg:min-w-[9rem] flex-1 rounded-md shadow-md border-1 border-gray-200 px-4 py-3 cursor-pointer hover:shadow-lg text-nowrap"
           >
             <Link to={`/request-types/${requestType.id}`}>
               <div>
                 <div className="mb-3 flex items-center justify-center">
-                  {/* <Mail
-                    size={48}
-                    strokeWidth={1.2}
-                    className="group-hover:stroke-white dark:stroke-gray-100/90"
-                  /> */}
                   <FolderOpen
                     size={48}
                     strokeWidth={1.2}

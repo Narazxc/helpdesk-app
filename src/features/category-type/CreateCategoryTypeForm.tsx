@@ -1,5 +1,6 @@
 // React hook form
-import { Controller, useForm, type SubmitHandler } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 
 // Component
 import Button from "@/components/ui/button/Button";
@@ -9,11 +10,12 @@ import TextArea from "@/components/form/input/TextArea";
 import Label from "@/components/form/Label";
 
 // Hook
-import type { CreateCategoryType } from "@/types/category-type";
-import { useCreateCategoryType } from "./useCreateCategoryType";
 import { useRequestTypes } from "@/features/request-type/useRequestTypes";
+import { useCreateCategoryType } from "./useCreateCategoryType";
 
-// Import the interface from the parent component
+// Type
+import type { CreateCategoryType } from "@/types/category-type";
+
 interface ICategoryType {
   requestTypeCode: string;
   categoryName: string;
@@ -47,7 +49,6 @@ export default function CreateCategoryTypeForm({
     };
 
     createCategoryType(categoryTypeData);
-    // console.log(categoryTypeData);
 
     reset(); // Reset the form
     closeModal();

@@ -20,13 +20,16 @@ export function useForgotPassword() {
     onError: (error: AxiosError) => {
       if (error.response && error.response.data) {
         const errorData = error.response.data as { message: string };
-        toast.error(errorData.message);
+        toast.error(errorData.message, {
+          duration: 10000, // in ms
+        });
       }
 
-      console.error(
-        "Error forgot password:",
-        error.response?.data || error.message
-      );
+      // Testing
+      // console.error(
+      //   "Error forgot password:",
+      //   error.response?.data || error.message
+      // );
     },
   });
 

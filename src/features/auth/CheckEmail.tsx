@@ -143,6 +143,7 @@ import { Check, ChevronLeft, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { useForgotPassword } from "./useForgotPassword";
 import toast from "react-hot-toast";
+import { Link } from "react-router";
 
 export default function CheckEmail({ email }: CheckEmailProps) {
   const [timeLeft, setTimeLeft] = useState(1 * 60); // 15 minutes in seconds
@@ -281,13 +282,20 @@ export default function CheckEmail({ email }: CheckEmailProps) {
           </button>
         )}
 
-        <button
+        {/* <button
           onClick={() => (window.location.href = "/signin")}
           className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm inline-flex items-center gap-2 hover:gap-3 transition-all"
         >
           <ChevronLeft size={16} />
           Back to Login
-        </button>
+        </button> */}
+        <Link
+          to="/signin"
+          className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm inline-flex items-center gap-2 hover:gap-3 transition-all"
+        >
+          <ChevronLeft size={16} />
+          Back to Login
+        </Link>
       </div>
     </div>
     // </div>

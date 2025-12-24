@@ -1,19 +1,30 @@
-import PageMeta from "@/components/common/PageMeta";
+// Icon
 import { Pencil, Trash2 } from "lucide-react";
+
+// React router
 import { Link, useNavigate, useParams } from "react-router";
+
+// Hook
 import { useAgentGroupById } from "./useAgentGroup";
-import AgentGroupMembersTable from "./AgentGroupMembersTable";
 import { useModal } from "@/hook/useModal";
-import { ModalWithAnimation } from "@/components/ModalWithAnimation";
-import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
-import toast from "react-hot-toast";
-import { useDeleteAgentGroup } from "./useDeleteAgentGroup";
-import UpdateAgentGroupForm from "./UpdateAgentGroupForm";
-import type { AgentGroup, UpdateAgentGroup } from "@/types/agent-group";
 import { useState } from "react";
 import { useOfficeGroups } from "../office-group/useOfficeGroups";
 import { useGroupLevels } from "./useGroupLevels";
 import { useAllActiveUsers } from "../auth/useAllActiveUsers";
+import { useDeleteAgentGroup } from "./useDeleteAgentGroup";
+
+// Component
+import PageMeta from "@/components/common/PageMeta";
+import AgentGroupMembersTable from "./AgentGroupMembersTable";
+import { ModalWithAnimation } from "@/components/ModalWithAnimation";
+import DeleteConfirmationBox from "@/components/DeleteConfirmationBox";
+import UpdateAgentGroupForm from "./UpdateAgentGroupForm";
+
+// Toast
+import toast from "react-hot-toast";
+
+// Type
+import type { AgentGroup, UpdateAgentGroup } from "@/types/agent-group";
 
 export default function AgentGroupDetail() {
   const { id } = useParams();
@@ -45,7 +56,6 @@ export default function AgentGroupDetail() {
   } = useModal();
 
   function handleDelete() {
-    // console.log("itemToDelete", itemToDelete);
     if (agentGroup) {
       deleteAgentGroup(agentGroup?.id.toString(), {
         onSuccess: () => {

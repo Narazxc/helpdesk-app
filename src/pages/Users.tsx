@@ -19,12 +19,14 @@ import {
 
 // React router
 import { Link } from "react-router";
+import DatePicker from "@/components/form/DatePicker";
 
 export default function Users() {
   const [status, setStatus] = useState("active");
-  //   const { users } = useAllUsers();
-  //   console.log("users", users);
-
+  // const [dateRange, setDateRange] = useState<Date[] | null>(null);
+  // Add state to store the date range
+  // Change the state type
+  const [dateRange, setDateRange] = useState<Date[]>([]);
   return (
     <div>
       <PageMeta title="User Role" description="" />
@@ -81,7 +83,36 @@ export default function Users() {
             Export
             <FolderUp strokeWidth={2} size={19} />
           </Button> */}
-          {/* <SelectDemo /> */}
+          {/* <DatePicker
+            id="date-picker"
+            placeholder="01 Jan 2025 - 30 Dec 2025"
+            mode="range"
+            wrapperWidth="16rem"
+            onChange={(dates, currentDateString) => {
+              console.log("date: ", { dates, currentDateString });
+            }}
+          /> */}
+          {/* // Update DatePicker onChange */}
+          <DatePicker
+            id="date-picker"
+            placeholder="01 Jan 2025 - 30 Dec 2025"
+            mode="range"
+            wrapperWidth="16rem"
+            onChange={(dates, currentDateString) => {
+              console.log("date: ", { dates, currentDateString });
+              // Only update state when both dates are selected (complete range)
+              if (dates.length === 2) {
+                setDateRange([dates[0], dates[1]]);
+              }
+              // If user clears or only has one date, clear the state
+              else if (dates.length === 0) {
+                setDateRange([]);
+              }
+              // dates.length === 1 (first date selected) - do nothing, don't update state yet
+            }}
+          />
+
+          {/* Add this after to verify the component is rendering */}
           <Select value={status} onValueChange={setStatus}>
             {/* Change trigger background and text color */}
             {/* pl-3 pr-3 */}
@@ -115,7 +146,7 @@ export default function Users() {
 
       <div className="border-1 dark:bg-gray-900 dark:border-gray-800 p-6 rounded-md bg-white shadow-md">
         {/* <ComponentCard title="Data Table 2"> */}
-        <UsersTable filterStatus={status} />
+        <UsersTable filterStatus={status} dates={dateRange} />
         {/* </ComponentCard> */}
       </div>
     </div>

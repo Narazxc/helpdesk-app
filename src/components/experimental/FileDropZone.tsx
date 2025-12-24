@@ -1,21 +1,36 @@
 import React, { useState, useRef } from "react";
-import { Upload, X, File, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  Upload,
+  X,
+  FileText,
+  CheckCircle2,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 
-type FileStatus = "uploading" | "complete" | "error";
+type FileStatus = "pending" | "uploading" | "complete" | "error";
 
 interface FileItem {
   id: number;
   file: File;
   name: string;
   size: string;
+  sizeBytes: number;
   status: FileStatus;
-  progress: number;
+  preview?: string;
+  error?: string;
 }
 
-export default function FileDropZone() {
+interface FileDropZoneProps {
+  onImport: (file: File) => void;
+  isUploading?: boolean;
+}
+
+export default function FileDropZone({
+  onImport,
+  isUploading = false,
+}: FileDropZoneProps) {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -43,49 +58,80 @@ export default function FileDropZone() {
     addFiles(selectedFiles);
   };
 
+  console.log("Files", files);
+
+  // const addFiles = (newFiles: File[]) => {
+  //   const filesWithId: FileItem[] = newFiles.map((file, index) => {
+  //     const item: FileItem = {
+  //       id: Date.now() + index,
+  //       file,
+  //       name: file.name,
+  //       size: formatFileSize(file.size),
+  //       sizeBytes: file.size,
+  //       status: "pending",
+  //     };
+
+  //     // Generate preview for images
+  //     if (file.type.startsWith("image/")) {
+  //       const reader = new FileReader();
+  //       reader.onload = (e) => {
+  //         setFiles((prev) =>
+  //           prev.map((f) =>
+  //             f.id === item.id
+  //               ? { ...f, preview: e.target?.result as string }
+  //               : f
+  //           )
+  //         );
+  //       };
+  //       reader.readAsDataURL(file);
+  //     }
+
+  //     return item;
+  //   });
+
+  //   setFiles((prev) => [...prev, ...filesWithId]);
+  // };
   const addFiles = (newFiles: File[]) => {
-    const filesWithId: FileItem[] = newFiles.map((file, index) => ({
-      id: Date.now() + index,
+    // Only take the first file
+    const file = newFiles[0];
+    if (!file) return;
+
+    const item: FileItem = {
+      id: Date.now(),
       file,
       name: file.name,
       size: formatFileSize(file.size),
-      status: "uploading",
-      progress: 0,
-    }));
+      sizeBytes: file.size,
+      status: "pending",
+    };
 
-    setFiles((prev) => [...prev, ...filesWithId]);
+    // Generate preview for images
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === item.id ? { ...f, preview: e.target?.result as string } : f
+          )
+        );
+      };
+      reader.readAsDataURL(file);
+    }
 
-    // Simulate upload for each file
-    filesWithId.forEach((fileItem) => {
-      simulateUpload(fileItem.id);
-    });
+    // Replace the entire files array with just this one file
+    setFiles([item]);
   };
 
-  const simulateUpload = (fileId: number) => {
-    // Simulate progress
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.random() * 30;
+  const handleUpload = (fileItem: FileItem) => {
+    // Mark file as uploading
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === fileItem.id ? { ...f, status: "uploading" as FileStatus } : f
+      )
+    );
 
-      if (progress >= 100) {
-        progress = 100;
-        clearInterval(interval);
-
-        setFiles((prev) =>
-          prev.map((f) =>
-            f.id === fileId
-              ? { ...f, progress: 100, status: "complete" as FileStatus }
-              : f
-          )
-        );
-      } else {
-        setFiles((prev) =>
-          prev.map((f) =>
-            f.id === fileId ? { ...f, progress: Math.floor(progress) } : f
-          )
-        );
-      }
-    }, 200);
+    // Call the parent's import function
+    onImport(fileItem.file);
   };
 
   const removeFile = (id: number) => {
@@ -100,83 +146,156 @@ export default function FileDropZone() {
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
+  const getFileIcon = (file: FileItem) => {
+    if (file.preview) {
+      return (
+        <img
+          src={file.preview}
+          alt={file.name}
+          className="w-10 h-10 rounded object-cover"
+        />
+      );
+    }
+
+    if (file.name.endsWith(".pdf")) {
+      return (
+        <div className="w-10 h-10 rounded bg-red-50 flex items-center justify-center">
+          <FileText className="w-5 h-5 text-red-600" />
+        </div>
+      );
+    }
+
+    if (file.name.endsWith(".csv")) {
+      return (
+        <div className="w-10 h-10 rounded bg-green-50 flex items-center justify-center">
+          <FileText className="w-5 h-5 text-green-600" />
+        </div>
+      );
+    }
+
+    return (
+      <div className="w-10 h-10 rounded bg-gray-100 flex items-center justify-center">
+        <FileText className="w-5 h-5 text-gray-600" />
+      </div>
+    );
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto p-6">
-      <Card className="p-6">
+    <div className="w-full">
+      <div>
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold mb-1">Import Users</h2>
+          <p className="text-sm text-gray-500">
+            Select and upload the CSV file of your choice
+          </p>
+        </div>
+
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors ${
+          className={`border-2 border-dashed rounded-lg px-12 py-8 text-center transition-colors ${
             isDragging
-              ? "border-primary bg-primary/5"
-              : "border-gray-300 hover:border-primary/50"
+              ? "border-blue-500 bg-blue-50"
+              : "border-gray-300 hover:border-gray-400"
           }`}
         >
           <input
             ref={fileInputRef}
             type="file"
             multiple
+            accept=".csv"
             onChange={handleFileInput}
             className="hidden"
           />
 
-          <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <div className="flex flex-col items-center">
+            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+              <Upload className="w-6 h-6 text-gray-600" />
+            </div>
 
-          <p className="text-lg font-medium mb-2">
-            Drop files here or click to upload
-          </p>
-          <p className="text-sm text-gray-500">Support for multiple files</p>
+            <p className="text-base font-medium mb-1">
+              Choose a file or drag & drop it here
+            </p>
+            <p className="text-sm text-gray-500 mb-6">CSV format, up to 50MB</p>
+
+            <Button
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-6"
+              disabled={isUploading}
+            >
+              Browse File
+            </Button>
+          </div>
         </div>
 
         {files.length > 0 && (
-          <div className="mt-6 space-y-2">
-            <h3 className="font-medium mb-3">Files ({files.length})</h3>
+          <div className="mt-6 space-y-3">
             {files.map((fileItem) => (
-              <div key={fileItem.id} className="p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div
+                key={fileItem.id}
+                className="flex items-center gap-4 p-3 rounded-lg border bg-white"
+              >
+                {getFileIcon(fileItem)}
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate pr-4">
+                    {fileItem.name}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500">
+                      {fileItem.size}
+                    </span>
+
                     {fileItem.status === "uploading" && (
-                      <Loader2 className="h-5 w-5 text-primary animate-spin flex-shrink-0" />
-                    )}
-                    {fileItem.status === "complete" && (
-                      <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                    )}
-                    {fileItem.status === "error" && (
-                      <File className="h-5 w-5 text-red-500 flex-shrink-0" />
+                      <div className="flex items-center gap-1 text-xs text-blue-600">
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        <span>Uploading...</span>
+                      </div>
                     )}
 
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium truncate">
-                        {fileItem.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {fileItem.size}
-                        {fileItem.status === "uploading" &&
-                          ` • ${fileItem.progress}%`}
-                        {fileItem.status === "complete" && " • Complete"}
-                      </p>
-                    </div>
+                    {fileItem.status === "complete" && (
+                      <div className="flex items-center gap-1 text-xs text-green-600">
+                        <CheckCircle2 className="w-3 h-3" />
+                        <span>Complete</span>
+                      </div>
+                    )}
+
+                    {fileItem.status === "error" && (
+                      <div className="flex items-center gap-1 text-xs text-red-600">
+                        <AlertCircle className="w-3 h-3" />
+                        <span>{fileItem.error || "Upload failed"}</span>
+                      </div>
+                    )}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeFile(fileItem.id)}
-                    className="flex-shrink-0"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
                 </div>
 
-                {fileItem.status === "uploading" && (
-                  <Progress value={fileItem.progress} className="h-1" />
+                {fileItem.status === "pending" && (
+                  <Button
+                    size="sm"
+                    onClick={() => handleUpload(fileItem)}
+                    disabled={isUploading}
+                    className="flex-shrink-0"
+                  >
+                    Upload
+                  </Button>
                 )}
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeFile(fileItem.id)}
+                  className="flex-shrink-0 h-8 w-8 p-0 hover:bg-gray-100"
+                  disabled={fileItem.status === "uploading"}
+                >
+                  <X className="h-4 w-4 text-gray-500" />
+                </Button>
               </div>
             ))}
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

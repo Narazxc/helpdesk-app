@@ -21,11 +21,12 @@ import { format, parseISO } from "date-fns";
 // Icon
 import { TrashBinIcon } from "@/icons";
 import {
-  FolderUp,
+  Download,
   LockKeyhole,
   LockKeyholeOpen,
   PencilIcon,
   RotateCcwKey,
+  Upload,
 } from "lucide-react";
 
 // Toast
@@ -41,12 +42,13 @@ import { useAllUsers } from "./useAllUsers";
 import { useDeleteUser } from "./useDeleteUser";
 import { useUnlockUser } from "../auth/useUnlockUser";
 import { exportUsersCsv } from "@/services/apiUser";
-import FileDropZone2 from "@/components/experimental/FileDropZone2";
+import FileDropZone from "@/components/experimental/FileDropZone";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useImportUsersCsv } from "./useImportUsersCsv";
 
 // const tableRowData = [
 //   {
@@ -436,22 +438,30 @@ type SortOrder = "asc" | "desc";
 
 interface UsersTableProps {
   filterStatus: string;
+  dates?: Date[] | null; // Accept array of any length
 }
 
 // type UserStatus = "all" | "active" | "inactive";
 // type UserStatus = "active" | "inactive";
 
-export default function UsersTable({ filterStatus }: UsersTableProps) {
+export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<SortKey>("username");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [searchTerm, setSearchTerm] = useState("");
+  // Extract dates from props
+
+  // 20251218 Filter by date range
+  // Handle dates safely
+  // const startDate = dates?.[0] || null;
+  // const endDate = dates?.[1] || dates?.[0] || null; // If only 1 date, use it as both start and end
+
   // const { users: tableRowData = [], isLoading: isLoadingAllUsers } =
   //   useAllActiveUsers();
   // const [filterStatus, setFilterStatus] = useState();
   const { users, isLoading: isLoadingAllUsers } = useAllUsers();
-  const [itemToDelete, setItemToDelete] = useState<User4>();
+  const [selectedItem, setSelectedItem] = useState<User4>();
   const { deleteUser } = useDeleteUser();
   const {
     unlockUser,
@@ -463,7 +473,8 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
     openModal: openUpdatePasswordModal,
     closeModal: closeUpdatePasswordModal,
   } = useModal();
-  const [isUploading, setIsUploading] = useState(false);
+  // const [isUploading, setIsUploading] = useState(false);
+  const { importUsersCsv, isLoading: isUploading } = useImportUsersCsv();
 
   const handleFileImport = (file: File) => {
     // This function receives each file that's added
@@ -471,12 +482,48 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
 
     // You can process the file here
     // For example, upload it to a server, read it, etc.
-    setIsUploading(true);
+    // setIsUploading(true);
+    // importUsersCsv(file);
 
     // Simulate upload or processing
-    setTimeout(() => {
-      setIsUploading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setIsUploading(false);
+    // }, 2000);
+
+    // Return a Promise that wraps the mutation
+    return new Promise<void>((resolve, reject) => {
+      // importUsersCsv(file, {
+      //   onSuccess: () => {
+      //     toast.success("CSV imported successfully");
+      //     resolve(); // Tell FileDropZone it succeeded
+      //     closeImportModal();
+      //   },
+      //   onError: (error) => {
+      //     toast.error("CSV import failed");
+      //     reject(error); // Tell FileDropZone it failed
+      //   },
+      // });
+
+      importUsersCsv(file, {
+        onSuccess: (data) => {
+          // data is the direct response, check its structure
+          if (data.failureCount > 0) {
+            toast.error(
+              `CSV import completed with errors: ${data.failureCount} of ${data.totalRecords} records failed`
+            );
+            reject(new Error("Partial import failure"));
+          } else {
+            toast.success("CSV imported successfully");
+            resolve();
+          }
+          closeImportModal();
+        },
+        onError: (error) => {
+          toast.error("CSV import failed");
+          reject(error);
+        },
+      });
+    });
   };
 
   const {
@@ -491,31 +538,112 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
     closeModal: closeImportModal,
   } = useModal();
 
+  const activeUsersColumn = [
+    { key: "userName", label: "Username" },
+    { key: "userId", label: "User ID" },
+    { key: "roleName", label: "User Role" },
+    { key: "operatingId", label: "Entity" },
+    { key: "status", label: "Status" },
+    { key: "createdAt", label: "Created Date" },
+  ];
+
+  const inactiveUsersColumn = [
+    { key: "userName", label: "Username" },
+    { key: "userId", label: "User ID" },
+    { key: "roleName", label: "User Role" },
+    { key: "operatingId", label: "Entity" },
+    { key: "createdAt", label: "Created Date" },
+    { key: "inactiveDate", label: "Inactive Date" },
+  ];
+
+  const columns =
+    filterStatus === "active" ? activeUsersColumn : inactiveUsersColumn;
+
+  console.log(`${filterStatus} columns: `, columns);
+
   const activeUsers = users?.filter((user) => user.status === true) || [];
   const inactiveUsers = users?.filter((user) => user.status === false) || [];
 
   const tableRowData = filterStatus === "active" ? activeUsers : inactiveUsers;
 
+  // // Original
+  // const filteredAndSortedData = useMemo(() => {
+  //   return tableRowData
+  //     .filter((item) =>
+  //       Object.values(item).some(
+  //         (value) =>
+  //           typeof value === "string" &&
+  //           value.toLowerCase().includes(searchTerm.toLowerCase())
+  //       )
+  //     )
+  //     .sort((a, b) => {
+  //       // if (sortKey === "salary") {
+  //       //   const salaryA = Number.parseInt(a[sortKey].replace(/\$|,/g, ""));
+  //       //   const salaryB = Number.parseInt(b[sortKey].replace(/\$|,/g, ""));
+  //       //   return sortOrder === "asc" ? salaryA - salaryB : salaryB - salaryA;
+  //       // }
+  //       return sortOrder === "asc"
+  //         ? String(a[sortKey]).localeCompare(String(b[sortKey]))
+  //         : String(b[sortKey]).localeCompare(String(a[sortKey]));
+  //     });
+  // }, [sortKey, sortOrder, searchTerm, tableRowData]);
+
   const filteredAndSortedData = useMemo(() => {
     return tableRowData
-      .filter((item) =>
-        Object.values(item).some(
+      .filter((item) => {
+        // Text search filter
+        const matchesSearch = Object.values(item).some(
           (value) =>
             typeof value === "string" &&
             value.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      )
+        );
+
+        // Date range filter
+        const matchesDateRange = (() => {
+          if (!dates || dates.length !== 2) return true; // No filter applied
+
+          const itemDate = new Date(item.createdAt);
+          return itemDate >= dates[0] && itemDate <= dates[1];
+        })();
+
+        return matchesSearch && matchesDateRange;
+      })
       .sort((a, b) => {
-        // if (sortKey === "salary") {
-        //   const salaryA = Number.parseInt(a[sortKey].replace(/\$|,/g, ""));
-        //   const salaryB = Number.parseInt(b[sortKey].replace(/\$|,/g, ""));
-        //   return sortOrder === "asc" ? salaryA - salaryB : salaryB - salaryA;
-        // }
         return sortOrder === "asc"
           ? String(a[sortKey]).localeCompare(String(b[sortKey]))
           : String(b[sortKey]).localeCompare(String(a[sortKey]));
       });
-  }, [sortKey, sortOrder, searchTerm, tableRowData]);
+  }, [sortKey, sortOrder, searchTerm, tableRowData, dates]);
+
+  // const filteredAndSortedData = useMemo(() => {
+  //   return tableRowData
+  //     .filter((item) => {
+  //       const matchesSearch = Object.values(item).some(
+  //         (value) =>
+  //           typeof value === "string" &&
+  //           value.toLowerCase().includes(searchTerm.toLowerCase())
+  //       );
+
+  //       // Only apply date filter if we have both dates
+  //       let matchesDateRange = true;
+  //       // If dates is empty array or has only 1 element, show all records
+  //       if (!dates || dates.length === 0 || dates.length === 1) {
+  //         matchesDateRange = true;
+  //       }
+
+  //       if (dates && dates.length === 2) {
+  //         const createdDate = new Date(item.createdAt);
+  //         matchesDateRange = createdDate >= dates[0] && createdDate <= dates[1];
+  //       }
+
+  //       return matchesSearch && matchesDateRange;
+  //     })
+  //     .sort((a, b) => {
+  //       return sortOrder === "asc"
+  //         ? String(a[sortKey]).localeCompare(String(b[sortKey]))
+  //         : String(b[sortKey]).localeCompare(String(a[sortKey]));
+  //     });
+  // }, [sortKey, sortOrder, searchTerm, tableRowData, dates]);
 
   const totalItems = filteredAndSortedData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -538,9 +666,9 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
   const currentData = filteredAndSortedData.slice(startIndex, endIndex);
 
   function handleDelete() {
-    if (!itemToDelete) return;
+    if (!selectedItem) return;
 
-    deleteUser(itemToDelete.id.toString(), {
+    deleteUser(selectedItem.id.toString(), {
       onSuccess: () => {
         toast.success("User deleted successfully");
         closeDeleteModal();
@@ -563,7 +691,7 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
 
   async function handleExportUsersCsv() {
     try {
-      const data = await exportUsersCsv();
+      const data = await exportUsersCsv(filterStatus);
 
       const url = window.URL.createObjectURL(
         new Blob([data], { type: "text/csv" })
@@ -579,6 +707,31 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
       console.error("Export failed:", e);
     }
   }
+
+  // User detail modal
+  const {
+    isOpen: isUserDetailModalOpen,
+    openModal: openUserDetailModal,
+    closeModal: closeUserDetailModal,
+  } = useModal();
+
+  const userData = {
+    username: "Jane Smith",
+    userId: "jane.smith",
+    telegramId: "1080080100",
+    phoneNumber: "",
+    email: "jane.smith@fmis.gov.kh",
+    entity:
+      "1032 - General Department of Public Financial Management of Information Technology",
+    roles: ["Admin", "Front Desk Agent"],
+    requestTypes: [
+      "Issue Request",
+      "New Development",
+      "Network Problem",
+      "Letter Request",
+    ],
+    profileImage: "", // Leave empty to show initials, or add image URL
+  };
 
   if (isLoadingAllUsers) {
     return <div className="p-4 text-gray-500">Loading users...</div>;
@@ -689,31 +842,12 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
           <div className="flex gap-2">
             <Button
               onClick={() => {
-                console.log("clicked");
                 openImportModal();
               }}
               variant="outline"
               size="sm"
             >
               Import
-              <svg
-                className="fill-current"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10.0018 14.083C9.7866 14.083 9.59255 13.9924 9.45578 13.8472L5.61586 10.0097C5.32288 9.71688 5.32272 9.242 5.61552 8.94902C5.90832 8.65603 6.3832 8.65588 6.67618 8.94868L9.25182 11.5227L9.25182 3.33301C9.25182 2.91879 9.5876 2.58301 10.0018 2.58301C10.416 2.58301 10.7518 2.91879 10.7518 3.33301L10.7518 11.5193L13.3242 8.94866C13.6172 8.65587 14.0921 8.65604 14.3849 8.94903C14.6777 9.24203 14.6775 9.7169 14.3845 10.0097L10.5761 13.8154C10.4385 13.979 10.2323 14.083 10.0018 14.083ZM4.0835 13.333C4.0835 12.9188 3.74771 12.583 3.3335 12.583C2.91928 12.583 2.5835 12.9188 2.5835 13.333V15.1663C2.5835 16.409 3.59086 17.4163 4.8335 17.4163H15.1676C16.4102 17.4163 17.4176 16.409 17.4176 15.1663V13.333C17.4176 12.9188 17.0818 12.583 16.6676 12.583C16.2533 12.583 15.9176 12.9188 15.9176 13.333V15.1663C15.9176 15.5806 15.5818 15.9163 15.1676 15.9163H4.8335C4.41928 15.9163 4.0835 15.5806 4.0835 15.1663V13.333Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </Button>
-            <Button onClick={handleExportUsersCsv} variant="outline" size="sm">
-              Export
               {/* <svg
                 className="fill-current"
                 width="20"
@@ -729,7 +863,27 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
                   fill="currentColor"
                 />
               </svg> */}
-              <FolderUp strokeWidth={2} size={19} />
+              <Upload strokeWidth={2} size={18} />
+            </Button>
+            <Button onClick={handleExportUsersCsv} variant="outline" size="sm">
+              {filterStatus === "active" ? "Export Active" : "Export Inactive"}
+              {/* <svg
+                className="fill-current"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10.0018 14.083C9.7866 14.083 9.59255 13.9924 9.45578 13.8472L5.61586 10.0097C5.32288 9.71688 5.32272 9.242 5.61552 8.94902C5.90832 8.65603 6.3832 8.65588 6.67618 8.94868L9.25182 11.5227L9.25182 3.33301C9.25182 2.91879 9.5876 2.58301 10.0018 2.58301C10.416 2.58301 10.7518 2.91879 10.7518 3.33301L10.7518 11.5193L13.3242 8.94866C13.6172 8.65587 14.0921 8.65604 14.3849 8.94903C14.6777 9.24203 14.6775 9.7169 14.3845 10.0097L10.5761 13.8154C10.4385 13.979 10.2323 14.083 10.0018 14.083ZM4.0835 13.333C4.0835 12.9188 3.74771 12.583 3.3335 12.583C2.91928 12.583 2.5835 12.9188 2.5835 13.333V15.1663C2.5835 16.409 3.59086 17.4163 4.8335 17.4163H15.1676C16.4102 17.4163 17.4176 16.409 17.4176 15.1663V13.333C17.4176 12.9188 17.0818 12.583 16.6676 12.583C16.2533 12.583 15.9176 12.9188 15.9176 13.333V15.1663C15.9176 15.5806 15.5818 15.9163 15.1676 15.9163H4.8335C4.41928 15.9163 4.0835 15.5806 4.0835 15.1663V13.333Z"
+                  fill="currentColor"
+                />
+              </svg> */}
+              {/* <FolderUp strokeWidth={2} size={19} /> */}
+              <Download strokeWidth={2} size={18} />
             </Button>
           </div>
         </div>
@@ -738,7 +892,8 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
       <div className="max-w-full overflow-x-auto custom-scrollbar">
         <div>
           <Table>
-            <TableHeader className="border-t border-gray-100 dark:border-white/[0.05]">
+            {/* <TableHeader className="border-t border-gray-100 dark:border-white/[0.05]"> */}
+            <TableHeader className="px-6 py-3 border-t border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
               <TableRow>
                 {
                   // [
@@ -750,14 +905,7 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
                   //   { key: "salary", label: "Salary" },
                   // ]
 
-                  [
-                    { key: "userName", label: "Username" },
-                    { key: "userId", label: "User ID" },
-                    { key: "roleName", label: "User Role" },
-                    { key: "operatingId", label: "Entity" },
-                    { key: "status", label: "Status" },
-                    { key: "createdAt", label: "Created Date" },
-                  ].map(({ key, label }) => (
+                  columns.map(({ key, label }) => (
                     <TableCell
                       key={key}
                       className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]"
@@ -766,7 +914,7 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
                         className="flex items-center justify-between cursor-pointer"
                         onClick={() => handleSort(key as SortKey)}
                       >
-                        <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
+                        <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                           {label}
                         </p>
 
@@ -812,124 +960,168 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
                     </TableCell>
                   ))
                 }
-                <TableCell className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]">
-                  <p className="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                    Actions
-                  </p>
-                </TableCell>
+                {filterStatus === "active" ? (
+                  <TableCell className="px-4 py-3 border border-gray-100 dark:border-white/[0.05]">
+                    <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
+                      Actions
+                    </p>
+                  </TableCell>
+                ) : null}
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {currentData.map((item, i) => (
-                <TableRow key={i + 1}>
-                  <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
-                    {item.username}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.userId}
-                  </TableCell>
-                  <TableCell className="max-w-xs px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {/* {item.roleName.map((role) => (
-                      <Badge className="mr-2" variant="secondary">
-                        {role}
-                      </Badge>
-                    ))} */}
-                    <div className="max-w-[16rem] flex gap-2 flex-wrap">
-                      {item.roleName.map((role) => (
-                        <Badge
-                          key={role}
-                          // variant="secondary"
-                          variant="secondary"
-                          className="bg-blue-500 text-white dark:bg-blue-600"
-                        >
-                          {role}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {item.operatingId}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {/* {item.status} */}
-                    <div className="flex justify-center items-center">
-                      {!item.accountLocked ? (
-                        // color="#ffc038" original
-                        // dark #2f9e44
-                        // dark #f08c00
-                        <LockKeyholeOpen
-                          // color=""
-                          className="text-[#40c057] hover:text-[#69db7c] active:text-[#2f9e44] hover:cursor-pointer"
-                        />
-                      ) : (
-                        <LockKeyhole
-                          onClick={() => unlockUser(item.id.toString())}
-                          // color="#e5ab2c"
-                          className="text-[#e5ab2c] hover:text-[#ffd43b] active:text-[#c69020]  hover:cursor-pointer"
-                        />
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
-                    {format(
-                      parseISO(item.createdAt.slice(0, 23)),
-                      "EEE, dd-MMM-yyyy"
-                    )}
-                    {/* HH:mm:ss */}
-                  </TableCell>
-                  <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
-                    <div className="flex items-center w-full gap-4">
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div
-                            onClick={() => {
-                              openDeleteModal();
-                              setItemToDelete(item);
-                            }}
-                            className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+            {filterStatus === "active" ? (
+              /* Active users table body */
+              <TableBody>
+                {currentData.map((item, i) => (
+                  <TableRow key={i + 1} className="group">
+                    <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                      <span
+                        className="hover:cursor-pointer group-hover:underline group-hover:underline-offset-2"
+                        onClick={() => {
+                          setSelectedItem(item);
+                          openUserDetailModal();
+                        }}
+                      >
+                        {item.username}
+                      </span>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.userId}
+                    </TableCell>
+                    <TableCell className="max-w-xs px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      <div className="max-w-[16rem] flex gap-2 flex-wrap">
+                        {item.roleName.map((role) => (
+                          <Badge
+                            key={role}
+                            variant="secondary"
+                            className="bg-blue-500 text-white dark:bg-blue-600"
                           >
-                            <TrashBinIcon className="size-5" />
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>Delete</TooltipContent>
-                      </Tooltip>
-
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                            <PencilIcon
-                              // onClick={() => navigate("/users/update")}
-                              onClick={() => handleUpdate(item)}
-                              className="size-5"
-                            />
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>Edit</TooltipContent>
-                      </Tooltip>
-
-                      {/* Admin feature */}
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
-                            <RotateCcwKey
-                              // onClick={() => handleUpdateUserPassword(item)}
+                            {role}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.operatingId}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      <div className="flex justify-center items-center">
+                        {!item.accountLocked ? (
+                          <LockKeyholeOpen className="text-[#40c057] hover:text-[#69db7c] active:text-[#2f9e44] hover:cursor-pointer" />
+                        ) : (
+                          <LockKeyhole
+                            onClick={() => unlockUser(item.id.toString())}
+                            className="text-[#e5ab2c] hover:text-[#ffd43b] active:text-[#c69020]  hover:cursor-pointer"
+                          />
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {format(
+                        parseISO(item.createdAt.slice(0, 23)),
+                        "EEE, dd-MMM-yyyy"
+                      )}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
+                      <div className="flex items-center w-full gap-4">
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div
                               onClick={() => {
-                                setItemToDelete(item);
-                                openUpdatePasswordModal();
+                                openDeleteModal();
+                                setSelectedItem(item);
                               }}
-                              className="size-5"
-                            />
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>Reset Password</TooltipContent>
-                      </Tooltip>
+                              className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+                            >
+                              <TrashBinIcon className="size-5" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>Delete</TooltipContent>
+                        </Tooltip>
 
-                      {/*  */}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                              <PencilIcon
+                                onClick={() => handleUpdate(item)}
+                                className="size-5"
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>Edit</TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+                              <RotateCcwKey
+                                onClick={() => {
+                                  setSelectedItem(item);
+                                  openUpdatePasswordModal();
+                                }}
+                                className="size-5"
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>Reset Password</TooltipContent>
+                        </Tooltip>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              /* Inactive users table body */
+              <TableBody>
+                {currentData.map((item, i) => (
+                  <TableRow key={i + 1}>
+                    <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                      <span
+                        onClick={() => {
+                          setSelectedItem(item);
+                          openUserDetailModal();
+                        }}
+                      >
+                        {item.username}
+                      </span>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.userId}
+                    </TableCell>
+                    <TableCell className="max-w-xs px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      <div className="max-w-[16rem] flex gap-2 flex-wrap">
+                        {item.roleName.map((role) => (
+                          <Badge
+                            key={role}
+                            variant="secondary"
+                            className="bg-blue-500 text-white dark:bg-blue-600"
+                          >
+                            {role}
+                          </Badge>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.operatingId}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {format(
+                        parseISO(item.createdAt.slice(0, 23)),
+                        "EEE, dd-MMM-yyyy"
+                      )}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+                      {item.inactiveDate
+                        ? format(
+                            parseISO(item.inactiveDate.slice(0, 23)),
+                            "EEE, dd-MMM-yyyy"
+                          )
+                        : "N/A"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
           </Table>
         </div>
       </div>
@@ -963,7 +1155,7 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
         /> */}
 
         <AdminResetPasswordForm
-          user={itemToDelete}
+          user={selectedItem}
           closeModal={closeUpdatePasswordModal}
         />
       </ModalWithAnimation>
@@ -979,7 +1171,7 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
           descriptionText={
             <>
               Are you sure you want to delete user:{" "}
-              <b>{itemToDelete?.username}</b>
+              <b>{selectedItem?.username}</b>
             </>
           }
           onClose={closeDeleteModal}
@@ -992,15 +1184,309 @@ export default function UsersTable({ filterStatus }: UsersTableProps) {
         onClose={closeImportModal}
         className="max-w-[584px] p-5 lg:p-7"
       >
-        <FileDropZone2
+        <FileDropZone
           onImport={handleFileImport}
           isUploading={isUploading}
           // onImport={files}
         />
       </ModalWithAnimation>
+
+      <ModalWithAnimation
+        isOpen={isUserDetailModalOpen}
+        onClose={closeUserDetailModal}
+        // className="max-w-[584px]"
+        className="max-w-2xl"
+      >
+        {/* <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center p-4 z-50"> */}
+        <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between px-8 py-6 border-b border-gray-200 flex-shrink-0">
+            <h2 className="text-xl font-semibold text-gray-900">
+              User Profile
+            </h2>
+            {/* <button
+              // onClick={() => setIsOpen(false)}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={20} />
+            </button> */}
+          </div>
+
+          {/* Content - Scrollable */}
+          <div className="overflow-y-auto overflow-x-hidden flex-1">
+            <div className="px-8 py-8">
+              {/* Profile Section */}
+              <div className="flex items-center space-x-4 pb-8 mb-8 border-b border-gray-100">
+                {userData.profileImage ? (
+                  <img
+                    src={userData.profileImage}
+                    alt={userData.username}
+                    className="w-20 h-20 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-semibold flex-shrink-0">
+                    {selectedItem?.username
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-xl font-semibold text-gray-900 break-words">
+                    {selectedItem?.username}
+                  </h3>
+                  <p className="text-sm text-gray-500 break-words">
+                    @{selectedItem?.userId}
+                  </p>
+                </div>
+              </div>
+
+              {/* Personal Information Section */}
+              <div className="mb-8">
+                <h3 className="text-sm font-semibold text-gray-900 mb-6">
+                  Personal information
+                </h3>
+
+                <div className="space-y-6">
+                  {/* Username and User ID */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="min-w-0">
+                      <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                        Username
+                      </label>
+                      <p className="text-sm lg:text-base text-gray-900 break-words">
+                        {selectedItem?.username}
+                      </p>
+                    </div>
+                    <div className="min-w-0">
+                      <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                        User ID
+                      </label>
+                      <p className="text-sm lg:text-base text-gray-900 break-words">
+                        {selectedItem?.userId}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Email and Phone */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="min-w-0">
+                      <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                        Email address
+                      </label>
+                      <p className="text-sm lg:text-base text-gray-900 break-words">
+                        {selectedItem?.email}
+                      </p>
+                    </div>
+                    <div className="min-w-0">
+                      <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                        Phone
+                      </label>
+                      <p className="text-sm lg:text-base text-gray-400 italic break-words">
+                        {selectedItem?.phoneNumber || "Not provided"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Telegram ID */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="min-w-0">
+                      <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                        Telegram ID
+                      </label>
+                      <p className="text-sm lg:text-base text-gray-900 break-words">
+                        {selectedItem?.telegramId}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Entity */}
+                  <div>
+                    <label className="block text-xs lg:text-sm text-gray-500 mb-2">
+                      Entity
+                    </label>
+                    <p className="text-sm lg:text-base text-gray-900 break-words">
+                      {selectedItem?.operatingId}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Roles & Permissions Section */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-6">
+                  Roles & Permissions
+                </h3>
+
+                <div className="space-y-6">
+                  {/* Roles */}
+                  <div>
+                    <label className="block text-xs lg:text-sm text-gray-500 mb-3">
+                      Assigned Roles
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem?.roleName.map((role) => (
+                        <span
+                          key={role}
+                          className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm"
+                        >
+                          {role}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Request Types */}
+                  <div>
+                    <label className="block text-xs lg:text-sm text-gray-500 mb-3">
+                      Request Types
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedItem?.requestTypeName.map((type) => (
+                        <span
+                          key={type}
+                          className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm"
+                        >
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex justify-end space-x-3 px-8 py-5 border-t border-gray-200 flex-shrink-0">
+            <button
+              onClick={closeUserDetailModal}
+              className="px-5 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Close
+            </button>
+            {/* <button className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium">
+              Edit Profile
+            </button> */}
+          </div>
+        </div>
+        {/* </div> */}
+      </ModalWithAnimation>
     </div>
   );
 }
+
+// {
+//   /* Active column  */
+// }
+// <TableBody>
+//   {currentData.map((item, i) => (
+//     <TableRow key={i + 1}>
+//       <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+//         {item.username}
+//       </TableCell>
+//       <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+//         {item.userId}
+//       </TableCell>
+//       <TableCell className="max-w-xs px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+//         {/* {item.roleName.map((role) => (
+//                       <Badge className="mr-2" variant="secondary">
+//                         {role}
+//                       </Badge>
+//                     ))} */}
+//         <div className="max-w-[16rem] flex gap-2 flex-wrap">
+//           {item.roleName.map((role) => (
+//             <Badge
+//               key={role}
+//               // variant="secondary"
+//               variant="secondary"
+//               className="bg-blue-500 text-white dark:bg-blue-600"
+//             >
+//               {role}
+//             </Badge>
+//           ))}
+//         </div>
+//       </TableCell>
+//       <TableCell className="px-4 py-4 font-normal text-gray-800 border dark:border-white/[0.05] border-gray-100 text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+//         {item.operatingId}
+//       </TableCell>
+//       <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+//         {/* {item.status} */}
+//         <div className="flex justify-center items-center">
+//           {!item.accountLocked ? (
+//             // color="#ffc038" original
+//             // dark #2f9e44
+//             // dark #f08c00
+//             <LockKeyholeOpen
+//               // color=""
+//               className="text-[#40c057] hover:text-[#69db7c] active:text-[#2f9e44] hover:cursor-pointer"
+//             />
+//           ) : (
+//             <LockKeyhole
+//               onClick={() => unlockUser(item.id.toString())}
+//               // color="#e5ab2c"
+//               className="text-[#e5ab2c] hover:text-[#ffd43b] active:text-[#c69020]  hover:cursor-pointer"
+//             />
+//           )}
+//         </div>
+//       </TableCell>
+//       <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100  dark:border-white/[0.05] text-theme-sm dark:text-gray-400 whitespace-nowrap ">
+//         {format(parseISO(item.createdAt.slice(0, 23)), "EEE, dd-MMM-yyyy")}
+//         {/* HH:mm:ss */}
+//       </TableCell>
+//       <TableCell className="px-4 py-4 font-normal text-gray-800 border border-gray-100 dark:border-white/[0.05] text-theme-sm dark:text-white/90 whitespace-nowrap ">
+//         <div className="flex items-center w-full gap-4">
+//           <Tooltip>
+//             <TooltipTrigger>
+//               <div
+//                 onClick={() => {
+//                   openDeleteModal();
+//                   setItemToDelete(item);
+//                 }}
+//                 className="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500"
+//               >
+//                 <TrashBinIcon className="size-5" />
+//               </div>
+//             </TooltipTrigger>
+//             <TooltipContent>Delete</TooltipContent>
+//           </Tooltip>
+
+//           <Tooltip>
+//             <TooltipTrigger>
+//               <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+//                 <PencilIcon
+//                   // onClick={() => navigate("/users/update")}
+//                   onClick={() => handleUpdate(item)}
+//                   className="size-5"
+//                 />
+//               </div>
+//             </TooltipTrigger>
+//             <TooltipContent>Edit</TooltipContent>
+//           </Tooltip>
+
+//           {/* Admin feature */}
+//           <Tooltip>
+//             <TooltipTrigger>
+//               <div className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
+//                 <RotateCcwKey
+//                   // onClick={() => handleUpdateUserPassword(item)}
+//                   onClick={() => {
+//                     setItemToDelete(item);
+//                     openUpdatePasswordModal();
+//                   }}
+//                   className="size-5"
+//                 />
+//               </div>
+//             </TooltipTrigger>
+//             <TooltipContent>Reset Password</TooltipContent>
+//           </Tooltip>
+
+//           {/*  */}
+//         </div>
+//       </TableCell>
+//     </TableRow>
+//   ))}
+// </TableBody>;
 
 // Should be inside table row
 {

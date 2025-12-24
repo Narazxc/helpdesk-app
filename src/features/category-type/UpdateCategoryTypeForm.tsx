@@ -1,4 +1,4 @@
-// React hook form
+// React-hook-form
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 
 // Component
@@ -6,6 +6,7 @@ import CustomizedInput from "@/components/form/input/CustomizedInput";
 import TextArea from "@/components/form/input/TextArea";
 import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
+import { RequestTypeCombobox } from "./RequestTypeCombobox";
 
 // Hook
 import { useRequestTypes } from "../request-type/useRequestTypes";
@@ -17,9 +18,7 @@ import type {
   CreateCategoryType,
   UpdateCategoryType,
 } from "@/types/category-type";
-import { RequestTypeCombobox } from "./RequestTypeCombobox";
 
-// Import the interface from the parent component
 interface ICategoryType {
   categoryName: string;
   categoryDescription: string;
@@ -79,45 +78,7 @@ export default function UpdateCategoryTypeForm({
       </h4>
 
       <div className="flex flex-col gap-4">
-        {/* <div className="grid lg:grid-cols-[10rem_1fr] items-start gap-[0.1rem]">
-          <Label
-            htmlFor="requestTypeCode"
-            className="mb-0.5 text-gray-700 dark:text-gray-100 pt-2 font-normal"
-          >
-            Request Type<span className="text-red-500">*</span>
-          </Label>
-          <div className="flex flex-col">
-            <CustomizedInput
-              type="text"
-              autoFocus={true}
-              error={!!errors.requestTypeCode}
-              placeholder="Enter Request Type Name"
-              id="requestTypeCode"
-              className={`px-3 py-2 border rounded-md focus:outline-none ${
-                errors.requestTypeCode
-                  ? "border-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-              {...register("requestTypeCode", {
-                required: "Request type name is required",
-                maxLength: {
-                  value: 50,
-                  message: "Request type name must be less than 50 characters",
-                },
-                minLength: {
-                  value: 2,
-                  message: "Request type name must be at least 2 characters",
-                },
-              })}
-            />
-            {errors.requestTypeCode && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.requestTypeCode.message}
-              </span>
-            )}
-          </div>
-        </div> */}
-
+        {/* Shadcn Combobox */}
         <div className="grid lg:grid-cols-[10rem_1fr] items-start gap-[0.1rem]">
           <Label
             htmlFor="requestTypeCode"
@@ -192,26 +153,8 @@ export default function UpdateCategoryTypeForm({
           >
             Description
           </Label>
-          {/* <div className="flex flex-col">
-            <CustomizedInput
-              type="text"
-              placeholder="Enter Request Type Description"
-              id="reqTypeDescription"
-              error={!!errors.reqTypeDescription}
-              className={`px-3 py-2 border rounded-md focus:outline-none ${
-                errors.reqTypeDescription
-                  ? "border-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              } dark:bg-gray-800 dark:text-white dark:border-gray-600`}
-              {...register("reqTypeDescription")}
-            />
-            {errors.reqTypeDescription && (
-              <span className="text-red-500 text-sm mt-1">
-                {errors.reqTypeDescription.message}
-              </span>
-            )}
-          </div> */}
 
+          {/* Description text area */}
           <div className="flex flex-col">
             <Controller
               name="categoryDescription"

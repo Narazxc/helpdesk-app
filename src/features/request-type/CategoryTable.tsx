@@ -1,5 +1,6 @@
-// Icon
-import { Search } from "lucide-react";
+// Hook
+import { useState, useMemo } from "react";
+import { useCategoryByRequestTypeCode } from "../category-type/useCategoryByRequestTypeCode";
 
 // Component
 import {
@@ -9,11 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-
-// Hook
 import PaginationWithButton from "../../components/tables/datatables/datatabletwo/PaginationWithButton";
-import { useCategoryByRequestTypeCode } from "../category-type/useCategoryByRequestTypeCode";
-import { useState, useMemo } from "react";
+
+// Icon
+import { Search } from "lucide-react";
 
 // React router
 import { Link } from "react-router";

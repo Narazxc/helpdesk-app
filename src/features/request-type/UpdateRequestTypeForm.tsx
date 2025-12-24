@@ -18,7 +18,6 @@ import type {
 // Hook
 import { useUpdateRequestType } from "./useUpdateRequestType";
 
-// Import the interface from the parent component
 interface IRequestType {
   reqTypeName: string;
   reqTypeDescription: string;

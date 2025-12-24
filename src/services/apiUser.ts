@@ -131,11 +131,14 @@ export async function getUserById(id: string): Promise<User4> {
 }
 
 // 20251203
-export async function exportUsersCsv(): Promise<Blob> {
+export async function exportUsersCsv(filterStatus: string): Promise<Blob> {
   try {
-    const res = await api.get(`${API_URL}/users/csv/export`, {
-      responseType: "blob",
-    });
+    const res = await api.get(
+      `${API_URL}/users/csv/export?status=${filterStatus}`,
+      {
+        responseType: "blob",
+      }
+    );
 
     console.log("CSV blob:", res.data); // this will log
     return res.data; // return the blob
@@ -147,19 +150,17 @@ export async function exportUsersCsv(): Promise<Blob> {
 
 // 20251203
 // updated on 20251212
-export async function importUsersCsv(file: File): Promise<User4> {
-  console.log(file);
+export async function importUsersCsv(file: File) {
+  console.log("file in api: ", file);
+  const formData = new FormData();
+  formData.append("file", file);
+
   try {
-    const res = await api.post(
-      `${API_URL}/users/csv/import`,
-      {},
-      // need to add body
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const res = await api.post(`${API_URL}/users/csv/import`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     return res.data.data;
   } catch (error) {

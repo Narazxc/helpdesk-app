@@ -44,6 +44,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./pages/ResetPassword";
 import Audit from "./pages/Audit";
 import ChangePassword from "./pages/ChangePassword";
+import UserProfiles from "./components/experimental/UserProfiles";
+import UserProfileChangePassword from "./pages/UserProfileChangePassword";
 // import UpdateUserPage from "./pages/archive/user/UpdateUserpage";
 
 const queryClient = new QueryClient({
@@ -103,6 +105,11 @@ function App() {
               <Route path="asset-types/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
               <Route path="audit" element={<Audit />} />
+              <Route path="profile" element={<UserProfiles />} />
+              <Route
+                path="account-settings/change-password"
+                element={<UserProfileChangePassword />}
+              />
 
               <Route
                 path="admin/users/reset-password"

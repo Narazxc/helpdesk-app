@@ -178,7 +178,7 @@ export async function adminResetPassword(
 export async function forgotPassword(email: string) {
   // <ApiResponse<AdminResetPassword>>
   try {
-    const res = await api.post(`${API_URL}/auth/forgot-password`, {
+    const res = await axios.post(`${API_URL}/auth/forgot-password`, {
       email,
       //  email: "sreymom.khen@fmis.gov.kh",
       // email: "newuser@fmis.gov.kh",
@@ -227,6 +227,21 @@ export async function changePassword(changePasswordData: ChangePassword) {
 
     return res.data.data;
     // return "abc";
+  } catch (err) {
+    console.error("Something when wrong:", err);
+    throw err;
+  }
+}
+
+export async function verifyResetToken(token: string) {
+  console.log("token", token);
+
+  try {
+    const res = await api.get(
+      `${API_URL}/auth/verify-reset-token?token=${token}`
+    );
+
+    return res.data.data;
   } catch (err) {
     console.error("Something when wrong:", err);
     throw err;

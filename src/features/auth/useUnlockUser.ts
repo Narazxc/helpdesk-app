@@ -9,7 +9,8 @@ export function useUnlockUser() {
     mutationFn: unlockUserApi,
     onSuccess: () => {
       // Invalidate all user-related queries
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      // queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["allUsers"] });
 
       // Optional: Show success message
       toast.success("User unlocked successfully");

@@ -52,21 +52,9 @@ export function LoginForm({
     login(data, {
       onSuccess: () => {
         navigate("/");
-        // console.log("forcePasswordChange", returnedData.forcePasswordChange);
       },
     });
   };
-
-  // function handleLogin({ userId, password }: LoginCredential) {
-  //   login(
-  //     { userId, password },
-  //     {
-  //       onSuccess: () => {
-  //         navigate("/");
-  //       },
-  //     }
-  //   );
-  // }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

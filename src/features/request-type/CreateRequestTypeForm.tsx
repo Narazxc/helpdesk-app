@@ -12,14 +12,11 @@ import type { SubmitHandler } from "react-hook-form";
 import { useCreateRequestType } from "./useCreateRequestType";
 import type { CreateRequestType } from "@/types/request-type";
 
-// Import the interface from the parent component
 interface IRequestType {
   reqTypeName: string;
   reqTypeDescription: string;
   // categoryTypeCount: number;
 }
-
-// setRequestTypes: React.Dispatch<React.SetStateAction<IRequestType[]>>;
 
 interface CreateRequestTypeFormProps {
   closeModal: () => void;
