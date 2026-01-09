@@ -306,14 +306,16 @@ const AgentGroupTable: React.FC = () => {
       </div>
       <div className="custom-scrollbar overflow-x-auto">
         <table className="w-full table-auto">
-          <thead>
-            <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <thead className="">
+            {/* <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800"> */}
+            <tr className="border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("agentName")}
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  {/* <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400"> */}
+                  <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                     Group Name
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -354,12 +356,12 @@ const AgentGroupTable: React.FC = () => {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("leaderName")} // Fixed: Updated to chiefOfficeName
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                     Leader
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -400,12 +402,12 @@ const AgentGroupTable: React.FC = () => {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("levelName")} // Fixed: Updated to chiefOfficeName
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                     Group Level
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -447,12 +449,12 @@ const AgentGroupTable: React.FC = () => {
                 </div>
               </th>
 
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("officeName")} // Fixed: Updated to chiefOfficeName
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                     Office Name
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -493,7 +495,7 @@ const AgentGroupTable: React.FC = () => {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-center text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="font-bold border-b uppercase text-gray-700 text-theme-sm dark:text-gray-400">
                 Actions
               </th>
               {/* <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
@@ -595,11 +597,11 @@ const AgentGroupTable: React.FC = () => {
                     </Tooltip>
                   </div>
                 </td>
-                <td className="p-4 whitespace-nowrap">
+                {/* <td className="p-4 whitespace-nowrap">
                   <div className="relative inline-block">
-                    {/* TableDropdown component would go here */}
+                    TableDropdown component would go here
                   </div>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

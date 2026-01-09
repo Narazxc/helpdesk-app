@@ -168,7 +168,7 @@ export function LoginForm({
                 // onClick={() => handleLogin(loginCredential)}
                 disabled={isLoggingIn}
                 type="submit"
-                className=" w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
+                className="w-full h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-6 dark:text-[#edeeee]"
               >
                 {isLoggingIn ? (
                   <span className="flex items-center justify-center gap-2">

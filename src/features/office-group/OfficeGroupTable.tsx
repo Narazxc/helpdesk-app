@@ -307,14 +307,18 @@ function OfficeGroupTable() {
 
       <div className="custom-scrollbar overflow-x-auto">
         <table className="w-full table-auto">
-          <thead>
-            <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <thead className="bg-gray-50">
+            {/* <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800"> */}
+            <tr className="border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("officeName")}
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p
+                    // className="text-theme-xs font-medium text-gray-500 dark:text-gray-400"
+                    className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+                  >
                     Office Group
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -355,12 +359,15 @@ function OfficeGroupTable() {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("chiefOfficeName")} // Fixed: Updated to chiefOfficeName
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p
+                    // className="text-theme-xs font-medium text-gray-500 dark:text-gray-400"
+                    className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+                  >
                     Chief Office
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -401,10 +408,13 @@ function OfficeGroupTable() {
                   </span>
                 </div>
               </th>
-              <th className="p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400">
+              <th
+                // className="p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400"
+                className="font-bold border-b uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+              >
                 Actions
               </th>
-              <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="p-4 border-b text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div className="relative">
                   <span className="sr-only">Action</span>
                 </div>

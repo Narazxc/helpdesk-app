@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { API_URL } from "@/config";
 import ResetPasswordForm from "@/features/auth/ResetPasswordForm";
 import axios from "axios";
@@ -130,19 +131,22 @@ function ExpiredLinkComponents() {
 
         {/* Heading */}
         <h1 className="text-2xl font-semibold text-gray-700 mb-8">
-          Whoops, that's an expired link
+          {/* Whoops, that's an expired link */}
+          Password Reset Link Expired
         </h1>
 
         {/* Description */}
         <p className="text-gray-500 mb-8 leading-relaxed text-sm">
-          For security reasons, password reset links expire after a little
+          {/* For security reasons, password reset links expire after a little
           while. If you still need to reset your password, you can request a new
-          reset email.
+          reset email. */}
+          This password reset link is no longer valid. Please request a new
+          password reset email to continue.
         </p>
 
         {/* Button */}
         {/* <button
-          onClick={handleRequestNewEmail}
+          // onClick={handleRequestNewEmail}
           className="px-8 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors font-medium"
         >
           Request a new reset email
@@ -154,11 +158,16 @@ function ExpiredLinkComponents() {
         >
           Request a new reset email
         </Link> */}
-        <Link
+        {/* <Link
           className="text-black text-sm hover:underline dark:text-[#f9fafc]"
           to="/forgot-password"
         >
           Request a new reset email
+        </Link> */}
+        <Link to="/forgot-password">
+          <Button className="h-10 bg-blue-600/90 dark:bg-blue-600/80 hover:bg-blue-500 mt-4 dark:text-[#edeeee]">
+            Request a new reset email
+          </Button>
         </Link>
       </div>
       {/* </div> */}

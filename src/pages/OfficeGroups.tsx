@@ -17,7 +17,6 @@ export default function OfficeGroups() {
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
         <h1 className="text-2xl text-color font-bold">Office Group</h1>
 
-        {/* Breadcrumb */}
         <nav>
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>

@@ -62,6 +62,23 @@ const navItems: NavItem[] = [
     path: "/",
   },
   {
+    // added on 20260105
+    icon: <Tag />,
+    name: "Ticket Menu",
+    subItems: [
+      {
+        icon: <UserRoundCog size={20} />,
+        name: "Ticket list",
+        path: "/tickets",
+      },
+      {
+        icon: <User size={20} />,
+        name: "Create Ticket",
+        path: "/office-groups",
+      },
+    ],
+  },
+  {
     icon: <ListIcon />,
     name: "Settings",
     subItems: [

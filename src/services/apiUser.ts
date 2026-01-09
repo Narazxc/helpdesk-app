@@ -1,6 +1,12 @@
 import { API_URL } from "@/config";
 import type { ApiResponse } from "@/types/api";
-import type { CreateUser2, User, User4 } from "@/types/user";
+import type {
+  CreateUser2,
+  UpdateCurrentUserProfile,
+  User,
+  User4,
+  UserProfile,
+} from "@/types/user";
 import { api } from "./axios";
 
 // Get all users
@@ -166,6 +172,76 @@ export async function importUsersCsv(file: File) {
   } catch (error) {
     console.error("Failed to import user: ", error);
     throw error;
+  }
+}
+
+// Get currently active user profile data
+export async function getCurrentUserProfile(): Promise<UserProfile> {
+  try {
+    const res = await api.get<ApiResponse<UserProfile>>(`${API_URL}/users/me`);
+
+    console.log("Users data: ", res.data.data);
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to active users:", err);
+    throw err;
+  }
+}
+
+export async function updateCurrentUserProfile(
+  newUserData: UpdateCurrentUserProfile
+) {
+  try {
+    const res = await api.put(`${API_URL}/users/me/profile`, newUserData);
+
+    console.log("Users data: ", res.data.data);
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to active users:", err);
+    throw err;
+  }
+}
+
+// export async function updateCurrentUserProfileImage(file: File) {
+//   try {
+//     const formData = new FormData();
+//     formData.append("file", file); // 'file' is the field name
+
+//     const res = await api.put(`${API_URL}/users/me/upload`, formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     console.log("Users data: ", res.data.data);
+//     return res.data.data;
+//   } catch (err) {
+//     console.error("Failed to active users:", err);
+//     throw err;
+//   }
+// }
+
+export async function updateCurrentUserProfileImage(file: File) {
+  // const formData = new FormData();
+  // formData.append("file", file);
+
+  console.log("file in api", file);
+  try {
+    const formData = new FormData();
+    formData.append("file", file); // 'file' is the field name
+
+    const res = await api.put(`${API_URL}/users/me/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      // withCredentials: true,
+    });
+
+    console.log("Users data: ", res.data.data);
+    return res.data.data;
+  } catch (err) {
+    console.error("Failed to active users:", err);
+    throw err;
   }
 }
 

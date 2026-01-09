@@ -107,6 +107,7 @@ export interface User4 {
   updatedAt: string;
   inactiveDate: string;
   // forcePasswordChange: boolean; // added on 20251203
+  base64Data: string;
 }
 
 // {
@@ -200,3 +201,19 @@ export interface UpdateUser {
 //     "REQ_20250827_b481233e"
 //   ]
 // }
+
+export interface UserProfile {
+  id: number;
+  userId: string;
+  username: string;
+  telegramId: string | null; // Can be null
+  phoneNumber: string | null; // Can be null
+  email: string;
+  operatingId: string;
+  roles: string[];
+  base64Data: string;
+}
+
+export interface UpdateCurrentUserProfile {
+  phoneNumber: string;
+}

@@ -248,14 +248,18 @@ function UserRoleTable() {
 
       <div className="custom-scrollbar overflow-x-auto">
         <table className="w-full table-auto">
-          <thead>
-            <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800">
-              <th className="w-1/4 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+          <thead className="bg-gray-50">
+            {/* <tr className="border-b border-gray-200 dark:divide-gray-800 dark:border-gray-800"> */}
+            <tr className="border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+              <th className="border-b w-1/4 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("roleName")}
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p
+                    // className="text-theme-xs font-medium text-gray-500 dark:text-gray-400"
+                    className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+                  >
                     Role Name
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -296,12 +300,15 @@ function UserRoleTable() {
                   </span>
                 </div>
               </th>
-              <th className="w-1/2 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
+              <th className="border-b w-1/2 p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">
                 <div
                   className="flex cursor-pointer items-center gap-3"
                   onClick={() => sortBy("description")} // Fixed: Updated to description
                 >
-                  <p className="text-theme-xs font-medium text-gray-500 dark:text-gray-400">
+                  <p
+                    // className="text-theme-xs font-medium text-gray-500 dark:text-gray-400"
+                    className="font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+                  >
                     Description
                   </p>
                   <span className="flex flex-col gap-0.5">
@@ -342,7 +349,10 @@ function UserRoleTable() {
                   </span>
                 </div>
               </th>
-              <th className="w-1/4 p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400">
+              <th
+                // className="w-1/4 p-4 text-center text-xs font-medium  text-gray-500 dark:text-gray-400"
+                className="border-b font-bold uppercase text-gray-700 text-theme-sm dark:text-gray-400"
+              >
                 Actions
               </th>
               {/* <th className="p-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400">

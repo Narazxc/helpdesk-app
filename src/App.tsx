@@ -44,8 +44,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ResetPassword from "./pages/ResetPassword";
 import Audit from "./pages/Audit";
 import ChangePassword from "./pages/ChangePassword";
-import UserProfiles from "./components/experimental/UserProfiles";
+// import UserProfiles from "./components/experimental/UserProfiles";
 import UserProfileChangePassword from "./pages/UserProfileChangePassword";
+import UserProfile from "./pages/UserProfile";
+import Tickets from "./pages/ticket/Tickets";
+import CreateTicket from "./pages/ticket/CreateTicket";
+// import UserProfile from "./components/experimental/UserProfile";
 // import UpdateUserPage from "./pages/archive/user/UpdateUserpage";
 
 const queryClient = new QueryClient({
@@ -105,7 +109,9 @@ function App() {
               <Route path="asset-types/:id" element={<AssetType />} />
               <Route path="entity" element={<Entities />} />
               <Route path="audit" element={<Audit />} />
-              <Route path="profile" element={<UserProfiles />} />
+              <Route path="profile" element={<UserProfile />} />
+              <Route path="tickets" element={<Tickets />} />
+              <Route path="tickets/create" element={<CreateTicket />} />
               <Route
                 path="account-settings/change-password"
                 element={<UserProfileChangePassword />}

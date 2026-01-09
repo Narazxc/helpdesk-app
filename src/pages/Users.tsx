@@ -60,7 +60,7 @@ export default function Users() {
           </button>
         </Link>
         {/* mb-4 */}
-        <div className="flex gap-2">
+        <div className="flex flex-col items-end gap-2 lg:flex lg:flex-row">
           {/* <Button variant="outline" size="sm">
             Import
             <svg
@@ -93,6 +93,7 @@ export default function Users() {
             }}
           /> */}
           {/* // Update DatePicker onChange */}
+
           <DatePicker
             id="date-picker"
             placeholder="01 Jan 2025 - 30 Dec 2025"

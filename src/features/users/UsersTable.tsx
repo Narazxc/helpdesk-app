@@ -49,6 +49,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useImportUsersCsv } from "./useImportUsersCsv";
+import type { ApiResponse } from "@/types/api";
+import { API_URL } from "@/config";
+import { api } from "@/services/axios";
 
 // const tableRowData = [
 //   {
@@ -450,6 +453,12 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
   const [sortKey, setSortKey] = useState<SortKey>("username");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedItem, setSelectedItem] = useState<User4>();
+  // Option 1: Only call the hook when selectedItem exists
+  // Only call the hook when selectedItem exists
+  const [userToDisplayInProfileModal, setUserToDisplayInProfileModal] =
+    useState<User4>();
+
   // Extract dates from props
 
   // 20251218 Filter by date range
@@ -461,7 +470,6 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
   //   useAllActiveUsers();
   // const [filterStatus, setFilterStatus] = useState();
   const { users, isLoading: isLoadingAllUsers } = useAllUsers();
-  const [selectedItem, setSelectedItem] = useState<User4>();
   const { deleteUser } = useDeleteUser();
   const {
     unlockUser,
@@ -715,23 +723,41 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
     closeModal: closeUserDetailModal,
   } = useModal();
 
-  const userData = {
-    username: "Jane Smith",
-    userId: "jane.smith",
-    telegramId: "1080080100",
-    phoneNumber: "",
-    email: "jane.smith@fmis.gov.kh",
-    entity:
-      "1032 - General Department of Public Financial Management of Information Technology",
-    roles: ["Admin", "Front Desk Agent"],
-    requestTypes: [
-      "Issue Request",
-      "New Development",
-      "Network Problem",
-      "Letter Request",
-    ],
-    profileImage: "", // Leave empty to show initials, or add image URL
-  };
+  // const userData = {
+  //   username: "Jane Smith",
+  //   userId: "jane.smith",
+  //   telegramId: "1080080100",
+  //   phoneNumber: "",
+  //   email: "jane.smith@fmis.gov.kh",
+  //   entity:
+  //     "1032 - General Department of Public Financial Management of Information Technology",
+  //   roles: ["Admin", "Front Desk Agent"],
+  //   requestTypes: [
+  //     "Issue Request",
+  //     "New Development",
+  //     "Network Problem",
+  //     "Letter Request",
+  //   ],
+  //   profileImage: "", // Leave empty to show initials, or add image URL
+  // };
+
+  useEffect(() => {
+    if (!selectedItem) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await api.get<ApiResponse<User4>>(
+          `${API_URL}/users/get-user-by-id/${selectedItem.id}`
+        );
+        // Handle the response here
+        setUserToDisplayInProfileModal(res.data.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [selectedItem]);
 
   if (isLoadingAllUsers) {
     return <div className="p-4 text-gray-500">Loading users...</div>;
@@ -892,6 +918,8 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
       <div className="max-w-full overflow-x-auto custom-scrollbar">
         <div>
           <Table>
+            {/* <div className="min-w-full inline-block align-middle">
+          <Table className="min-w-full"> */}
             {/* <TableHeader className="border-t border-gray-100 dark:border-white/[0.05]"> */}
             <TableHeader className="px-6 py-3 border-t border-gray-100 border-y bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
               <TableRow>
@@ -974,7 +1002,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
               <TableBody>
                 {currentData.map((item, i) => (
                   <TableRow key={i + 1} className="group">
-                    <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap ">
+                    <TableCell className="px-4 py-4 font-medium text-gray-800 border border-gray-100 dark:border-white/[0.05] dark:text-white text-theme-sm whitespace-nowrap">
                       <span
                         className="hover:cursor-pointer group-hover:underline group-hover:underline-offset-2"
                         onClick={() => {
@@ -1217,15 +1245,15 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
             <div className="px-8 py-8">
               {/* Profile Section */}
               <div className="flex items-center space-x-4 pb-8 mb-8 border-b border-gray-100">
-                {userData.profileImage ? (
+                {userToDisplayInProfileModal?.base64Data ? (
                   <img
-                    src={userData.profileImage}
-                    alt={userData.username}
+                    src={userToDisplayInProfileModal?.base64Data}
+                    alt={userToDisplayInProfileModal?.username}
                     className="w-20 h-20 rounded-full object-cover flex-shrink-0"
                   />
                 ) : (
                   <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-semibold flex-shrink-0">
-                    {selectedItem?.username
+                    {userToDisplayInProfileModal?.username
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
@@ -1233,10 +1261,10 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                 )}
                 <div className="min-w-0 flex-1">
                   <h3 className="text-xl font-semibold text-gray-900 break-words">
-                    {selectedItem?.username}
+                    {userToDisplayInProfileModal?.username}
                   </h3>
                   <p className="text-sm text-gray-500 break-words">
-                    @{selectedItem?.userId}
+                    @{userToDisplayInProfileModal?.userId}
                   </p>
                 </div>
               </div>
@@ -1255,7 +1283,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                         Username
                       </label>
                       <p className="text-sm lg:text-base text-gray-900 break-words">
-                        {selectedItem?.username}
+                        {userToDisplayInProfileModal?.username}
                       </p>
                     </div>
                     <div className="min-w-0">
@@ -1263,7 +1291,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                         User ID
                       </label>
                       <p className="text-sm lg:text-base text-gray-900 break-words">
-                        {selectedItem?.userId}
+                        {userToDisplayInProfileModal?.userId}
                       </p>
                     </div>
                   </div>
@@ -1275,7 +1303,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                         Email address
                       </label>
                       <p className="text-sm lg:text-base text-gray-900 break-words">
-                        {selectedItem?.email}
+                        {userToDisplayInProfileModal?.email}
                       </p>
                     </div>
                     <div className="min-w-0">
@@ -1283,7 +1311,8 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                         Phone
                       </label>
                       <p className="text-sm lg:text-base text-gray-400 italic break-words">
-                        {selectedItem?.phoneNumber || "Not provided"}
+                        {userToDisplayInProfileModal?.phoneNumber ||
+                          "Not provided"}
                       </p>
                     </div>
                   </div>
@@ -1295,7 +1324,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                         Telegram ID
                       </label>
                       <p className="text-sm lg:text-base text-gray-900 break-words">
-                        {selectedItem?.telegramId}
+                        {userToDisplayInProfileModal?.telegramId}
                       </p>
                     </div>
                   </div>
@@ -1306,7 +1335,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                       Entity
                     </label>
                     <p className="text-sm lg:text-base text-gray-900 break-words">
-                      {selectedItem?.operatingId}
+                      {userToDisplayInProfileModal?.operatingId}
                     </p>
                   </div>
                 </div>
@@ -1325,7 +1354,7 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                       Assigned Roles
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {selectedItem?.roleName.map((role) => (
+                      {userToDisplayInProfileModal?.roleName.map((role) => (
                         <span
                           key={role}
                           className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm"
@@ -1342,14 +1371,16 @@ export default function UsersTable({ filterStatus, dates }: UsersTableProps) {
                       Request Types
                     </label>
                     <div className="flex flex-wrap gap-2">
-                      {selectedItem?.requestTypeName.map((type) => (
-                        <span
-                          key={type}
-                          className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm"
-                        >
-                          {type}
-                        </span>
-                      ))}
+                      {userToDisplayInProfileModal?.requestTypeName.map(
+                        (type) => (
+                          <span
+                            key={type}
+                            className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm"
+                          >
+                            {type}
+                          </span>
+                        )
+                      )}
                     </div>
                   </div>
                 </div>

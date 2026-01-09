@@ -15,6 +15,10 @@ export const useLogout = () => {
       tokenManager.clearAccessToken();
       queryClient.setQueryData(["currentUser"], null);
 
+      queryClient.invalidateQueries({ queryKey: ["currentUserProfile"] });
+
+      queryClient.invalidateQueries();
+
       // queryClient.clear(); // Clear all cached queries
     },
     onError: (err) => {
