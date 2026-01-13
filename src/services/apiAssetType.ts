@@ -120,6 +120,8 @@ export async function getAssetTypesByCategoryTypeCode(
       `${API_URL}/asset-types/active?categoryTypeCode=${categoryTypeCode}`
     );
 
+    console.log("asset type by category type code", res.data.data);
+
     return res.data.data;
     // } else {
     //   return null;

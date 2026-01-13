@@ -1,5 +1,6 @@
 // import { useRequestTypes } from "@/features/request-type/useRequestTypes";
 
+import { useRequestTypes } from "@/features/request-type/useRequestTypes";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -31,7 +32,7 @@ interface RequestTypeMenuProps {
 }
 
 export default function RequestTypeMenu({
-  selectedMenu,
+  // selectedMenu,
   setSelectedMenu,
 }: RequestTypeMenuProps) {
   //   // Uncomment this line in your actual app:
@@ -173,7 +174,8 @@ export default function RequestTypeMenu({
   //   );
   // }
 
-  const [hoveredCard, setHoveredCard] = useState(null);
+  // const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   // const menuItems = [
   //   {
@@ -242,6 +244,8 @@ export default function RequestTypeMenu({
   //   // },
   // ];
 
+  const { requestTypes } = useRequestTypes();
+
   const menuItems = [
     {
       id: 1,
@@ -281,6 +285,21 @@ export default function RequestTypeMenu({
     },
   ];
 
+  // Map over fetched requestTypes and merge with hardcoded properties
+  const enrichedRequestTypes = requestTypes.map((requestType) => {
+    // Find matching item from hardcoded array (adjust the matching condition)
+    const hardcodedItem = menuItems.find((item) => item.id === requestType.id);
+
+    return {
+      ...requestType,
+      // someProperty: hardcodedItem?.someProperty, // Use optional chaining in case no match
+      image: hardcodedItem?.image,
+      bgGradient: hardcodedItem?.bgGradient,
+      color: hardcodedItem?.color,
+      description: hardcodedItem?.description,
+    };
+  });
+
   return (
     // bg-gradient-to-br from-indigo-600 via-purple-600 to-purple-700
     <div>
@@ -317,13 +336,15 @@ export default function RequestTypeMenu({
         </h1> */}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-6 lg:gap-8">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
+            {enrichedRequestTypes.map((item) => {
+              // const Icon = item.icon;
               const isHovered = hoveredCard === item.id;
 
               return (
                 <button
-                  onClick={() => setSelectedMenu(item.id)}
+                  onClick={() =>
+                    setSelectedMenu(item.requestTypeCode.toString())
+                  }
                   key={item.id}
                   onMouseEnter={() => setHoveredCard(item.id)}
                   onMouseLeave={() => setHoveredCard(null)}
@@ -360,7 +381,7 @@ export default function RequestTypeMenu({
 
                   {/* Title */}
                   <h3 className="text-xl font-semibold text-gray-800 mb-3">
-                    {item.title}
+                    {item.name}
                   </h3>
 
                   {/* Description */}

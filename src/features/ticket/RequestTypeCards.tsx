@@ -2,7 +2,7 @@ import { useRequestTypes } from "../request-type/useRequestTypes";
 import { FileText, AlertCircle, CheckCircle, Clock } from "lucide-react";
 
 // Icon mapping for different request types
-const getIconForType = (typeName) => {
+const getIconForType = (typeName: string) => {
   const name = typeName.toLowerCase();
   if (name.includes("urgent") || name.includes("priority")) {
     return AlertCircle;

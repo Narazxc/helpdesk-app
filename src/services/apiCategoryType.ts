@@ -10,7 +10,7 @@ export async function getCategoryTypes(): Promise<CategoryType[]> {
       `${API_URL}/category-types/active`
     );
 
-    // console.log(res.data);
+    // console.log("category type", res.data);
 
     return res.data.data;
   } catch (err) {
@@ -145,6 +145,8 @@ export async function getCategoryByRequestTypeCode(requestTypeCode: string) {
       const res = await api.get<ApiResponse<CategoryType[]>>(
         `${API_URL}/category-types/active?requestTypeCode=${requestTypeCode}`
       );
+
+      console.log("category type by request type code", res.data.data);
 
       return res.data.data;
     } else {
